@@ -9,7 +9,7 @@ import worldwide.clm.clmwebsite.common.Message;
 @NoArgsConstructor
 @Builder
 public class ApiResponse {
-	private Message message;
+	private String message;
 	private int statusCode;
 	private boolean success;
 }

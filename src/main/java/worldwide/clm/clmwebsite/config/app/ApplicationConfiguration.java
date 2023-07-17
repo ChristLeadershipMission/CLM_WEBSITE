@@ -11,8 +11,8 @@ import worldwide.clm.clmwebsite.config.mail.MailConfiguration;
 public class ApplicationConfiguration {
 	
 	
-	@Value("${cloudinary.api.secret}")
-	private String apiSecret;
+//	@Value("${cloudinary.api.secret}")
+//	private String apiSecret;
 	@Value("${mail.api.key}")
 	private String mailApiKey;
 	@Value("${sendinblue.mail.url}")

@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
+@Entity
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
