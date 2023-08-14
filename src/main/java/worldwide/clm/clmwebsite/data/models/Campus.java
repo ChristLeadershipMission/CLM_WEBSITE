@@ -8,6 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
+@Entity
 public class Campus {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
