@@ -1,4 +1,4 @@
-package worldwide.clm.clmwebsite.config.security;
+package worldwide.clm.clmwebsite.security;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

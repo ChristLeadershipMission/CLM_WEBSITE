@@ -18,7 +18,8 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String fullName;
+    private String firstName;
+    private String lastName;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Address address;
     @Column(unique = true)

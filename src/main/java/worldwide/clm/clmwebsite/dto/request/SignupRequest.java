@@ -12,8 +12,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SignupRequest {
-	@NotNull(message = "Field full name is required")
-	private String fullName;
+	@NotNull(message = "Field firstName is required")
+	private String firstName;
+	@NotNull(message = "Field lastName is required")
+	private String lastName;
 	@NotNull(message = "Field email is required")
 	@Email
 	private String email;

@@ -12,23 +12,22 @@ import worldwide.clm.clmwebsite.dto.request.LoginRequest;
 import worldwide.clm.clmwebsite.dto.request.SignupRequest;
 import worldwide.clm.clmwebsite.dto.response.ApiResponse;
 import worldwide.clm.clmwebsite.dto.response.TokenResponseDto;
-import worldwide.clm.clmwebsite.service.AuthService;
+import worldwide.clm.clmwebsite.services.AuthenticationService;
 
 @RestController
-@RequestMapping("/aoi/v1/auth/")
+@RequestMapping("/api/v1/auth/")
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthenticationController {
 	
-	private final AuthService service;
-	
+	private final AuthenticationService service;
 	
 	@PostMapping("register")
-	public ResponseEntity<ApiResponse> sigUp(@Valid @RequestBody SignupRequest request){
-		return new ResponseEntity<> (service.signup (request), HttpStatus.CREATED);
+	public ResponseEntity<ApiResponse> signUp(@Valid @RequestBody SignupRequest request){
+		return new ResponseEntity<> (service.signup(request), HttpStatus.CREATED);
 	}
 	
 	@PostMapping("login")
 	public ResponseEntity<TokenResponseDto> signIn(@Valid @RequestBody LoginRequest request){
-		return new ResponseEntity<>(service.userLogin (request), HttpStatus.OK);
+		return new ResponseEntity<>(service.userLogin(request), HttpStatus.OK);
 	}
 }

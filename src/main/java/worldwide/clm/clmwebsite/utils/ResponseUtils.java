@@ -4,8 +4,7 @@ import org.springframework.http.HttpStatus;
 import worldwide.clm.clmwebsite.dto.response.ApiResponse;
 import worldwide.clm.clmwebsite.dto.response.TokenResponseDto;
 
-import static worldwide.clm.clmwebsite.common.Message.CREATED;
-import static worldwide.clm.clmwebsite.common.Message.REG_FAIL;
+import static worldwide.clm.clmwebsite.common.Message.*;
 
 public class ResponseUtils {
 	
@@ -20,6 +19,14 @@ public class ResponseUtils {
 	public static ApiResponse getCreatedMessage(){
 		return ApiResponse.builder()
 				.message (CREATED)
+				.success (true)
+				.statusCode (HttpStatus.CREATED.value ())
+				.build();
+	}
+
+	public static ApiResponse getOnboardingMailMessage(){
+		return ApiResponse.builder()
+				.message (VERIFICATION_MAIL_SENT)
 				.success (true)
 				.statusCode (HttpStatus.CREATED.value ())
 				.build();

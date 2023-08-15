@@ -1,4 +1,4 @@
-package worldwide.clm.clmwebsite.config.security.filter;
+package worldwide.clm.clmwebsite.security.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -12,8 +12,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-import worldwide.clm.clmwebsite.config.security.jwt.JwtGenerator;
-import worldwide.clm.clmwebsite.config.security.service.JpaUserDetailsService;
+import worldwide.clm.clmwebsite.security.jwt.JwtGenerator;
+import worldwide.clm.clmwebsite.security.service.JpaUserDetailsService;
 
 import java.io.IOException;
 

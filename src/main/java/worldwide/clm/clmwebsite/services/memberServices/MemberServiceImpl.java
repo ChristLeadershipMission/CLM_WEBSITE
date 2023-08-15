@@ -1,10 +1,10 @@
-package worldwide.clm.clmwebsite.service.impl;
+package worldwide.clm.clmwebsite.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import worldwide.clm.clmwebsite.data.models.Member;
 import worldwide.clm.clmwebsite.data.repositories.MemberRepository;
-import worldwide.clm.clmwebsite.service.MemberService;
+import worldwide.clm.clmwebsite.services.MemberService;
 
 @Service
 @RequiredArgsConstructor
@@ -13,7 +13,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	
 	@Override
-	public Member saveMembers(Member member) {
+	public Member register(Member member) {
 		return repository.save (member);
 	}
 	

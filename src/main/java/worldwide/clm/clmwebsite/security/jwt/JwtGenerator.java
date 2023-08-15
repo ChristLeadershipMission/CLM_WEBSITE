@@ -1,4 +1,4 @@
-package worldwide.clm.clmwebsite.config.security.jwt;
+package worldwide.clm.clmwebsite.security.jwt;
 
 
 import io.jsonwebtoken.Claims;
@@ -8,7 +8,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import worldwide.clm.clmwebsite.config.security.user.SecureUser;
+import worldwide.clm.clmwebsite.security.user.SecureUser;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -62,7 +62,6 @@ public class JwtGenerator {
                     .build()
                     .parseClaimsJws(token)
                     .getSignature();
-
             return true;
         }catch (Exception e){
             e.printStackTrace();

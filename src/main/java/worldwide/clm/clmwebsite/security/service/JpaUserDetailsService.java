@@ -1,11 +1,11 @@
-package worldwide.clm.clmwebsite.config.security.service;
+package worldwide.clm.clmwebsite.security.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import worldwide.clm.clmwebsite.config.security.user.SecureUser;
+import worldwide.clm.clmwebsite.security.user.SecureUser;
 import worldwide.clm.clmwebsite.data.models.Member;
 import worldwide.clm.clmwebsite.data.repositories.MemberRepository;
 import worldwide.clm.clmwebsite.enums.Role;
@@ -23,9 +23,6 @@ public class JpaUserDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("Not found");
         }
-        return SecureUser.builder()
-                .user(user)
-                .roles (List.of (Role.USERS, Role.ADMIN))
-                .build();
+        return new SecureUser(user);
     }
 }

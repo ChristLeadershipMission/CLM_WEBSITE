@@ -1,7 +1,7 @@
 package worldwide.clm.clmwebsite.utils;
 
 import lombok.AllArgsConstructor;
-import worldwide.clm.clmwebsite.config.security.jwt.JwtGenerator;
+import worldwide.clm.clmwebsite.security.jwt.JwtGenerator;
 import worldwide.clm.clmwebsite.dto.request.EmailNotificationRequest;
 import worldwide.clm.clmwebsite.dto.request.Recipient;
 import worldwide.clm.clmwebsite.exception.BusinessLogicException;
@@ -18,7 +18,8 @@ public class AppUtils {
 	
 	private static final String USER_VERIFICATION_BASE_URL="localhost:9090";
 	public static  final String WELCOME_MAIL_TEMPLATE_LOCATION="";
-	
+	public static  final String ONBOARDING_MAIL_SUBJECT="Email Verification";
+
 	public static String getMailTemplate(){
 		try (BufferedReader reader = new BufferedReader(new FileReader (
 				WELCOME_MAIL_TEMPLATE_LOCATION))){
@@ -29,14 +30,14 @@ public class AppUtils {
 	}
 	
 	public static String generateVerificationToken(Long id) {
-		return USER_VERIFICATION_BASE_URL+"?userId="+id+"&token="+JwtGenerator.generateVerificationToken ();
+		return USER_VERIFICATION_BASE_URL+"?userId="+id+"&token="+JwtGenerator.generateVerificationToken();
 	}
 	
-	public static EmailNotificationRequest buildNotificationRequest(String email, String fullName, Long id) {
+	public static EmailNotificationRequest buildNotificationRequest(String email, String firstName, Long id) {
 		EmailNotificationRequest request = new EmailNotificationRequest();
-		request.getTo().add(new Recipient (fullName, email));
+		request.getTo().add(new Recipient (firstName, email));
 		String template = getMailTemplate();
-		String content = String.format (template, fullName, AppUtils.generateVerificationToken(id));
+		String content = String.format (template, firstName, AppUtils.generateVerificationToken(id));
 		request.setHtmlContent (content);
 		return request;
 	}

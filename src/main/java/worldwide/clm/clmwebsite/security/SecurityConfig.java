@@ -1,4 +1,4 @@
-package worldwide.clm.clmwebsite.config.security;
+package worldwide.clm.clmwebsite.security;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import worldwide.clm.clmwebsite.config.security.filter.JwtAuthenticationFilter;
+import worldwide.clm.clmwebsite.security.filter.JwtAuthenticationFilter;
 
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)

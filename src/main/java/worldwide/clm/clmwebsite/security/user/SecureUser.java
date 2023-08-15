@@ -1,4 +1,4 @@
-package worldwide.clm.clmwebsite.config.security.user;
+package worldwide.clm.clmwebsite.security.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class SecureUser implements UserDetails {
     private final Member user;
-    private List<Role> roles;
 
     @Override
     public String getPassword() {
