@@ -1,5 +1,6 @@
 package worldwide.clm.clmwebsite.utils;
 
+import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
 import worldwide.clm.clmwebsite.config.security.jwt.JwtGenerator;
 import worldwide.clm.clmwebsite.dto.request.EmailNotificationRequest;
@@ -14,10 +15,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class AppUtils {
 	
-	private final JwtGenerator generator;
 	
-	private static final String USER_VERIFICATION_BASE_URL="localhost:9090";
-	public static  final String WELCOME_MAIL_TEMPLATE_LOCATION="";
+	private static final String USER_VERIFICATION_BASE_URL="localhost:8080";
+	public static  final String WELCOME_MAIL_TEMPLATE_LOCATION="src/main/resources/templates/welcome.html";
 	
 	public static String getMailTemplate(){
 		try (BufferedReader reader = new BufferedReader(new FileReader (
@@ -29,7 +29,7 @@ public class AppUtils {
 	}
 	
 	public static String generateVerificationToken(Long id) {
-		return USER_VERIFICATION_BASE_URL+"?userId="+id+"&token="+JwtGenerator.generateVerificationToken ();
+		return USER_VERIFICATION_BASE_URL+"?token="+JwtGenerator.generateVerificationTokenLogic (id);
 	}
 	
 	public static EmailNotificationRequest buildNotificationRequest(String email, String fullName, Long id) {
@@ -41,4 +41,10 @@ public class AppUtils {
 		return request;
 	}
 	
+	public static boolean isValidToken(long userId, String token) {
+		return Jwts.parserBuilder ()
+				.require (token, userId)
+				.build ()
+				.isSigned (token);
+	}
 }
