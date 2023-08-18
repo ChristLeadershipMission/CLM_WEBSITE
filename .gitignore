@@ -32,4 +32,4 @@ build/
 ### VS Code ###
 .vscode/
 
-martins-prop.properties
+secret.properties

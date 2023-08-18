@@ -31,7 +31,7 @@ public class AuthenticationController {
 		return new ResponseEntity<>(service.userLogin(request), HttpStatus.OK);
 	}
 	
-	@PostMapping("verify/{userId}/{token}")
+	@GetMapping("verify/{userId}/{token}")
 	public ResponseEntity<ApiResponse> verify(@PathVariable Long userId, @PathVariable String token) throws BusinessLogicException {
 		return new ResponseEntity<>(service.verifyAccount (userId, token),
 				HttpStatus.OK);
