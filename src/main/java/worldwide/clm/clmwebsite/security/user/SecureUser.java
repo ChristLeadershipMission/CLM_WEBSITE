@@ -6,10 +6,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import worldwide.clm.clmwebsite.data.models.Member;
-import worldwide.clm.clmwebsite.enums.Role;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Builder
@@ -51,6 +49,6 @@ public class SecureUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.isEnabled ();
+        return user.isEnabled();
     }
 }

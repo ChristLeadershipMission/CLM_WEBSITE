@@ -19,7 +19,6 @@ import worldwide.clm.clmwebsite.dto.response.ApiResponse;
 import worldwide.clm.clmwebsite.dto.response.TokenResponseDto;
 import worldwide.clm.clmwebsite.exception.InvalidLoginDetailsException;
 import worldwide.clm.clmwebsite.exception.UserAlreadyExistsException;
-import worldwide.clm.clmwebsite.services.AuthenticationService;
 import worldwide.clm.clmwebsite.services.MemberService;
 
 import java.util.List;
@@ -40,14 +39,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	
 	
 	@Override
-	public ApiResponse signup(SignupRequest request) {
-		Member findMember = service.findMemberByEmail(request.getEmail());
-		if (findMember != null)	throw new UserAlreadyExistsException (EMAIL_ALREADY_EXIST);
-		var registeredMember = registerMember(request);
-		ApiResponse response = sendOnboardingMailTo(registeredMember);
-		if(response == null) return getFailureMessage();
-		return getCreatedMessage ();
-	}
+	public ApiResponse signup(SignupRequest request) throws UserAlreadyExistsException {
+        Member foundMember = service.findMemberByEmail(request.getEmail());
+        boolean userIsAVerifiedExistingMember = foundMember != null && foundMember.isEnabled();
+        boolean userIsARegisteredMember = foundMember != null;
+        if (userIsAVerifiedExistingMember) throw new UserAlreadyExistsException(EMAIL_ALREADY_EXIST);
+        Member registeredMember = foundMember;
+        if (!userIsARegisteredMember) {
+            registeredMember = registerMember(request);
+        }
+        ApiResponse response = sendOnboardingMailTo(registeredMember);
+        if (response == null) return getFailureMessage();
+        return getCreatedMessage();
+    }
 
 	private ApiResponse sendOnboardingMailTo(Member registeredMember) {
 		Recipient recipient = new Recipient(registeredMember.getFirstName(), registeredMember.getEmail());

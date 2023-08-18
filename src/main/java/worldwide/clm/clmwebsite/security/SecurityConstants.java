@@ -1,6 +1,7 @@
 package worldwide.clm.clmwebsite.security;
 
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +10,6 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "security.constants")
 public class SecurityConstants {
     private Long jwtExpTime;
-    private String jwtSecret;
+    private final String jwtSecret = "territory_takers";
     private String allowedOrigins;
 }

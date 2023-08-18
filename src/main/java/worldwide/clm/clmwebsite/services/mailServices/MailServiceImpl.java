@@ -8,6 +8,7 @@ import worldwide.clm.clmwebsite.dto.request.EmailNotificationRequest;
 import worldwide.clm.clmwebsite.dto.response.ApiResponse;
 import worldwide.clm.clmwebsite.utils.AppUtils;
 
+import static worldwide.clm.clmwebsite.utils.AppUtils.EMAIL_VERIFICATION_MAIL_TEMPLATE;
 import static worldwide.clm.clmwebsite.utils.AppUtils.getMailTemplate;
 import static worldwide.clm.clmwebsite.utils.ResponseUtils.getOnboardingMailMessage;
 
@@ -23,9 +24,8 @@ public class MailServiceImpl implements MailService {
 		mailMessage.setTo(emailNotificationRequest.getTo().get(0).getEmail());
 		mailMessage.setFrom(emailNotificationRequest.getSender());
 		mailMessage.setSubject(emailNotificationRequest.getSubject());
-		String template = getMailTemplate();
-		String firstName = emailNotificationRequest.getTo().get(0).getFirstName();
-		String content = String.format (template, firstName, AppUtils.generateVerificationToken(id));
+        String firstName = emailNotificationRequest.getTo().get(0).getFirstName();
+		String content = String.format(EMAIL_VERIFICATION_MAIL_TEMPLATE, firstName, AppUtils.generateVerificationToken(id));
 		mailMessage.setText(content);
 		mailSender.send(mailMessage);
 		return getOnboardingMailMessage();

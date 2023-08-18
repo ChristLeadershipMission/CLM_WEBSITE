@@ -12,7 +12,9 @@ import worldwide.clm.clmwebsite.dto.request.LoginRequest;
 import worldwide.clm.clmwebsite.dto.request.SignupRequest;
 import worldwide.clm.clmwebsite.dto.response.ApiResponse;
 import worldwide.clm.clmwebsite.dto.response.TokenResponseDto;
-import worldwide.clm.clmwebsite.services.AuthenticationService;
+import worldwide.clm.clmwebsite.exception.InvalidLoginDetailsException;
+import worldwide.clm.clmwebsite.exception.UserAlreadyExistsException;
+import worldwide.clm.clmwebsite.services.authenticationServices.AuthenticationService;
 
 @RestController
 @RequestMapping("/api/v1/auth/")
@@ -22,12 +24,12 @@ public class AuthenticationController {
 	private final AuthenticationService service;
 	
 	@PostMapping("register")
-	public ResponseEntity<ApiResponse> signUp(@Valid @RequestBody SignupRequest request){
+	public ResponseEntity<ApiResponse> signUp(@Valid @RequestBody SignupRequest request) throws UserAlreadyExistsException {
 		return new ResponseEntity<> (service.signup(request), HttpStatus.CREATED);
 	}
 	
 	@PostMapping("login")
-	public ResponseEntity<TokenResponseDto> signIn(@Valid @RequestBody LoginRequest request){
+	public ResponseEntity<TokenResponseDto> signIn(@Valid @RequestBody LoginRequest request) throws InvalidLoginDetailsException {
 		return new ResponseEntity<>(service.userLogin(request), HttpStatus.OK);
 	}
 }
