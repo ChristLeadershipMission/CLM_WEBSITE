@@ -38,4 +38,13 @@ public class ResponseUtils {
 				.refreshToken("Bearer "+ refreshToken)
 				.build();
 	}
+	
+	public static ApiResponse okResponse(Object data){
+		return ApiResponse.builder()
+				.statusCode(HttpStatus.OK.value())
+				.success (true)
+				.data(data)
+				.message ("Verified")
+				.build();
+	}
 }

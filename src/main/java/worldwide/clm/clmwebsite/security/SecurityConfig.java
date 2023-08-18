@@ -27,7 +27,8 @@ public class SecurityConfig{
 
 
     private final String[] allowedEndpoints = {
-            "/api/v1/auth/register", "/api/v1/auth/login"
+            "/api/v1/auth/**",
+            "/swagger-ui/index.html", "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**"
     };
 
     @Bean

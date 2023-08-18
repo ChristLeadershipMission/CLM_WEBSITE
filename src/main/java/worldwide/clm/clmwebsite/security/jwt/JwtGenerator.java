@@ -24,7 +24,7 @@ import static worldwide.clm.clmwebsite.utils.AppUtils.EMAIL_VALUE;
 @Component
 @RequiredArgsConstructor
 public class JwtGenerator {
-    private static final SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
     public String generateToken(Authentication authentication, Long expiration) {
         SecureUser authenticatedUser = (SecureUser) authentication.getPrincipal();
@@ -34,12 +34,13 @@ public class JwtGenerator {
     public String generateToken(String username, Long expiration) {
         Date currentDate = new Date();
         Date expirationDate = new Date(currentDate.getTime() + expiration);
-
-        return JWT.create()
-                .withIssuedAt(now())
-                .withExpiresAt(now().plusSeconds(172800L))
-                .withClaim(EMAIL_VALUE, username)
-                .sign(Algorithm.HMAC512(key.getAlgorithm()));
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuer("CLM")
+                .setIssuedAt(currentDate)
+                .setExpiration(expirationDate)
+                .signWith(key)
+                .compact();
     }
 
     public String getUsernameFromToken(String token) {
@@ -51,12 +52,12 @@ public class JwtGenerator {
 
         return claims.getSubject();
     }
-    
-    public static String generateVerificationToken() {
-        System.out.println(new SecurityConstants().getJwtSecret());
+
+    public static String generateVerificationTokenLogic(long userId) {
         return Jwts.builder()
                 .setIssuer("CLM")
-                .signWith(key)
+                .signWith(Keys.secretKeyFor (SignatureAlgorithm.HS512))
+                .claim ("CLM", userId)
                 .setIssuedAt(new Date())
                 .compact();
     }

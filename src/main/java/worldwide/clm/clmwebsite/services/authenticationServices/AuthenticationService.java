@@ -13,4 +13,6 @@ public interface AuthenticationService {
 	ApiResponse signup(SignupRequest request) throws UserAlreadyExistsException;
 	
 	TokenResponseDto userLogin(@NotNull LoginRequest request) throws InvalidLoginDetailsException;
+	
+	ApiResponse verifyAccount(long userId, String token);
 }

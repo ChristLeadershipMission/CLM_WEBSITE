@@ -1,5 +1,6 @@
 package worldwide.clm.clmwebsite.utils;
 
+import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
 import worldwide.clm.clmwebsite.security.jwt.JwtGenerator;
 import worldwide.clm.clmwebsite.dto.request.EmailNotificationRequest;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class AppUtils {
 	
+<<<<<<< HEAD
 	private static final String USER_VERIFICATION_BASE_URL="localhost:9090";
 	public static  final String EMAIL_VALUE="email";
 	public static  final String WELCOME_MAIL_TEMPLATE_LOCATION="";
@@ -27,6 +29,13 @@ public class AppUtils {
             """;;
 
 	public static String getMailTemplate() throws BusinessLogicException {
+=======
+	
+	private static final String USER_VERIFICATION_BASE_URL="localhost:8080";
+	public static  final String WELCOME_MAIL_TEMPLATE_LOCATION="src/main/resources/templates/welcome.html";
+	
+	public static String getMailTemplate(){
+>>>>>>> b6754370e678906f5c35754b17629b704bd9072e
 		try (BufferedReader reader = new BufferedReader(new FileReader (
 				WELCOME_MAIL_TEMPLATE_LOCATION))){
 			return reader.lines().collect(Collectors.joining());
@@ -36,7 +45,11 @@ public class AppUtils {
 	}
 	
 	public static String generateVerificationToken(Long id) {
+<<<<<<< HEAD
 		return USER_VERIFICATION_BASE_URL+"?userId="+id+"&token="+JwtGenerator.generateVerificationToken();
+=======
+		return USER_VERIFICATION_BASE_URL+"?token="+JwtGenerator.generateVerificationTokenLogic (id);
+>>>>>>> b6754370e678906f5c35754b17629b704bd9072e
 	}
 	
 	public static EmailNotificationRequest buildNotificationRequest(String email, String firstName, Long id) throws BusinessLogicException {
@@ -48,4 +61,10 @@ public class AppUtils {
 		return request;
 	}
 	
+	public static boolean isValidToken(long userId, String token) {
+		return Jwts.parserBuilder ()
+				.require (token, userId)
+				.build ()
+				.isSigned (token);
+	}
 }
