@@ -1,13 +1,15 @@
-package worldwide.clm.clmwebsite.service;
+package worldwide.clm.clmwebsite.services.memberServices;
 
 import worldwide.clm.clmwebsite.data.models.Member;
 
 import java.util.Optional;
 
 public interface MemberService {
-	Member saveMembers(Member member);
+	Member register(Member member);
 	
 	Member findMemberByEmail(String email);
 	
 	Optional<Member> findMemberById(Long userId);
+
+	void saveMembers(Member member);
 }

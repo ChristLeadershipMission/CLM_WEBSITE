@@ -11,8 +11,8 @@ import java.util.List;
 @Setter
 @Builder
 public class EmailNotificationRequest {
-	private final Sender sender = new Sender("CLM", "noreply@clm.co.uk");
+	private final String sender = "ogunsmoyin.m@gmail.com";
 	private List<Recipient> to = new ArrayList<> ();
-	private final String subject = "Christian Leadership Ministry!";
+	private String subject;
 	private String htmlContent;
 }

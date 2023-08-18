@@ -1,4 +1,4 @@
-package worldwide.clm.clmwebsite.config.security.user;
+package worldwide.clm.clmwebsite.security.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,17 +6,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import worldwide.clm.clmwebsite.data.models.Member;
-import worldwide.clm.clmwebsite.enums.Role;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Builder
 @AllArgsConstructor
 public class SecureUser implements UserDetails {
     private final Member user;
-    private List<Role> roles;
 
     @Override
     public String getPassword() {
@@ -52,6 +49,6 @@ public class SecureUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.isEnabled ();
+        return user.isEnabled();
     }
 }

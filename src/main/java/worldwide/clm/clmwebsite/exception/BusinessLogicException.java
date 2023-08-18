@@ -1,7 +1,6 @@
 package worldwide.clm.clmwebsite.exception;
 
-public class BusinessLogicException extends RuntimeException {
-	
+public class BusinessLogicException extends Exception {
 	public BusinessLogicException(String message) {
 	}
 }

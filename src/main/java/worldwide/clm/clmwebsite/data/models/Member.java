@@ -38,7 +38,7 @@ public class Member {
     private Campus campus;
     @CreatedDate
     private LocalDateTime createdAt;
-    private boolean enabled;
+    private boolean isEnabled;
     @Enumerated(EnumType.STRING)
     private List<Role> roles;
 }
