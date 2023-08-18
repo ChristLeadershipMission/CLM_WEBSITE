@@ -24,7 +24,7 @@ import static worldwide.clm.clmwebsite.utils.AppUtils.EMAIL_VALUE;
 @Component
 @RequiredArgsConstructor
 public class JwtGenerator {
-    private static final SecretKey secret = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private static final SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     public String generateToken(Authentication authentication, Long expiration) {
         SecureUser authenticatedUser = (SecureUser) authentication.getPrincipal();
@@ -39,7 +39,7 @@ public class JwtGenerator {
                 .withIssuedAt(now())
                 .withExpiresAt(now().plusSeconds(172800L))
                 .withClaim(EMAIL_VALUE, username)
-                .sign(Algorithm.HMAC512(secret.getBytes()));
+                .sign(Algorithm.HMAC512(key.getAlgorithm()));
     }
 
     public String getUsernameFromToken(String token) {
