@@ -15,7 +15,7 @@ import java.util.Date;
 
 @Component
 public class JwtGenerator {
-    static SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     
     
 
@@ -30,7 +30,7 @@ public class JwtGenerator {
 
         return Jwts.builder()
                 .setSubject(username)
-                .setIssuer("Trust worthy Bank")
+                .setIssuer("CLM")
                 .setIssuedAt(currentDate)
                 .setExpiration(expirationDate)
                 .signWith(key)
@@ -47,10 +47,11 @@ public class JwtGenerator {
         return claims.getSubject();
     }
     
-    public static String generateVerificationToken() {
+    public static String generateVerificationTokenLogic(long userId) {
         return Jwts.builder()
                 .setIssuer("CLM")
-                .signWith(key)
+                .signWith(Keys.secretKeyFor (SignatureAlgorithm.HS512))
+                .claim ("CLM", userId)
                 .setIssuedAt(new Date())
                 .compact();
     }

@@ -12,4 +12,6 @@ public interface AuthService {
 	ApiResponse signup(SignupRequest request);
 	
 	TokenResponseDto userLogin(@NotNull LoginRequest request) throws InvalidLoginDetailsException;
+	
+	ApiResponse verifyAccount(long userId, String token);
 }
