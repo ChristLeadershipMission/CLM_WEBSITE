@@ -1,4 +1,4 @@
-package worldwide.clm.clmwebsite.services;
+package worldwide.clm.clmwebsite.services.memberServices;
 
 import worldwide.clm.clmwebsite.data.models.Member;
 
@@ -10,4 +10,6 @@ public interface MemberService {
 	Member findMemberByEmail(String email);
 	
 	Optional<Member> findMemberById(Long userId);
+
+	void saveMembers(Member member);
 }

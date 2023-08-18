@@ -1,10 +1,9 @@
-package worldwide.clm.clmwebsite.services.impl;
+package worldwide.clm.clmwebsite.services.memberServices;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import worldwide.clm.clmwebsite.data.models.Member;
 import worldwide.clm.clmwebsite.data.repositories.MemberRepository;
-import worldwide.clm.clmwebsite.services.MemberService;
 
 import java.util.Optional;
 
@@ -27,5 +26,10 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Optional<Member> findMemberById(Long userId) {
 		return repository.findById (userId);
+	}
+
+	@Override
+	public void saveMembers(Member member) {
+		repository.save(member);
 	}
 }

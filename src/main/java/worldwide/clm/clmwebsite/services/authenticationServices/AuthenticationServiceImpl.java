@@ -3,7 +3,6 @@ package worldwide.clm.clmwebsite.services.authenticationServices;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,19 +20,14 @@ import worldwide.clm.clmwebsite.dto.response.TokenResponseDto;
 import worldwide.clm.clmwebsite.exception.BusinessLogicException;
 import worldwide.clm.clmwebsite.exception.InvalidLoginDetailsException;
 import worldwide.clm.clmwebsite.exception.UserAlreadyExistsException;
-<<<<<<< HEAD:src/main/java/worldwide/clm/clmwebsite/services/authenticationServices/AuthenticationServiceImpl.java
-import worldwide.clm.clmwebsite.services.MemberService;
 
 import java.util.List;
-=======
 import worldwide.clm.clmwebsite.exception.UserNotFoundException;
-import worldwide.clm.clmwebsite.service.AuthService;
-import worldwide.clm.clmwebsite.service.MemberService;
+import worldwide.clm.clmwebsite.services.memberServices.MemberService;
 import worldwide.clm.clmwebsite.utils.AppUtils;
 import worldwide.clm.clmwebsite.utils.ResponseUtils;
 
 import java.util.Optional;
->>>>>>> b6754370e678906f5c35754b17629b704bd9072e:src/main/java/worldwide/clm/clmwebsite/service/impl/AuthServiceImpl.java
 
 import static worldwide.clm.clmwebsite.common.Message.*;
 import static worldwide.clm.clmwebsite.utils.AppUtils.ONBOARDING_MAIL_SUBJECT;
@@ -51,7 +45,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	
 	
 	@Override
-<<<<<<< HEAD:src/main/java/worldwide/clm/clmwebsite/services/authenticationServices/AuthenticationServiceImpl.java
 	public ApiResponse signup(SignupRequest request) throws UserAlreadyExistsException {
         Member foundMember = service.findMemberByEmail(request.getEmail());
         boolean userIsAVerifiedExistingMember = foundMember != null && foundMember.isEnabled();
@@ -73,27 +66,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				.subject(ONBOARDING_MAIL_SUBJECT)
 				.build();
         return mailService.sendOnboardingMail(request, registeredMember.getId());
-=======
-	public ApiResponse signup(SignupRequest request) {
-		Member findMember = service.findMemberByEmail(request.getEmail());
-		if (findMember != null) {
-			throw new UserAlreadyExistsException (EMAIL_ALREADY_EXIST);
-		}
-		Member createMember = Member.builder()
-				.firstName (request.getFirstName ())
-				.lastName (request.getLastName ())
-				.email (request.getEmail ())
-				.password (encoder.encode (request.getPassword ()))
-				.build();
-		var savedMember = service.saveMembers (createMember);
-		EmailNotificationRequest notificationRequest =
-				buildNotificationRequest(savedMember.getEmail (), savedMember.getFirstName (), savedMember.getId());
-		String response = mailService.sendHtmlMail (notificationRequest);
-		if(response == null) {
-			return getFailureMessage();
-		}
-		return getCreatedMessage ();
->>>>>>> b6754370e678906f5c35754b17629b704bd9072e:src/main/java/worldwide/clm/clmwebsite/service/impl/AuthServiceImpl.java
 	}
 
 	private Member registerMember(SignupRequest request) {
@@ -120,12 +92,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 	
 	@Override
-	public ApiResponse verifyAccount(long userId, String token) {
+	public ApiResponse verifyAccount(long userId, String token) throws BusinessLogicException {
 		if (AppUtils.isValidToken(userId,token)) return getVerifiedResponse(userId);
 		throw new BusinessLogicException (ACC_VERIFY_FAILURE);
 	}
 	
-	private ApiResponse getVerifiedResponse(Long userId) {
+	private ApiResponse getVerifiedResponse(Long userId) throws UserNotFoundException {
 		Optional<Member> foundUser = service.findMemberById(userId);
 		if (foundUser.isEmpty ()){
 			throw new UserNotFoundException (USER_NOT_FOUND);
