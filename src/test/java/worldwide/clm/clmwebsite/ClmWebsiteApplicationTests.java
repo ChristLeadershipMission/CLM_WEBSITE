@@ -9,8 +9,6 @@ class ClmWebsiteApplicationTests {
 
     @Test
     void contextLoads() {
-        JwtGenerator jwt = new JwtGenerator();
-        System.out.println(jwt.generateToken("", 1L));
     }
 
 }
