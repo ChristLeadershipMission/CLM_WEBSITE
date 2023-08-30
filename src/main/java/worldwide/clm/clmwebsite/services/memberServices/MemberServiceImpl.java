@@ -1,6 +1,7 @@
 package worldwide.clm.clmwebsite.services.memberServices;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import worldwide.clm.clmwebsite.data.models.Member;
 import worldwide.clm.clmwebsite.data.repositories.MemberRepository;
@@ -11,8 +12,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 	private final MemberRepository repository;
-	
-	
+
 	@Override
 	public Member register(Member member) {
 		return repository.save (member);

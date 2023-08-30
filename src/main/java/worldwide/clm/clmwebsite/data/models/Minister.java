@@ -17,5 +17,6 @@ import lombok.Setter;
 public class Minister {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String portfolio;
 }

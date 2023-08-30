@@ -9,16 +9,13 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@Setter
-@Getter
+@Entity
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Entity
+@Getter
+@Setter
 public class Department {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String description;
 }

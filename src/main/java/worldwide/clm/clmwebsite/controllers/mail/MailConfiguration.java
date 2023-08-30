@@ -1,4 +1,4 @@
-package worldwide.clm.clmwebsite.config.mail;
+package worldwide.clm.clmwebsite.controllers.mail;
 
 
 import lombok.AllArgsConstructor;

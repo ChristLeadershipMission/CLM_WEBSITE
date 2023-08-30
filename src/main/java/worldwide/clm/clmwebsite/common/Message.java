@@ -10,4 +10,6 @@ public class Message {
 	public static final String LOGIN_FAIL = "invalid login details";
 	public static final String USER_NOT_FOUND = "User not found";
 	public static final String ACC_VERIFY_FAILURE = "account verification failed";
+	public static final String CAMPUS_CREATED = "Campus created successfully";
+	public static final String CAMPUS_NOT_FOUND = "Campus not found";
 }

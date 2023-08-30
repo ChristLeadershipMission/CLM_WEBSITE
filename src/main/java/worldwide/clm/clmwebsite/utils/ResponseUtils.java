@@ -1,17 +1,20 @@
 package worldwide.clm.clmwebsite.utils;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import worldwide.clm.clmwebsite.dto.response.ApiResponse;
 import worldwide.clm.clmwebsite.dto.response.TokenResponseDto;
 
 import static worldwide.clm.clmwebsite.common.Message.*;
-
+@Getter
+@Setter
 public class ResponseUtils {
 	
 	public static ApiResponse getFailureMessage() {
 		return ApiResponse.builder()
 				.message(REG_FAIL)
-				.statusCode (HttpStatus.NO_CONTENT.value ())
+				.statusCode (HttpStatus.NO_CONTENT.value())
 				.success (true)
 				.build();
 	}
@@ -47,4 +50,12 @@ public class ResponseUtils {
 				.message ("Verified")
 				.build();
 	}
+	public static ApiResponse getCampusFailureResponse(){
+		return ApiResponse.builder()
+				.message(CAMPUS_NOT_FOUND)
+				.statusCode(HttpStatus.NO_CONTENT.value())
+				.success(true)
+				.build();
+	}
+
 }
