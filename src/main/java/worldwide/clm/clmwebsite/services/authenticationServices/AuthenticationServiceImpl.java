@@ -44,7 +44,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (userIsAlreadyRegistered) throw new UserAlreadyExistsException(EMAIL_ALREADY_EXIST);
         AdminResponse registeredAdmin = registerAdmin(request);
         ApiResponse response = sendAdminOnboardingMail(registeredAdmin);
-        if (response == null) return getFailureMessage();
+        if (response == null) return getDuplicateCampusesMessage();
         return getCreatedMessage();
     }
 
