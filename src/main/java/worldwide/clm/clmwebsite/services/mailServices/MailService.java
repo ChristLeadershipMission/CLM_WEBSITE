@@ -1,10 +1,11 @@
 package worldwide.clm.clmwebsite.services.mailServices;
 
 
+import jakarta.mail.MessagingException;
 import worldwide.clm.clmwebsite.dto.request.EmailNotificationRequest;
 import worldwide.clm.clmwebsite.dto.response.ApiResponse;
 
 public interface MailService {
 	
-	ApiResponse sendOnboardingMail(EmailNotificationRequest emailNotificationRequest, Long id);
+	ApiResponse sendMail(EmailNotificationRequest emailNotificationRequest) throws MessagingException;
 }

@@ -24,9 +24,9 @@ public class ResponseUtils {
 				.build();
 	}
 
-	public static ApiResponse getOnboardingMailMessage(){
+	public static ApiResponse mailResponse(){
 		return ApiResponse.builder()
-				.message (VERIFICATION_MAIL_SENT)
+				.message (MAIL_HAS_BEEN_SENT_SUCCESSFULLY)
 				.success (true)
 				.statusCode (HttpStatus.CREATED.value ())
 				.build();
@@ -39,11 +39,10 @@ public class ResponseUtils {
 				.build();
 	}
 	
-	public static ApiResponse okResponse(Object data){
+	public static ApiResponse okResponse(){
 		return ApiResponse.builder()
 				.statusCode(HttpStatus.OK.value())
 				.success (true)
-				.data(data)
 				.message ("Verified")
 				.build();
 	}

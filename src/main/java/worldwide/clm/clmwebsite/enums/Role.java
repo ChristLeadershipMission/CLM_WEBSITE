@@ -1,6 +1,8 @@
 package worldwide.clm.clmwebsite.enums;
 
 public enum Role {
-	ADMIN,
-	USERS
+	ORDINARY_ADMIN,
+	SUPER_ADMIN,
+	MEMBER,
+	MINISTER
 }

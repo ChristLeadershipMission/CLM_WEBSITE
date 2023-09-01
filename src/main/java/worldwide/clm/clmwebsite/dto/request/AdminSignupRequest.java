@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignupRequest {
+public class AdminSignupRequest {
 	@NotNull(message = "Field firstName is required")
 	private String firstName;
 	@NotNull(message = "Field lastName is required")

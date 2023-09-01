@@ -1,66 +1,55 @@
 package worldwide.clm.clmwebsite.security;
 
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import worldwide.clm.clmwebsite.security.filter.JwtAuthenticationFilter;
+import worldwide.clm.clmwebsite.security.filters.ClmAuthenticationFilter;
+import worldwide.clm.clmwebsite.security.filters.ClmAuthorizationFilter;
+import worldwide.clm.clmwebsite.services.adminServices.AdminService;
+import worldwide.clm.clmwebsite.services.bioDataServices.BioDataService;
+import worldwide.clm.clmwebsite.services.memberServices.MemberService;
+import worldwide.clm.clmwebsite.services.ministerServices.MinisterService;
+import worldwide.clm.clmwebsite.utils.JwtUtility;
+
+import static org.springframework.http.HttpMethod.POST;
+import static worldwide.clm.clmwebsite.utils.AppUtils.*;
 
 @Configuration
-@EnableMethodSecurity(securedEnabled = true)
-@EnableWebSecurity
-@RequiredArgsConstructor
-public class SecurityConfig{
-
-    private final JwtAuthenticationFilter filter;
-
-
-    private final String[] allowedEndpoints = {
-            "/api/v1/auth/**",
-            "/swagger-ui/index.html", "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**"
-    };
+@AllArgsConstructor
+public class SecurityConfig {
+  private final AuthenticationManager authenticationManager;
+  private final JwtUtility jwtUtil;
+  private final ObjectMapper mapper = new ObjectMapper();
+  private final BioDataService bioDataService;
+  private final MemberService memberService;
+  private final AdminService adminService;
+  private final MinisterService ministerService;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
-        security
-                .cors(AbstractHttpConfigurer::disable)
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+      UsernamePasswordAuthenticationFilter authenticationFilter = new ClmAuthenticationFilter(
+              authenticationManager, jwtUtil, bioDataService, memberService, adminService, ministerService
+      );;
+      authenticationFilter.setFilterProcessesUrl(LOGIN_ENDPOINT);
+        return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .exceptionHandling(e -> e.configure(security))
-                .sessionManagement(session -> session.sessionCreationPolicy(
-                        SessionCreationPolicy.STATELESS
-                ))
-                .authorizeHttpRequests((authz -> authz.requestMatchers(allowedEndpoints).permitAll()
-                        .anyRequest()
-                        .authenticated()))
-                .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
-        return security.build();
+                .cors(Customizer.withDefaults())
+                .sessionManagement(c->c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(new ClmAuthorizationFilter(jwtUtil), ClmAuthenticationFilter.class)
+                .addFilterAt(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .authorizeHttpRequests(c->c.requestMatchers(POST, ADMIN_REGISTRATION_ENDPOINT)
+                        .permitAll())
+                .authorizeHttpRequests(c->c.requestMatchers(POST, LOGIN_ENDPOINT)
+                        .permitAll())
+                .authorizeHttpRequests(c->c.anyRequest().authenticated())
+                .build();
     }
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-        return configuration.getAuthenticationManager();
-    }
-    
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(@NonNull CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("*")
-                        .allowedMethods("POST", "GET", "PUT", "PATCH", "DELETE");
-            }
-        };
-    }
-
 }

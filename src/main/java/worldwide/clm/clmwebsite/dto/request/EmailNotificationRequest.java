@@ -11,8 +11,8 @@ import java.util.List;
 @Setter
 @Builder
 public class EmailNotificationRequest {
-	private final String sender = "ogunsmoyin.m@gmail.com";
 	private List<Recipient> to = new ArrayList<> ();
 	private String subject;
+	private String text;
 	private String htmlContent;
 }
