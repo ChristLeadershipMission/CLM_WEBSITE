@@ -53,4 +53,44 @@ public class ResponseUtils {
 				.message ("Verified")
 				.build();
 	}
+	public static ApiResponse alreadyCreated(String message){
+		return ApiResponse.builder()
+				.message(message)
+				.statusCode(HttpStatus.BAD_REQUEST.value())
+				.success(false)
+				.build();
+	}
+
+	public static ApiResponse created(String message) {
+		return ApiResponse.builder()
+				.message(message)
+				.statusCode(HttpStatus.CREATED.value())
+				.success(true)
+				.build();
+	}
+
+	public static ApiResponse noEventFound(String message) {
+		return ApiResponse.builder()
+				.message(message)
+				.statusCode(HttpStatus.NO_CONTENT.value())
+				.success(false)
+				.build();
+	}
+
+	public static ApiResponse eventDeleted(String message) {
+		return ApiResponse.builder()
+				.message(message)
+				.statusCode(HttpStatus.OK.value())
+				.success(true)
+				.build();
+
+	}
+
+	public static ApiResponse updated(String message) {
+		return ApiResponse.builder()
+				.message(message)
+				.statusCode(HttpStatus.OK.value())
+				.success(true)
+				.build();
+	}
 }

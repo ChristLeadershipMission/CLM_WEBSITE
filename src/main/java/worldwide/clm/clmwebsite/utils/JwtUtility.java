@@ -47,10 +47,22 @@ public class JwtUtility {
         if (decodedJwt.getClaim(ROLES_VALUE)==null) throw new AuthenticationException(INVALID_TOKEN);
         return decodedJwt.getClaims();
     }
+    public Claim extractClaimFrom(String token) throws AuthenticationException {
+        DecodedJWT decodedJwt = validateToken(token);
+        if (decodedJwt.getClaim(ADMIN)==null) throw new AuthenticationException(INVALID_TOKEN);
+        return decodedJwt.getClaim(ADMIN);
+    }
 
     private DecodedJWT validateToken(String token) {
         return JWT.require(Algorithm.HMAC512(secret))
                 .build().verify(token);
     }
 
+    public String generateEncryptedLink(Map<String, Object> requestAsMap) {
+        return JWT.create()
+                .withIssuedAt(now())
+                .withExpiresAt(now().plusSeconds(172800L))
+                .withClaim(ADMIN, requestAsMap)
+                .sign(Algorithm.HMAC512(secret.getBytes()));
+    }
 }

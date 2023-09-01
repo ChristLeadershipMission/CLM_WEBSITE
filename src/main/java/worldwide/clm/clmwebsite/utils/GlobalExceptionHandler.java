@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import worldwide.clm.clmwebsite.dto.response.ApiResponse;
 import worldwide.clm.clmwebsite.exception.*;
 
+import static worldwide.clm.clmwebsite.common.Message.NO_EVENT_FOUND;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -38,6 +40,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<ApiResponse> handleExceptions(CampusNotFoundException e){
         ApiResponse apiResponse = ResponseUtils.getCampusNotFoundMessage();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(apiResponse);
+    }
+    @ExceptionHandler
+    public ResponseEntity<ApiResponse> handleExceptions(EventNotFoundException e){
+        ApiResponse apiResponse = ResponseUtils.noEventFound(NO_EVENT_FOUND);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(apiResponse);
     }
 }

@@ -19,6 +19,7 @@ import worldwide.clm.clmwebsite.services.memberServices.MemberService;
 import worldwide.clm.clmwebsite.services.ministerServices.MinisterService;
 import worldwide.clm.clmwebsite.utils.JwtUtility;
 
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 import static worldwide.clm.clmwebsite.utils.AppUtils.*;
 
@@ -48,6 +49,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(c->c.requestMatchers(POST, ADMIN_REGISTRATION_ENDPOINT)
                         .permitAll())
                 .authorizeHttpRequests(c->c.requestMatchers(POST, LOGIN_ENDPOINT)
+                        .permitAll())
+                .authorizeHttpRequests(c->c.requestMatchers(GET, TEST_ENDPOINT)
                         .permitAll())
                 .authorizeHttpRequests(c->c.anyRequest().authenticated())
                 .build();
