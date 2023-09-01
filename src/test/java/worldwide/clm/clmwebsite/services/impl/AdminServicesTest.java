@@ -3,6 +3,7 @@ package worldwide.clm.clmwebsite.services.impl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import worldwide.clm.clmwebsite.dto.request.AdminInvitationRequest;
 import worldwide.clm.clmwebsite.dto.request.AdminSignupRequest;
 import worldwide.clm.clmwebsite.dto.response.ApiResponse;
 import worldwide.clm.clmwebsite.exception.ClmException;
@@ -27,7 +28,14 @@ class AdminServicesTest {
 	@Test
 	void sendAdminInvitationTest() throws ClmException {
 		String email = "ogunsmoyin.m@gmail.com";
-		ApiResponse apiResponse = adminService.sendInvitationLink(email);
+		ApiResponse apiResponse = adminService.sendInvitationLink(
+				AdminInvitationRequest.builder()
+						.emailAddress("ogunsmoyin.m@gmail.com")
+						.firstName("Moyinoluwa")
+						.lastName("Michael")
+						.phoneNumber("08089649909")
+						.build()
+		);
 		assertNotNull(apiResponse);
 	}
 

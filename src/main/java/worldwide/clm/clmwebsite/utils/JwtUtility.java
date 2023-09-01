@@ -53,4 +53,14 @@ public class JwtUtility {
                 .build().verify(token);
     }
 
+    public String generateEncryptedLink(Map<String, Object> requestAsMap) {
+        return JWT.create()
+                .withIssuedAt(now())
+                .withExpiresAt(now().plusSeconds(172800L))
+                .withClaim(EMAIL_VALUE, (String) requestAsMap.get(EMAIL_VALUE))
+                .withClaim(PHONE_NUMBER, (String) requestAsMap.get(PHONE_NUMBER))
+                .withClaim(FIRST_NAME, (String) requestAsMap.get(FIRST_NAME))
+                .withClaim(LAST_NAME, (String) requestAsMap.get(LAST_NAME))
+                .sign(Algorithm.HMAC512(secret.getBytes()));
+    }
 }

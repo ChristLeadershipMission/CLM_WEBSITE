@@ -12,6 +12,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class AppUtils {
     public static final String EMAIL_VALUE = "email";
+    public static final String FIRST_NAME = "firstName";
+    public static final String LAST_NAME = "lastName";
+    public static final String PHONE_NUMBER = "phoneNumber";
     public static final String USERNAME_VALUE = "username";
     public static final String CLM_VALUE = "username";
     public static final String CLAIM_VALUE = "claim";
@@ -40,21 +43,21 @@ public class AppUtils {
             """;
     private static final String USER_VERIFICATION_BASE_URL = "http://localhost:8080";
     public static final String ADMIN_REGISTRATION_PAGE_URL = "http://localhost:3000/admin/registration";
-    public static final String MAIL_TEMPLATE_LOCATION = "C:\\Users\\oguns\\Others\\NewFolder\\OpenFactor\\CodeBase\\CLM_WEBSITE\\src\\main\\resources\\adminInvitationTemplate.txt";
+    public static final String ADMIN_INVITATION_HTML_TEMPLATE_LOCATION = "C:\\Users\\oguns\\Others\\NewFolder\\OpenFactor\\CodeBase\\CLM_WEBSITE\\src\\main\\resources\\adminInvitationTemplate.txt";
+    public static final String SUCCESSFUL_REGISTRATION_HTML_TEMPLATE_LOCATION = "C:\\Users\\oguns\\Others\\NewFolder\\OpenFactor\\CodeBase\\CLM_WEBSITE\\src\\main\\resources\\successfulRegistrationTemplate.txt";
     public static final String EMPTY_SPACE_VALUE = "";
     public static final String ADMIN_INVITATION_MAIL_TEMPLATE = """
-            Calvary Greetings, 
-            <br>
-            <br>			
-            You've been selected as an admin for the CLM website. Your expertise will play a crucial role in shaping our platform.
+            <h1>Calvary Greetings,</h1>
+            <p>You've been selected as an admin for the CLM website. Your expertise will play a crucial role in shaping our platform.
             <br>
             Kindly click the registration button below to get started and start managing with impact.
-			<br>
-			<br>		
-            Thank you for being a part of our team.
+            <br>
+            <br>
+            Thank you for being a part of our team.</p>
             """;
     public static final String CLM_WEBSITE_ADMIN_INVITATION = "CLM-WEBSITE ADMIN INVITATION";
     public static final String LOGIN_ENDPOINT = "/clmWebsite/api/v1/login";
+    public static final String TEST_ENDPOINT = "/clmWebsite/api/v1/admin/test";
     public static final String ADMIN_REGISTRATION_ENDPOINT = "/clmWebsite/api/v1/admin/registration";
 
     public static final String WELCOME_MAIL_TEMPLATE_LOCATION = "src/main/resources/templates/welcome.html";
