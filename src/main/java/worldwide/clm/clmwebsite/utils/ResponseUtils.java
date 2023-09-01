@@ -8,10 +8,17 @@ import static worldwide.clm.clmwebsite.common.Message.*;
 
 public class ResponseUtils {
 	
-	public static ApiResponse getFailureMessage() {
+	public static ApiResponse getDuplicateCampusesMessage() {
 		return ApiResponse.builder()
-				.message(REG_FAIL)
-				.statusCode (HttpStatus.NO_CONTENT.value ())
+				.message(CAMPUS_ALREADY_EXISTS)
+				.statusCode (HttpStatus.NO_CONTENT.value())
+				.success (true)
+				.build();
+	}
+	public static ApiResponse getCampusNotFoundMessage() {
+		return ApiResponse.builder()
+				.message(CAMPUS_NOT_FOUND)
+				.statusCode (HttpStatus.NO_CONTENT.value())
 				.success (true)
 				.build();
 	}
