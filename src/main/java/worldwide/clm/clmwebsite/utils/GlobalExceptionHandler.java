@@ -3,10 +3,7 @@ package worldwide.clm.clmwebsite.utils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import worldwide.clm.clmwebsite.exception.BusinessLogicException;
-import worldwide.clm.clmwebsite.exception.InvalidLoginDetailsException;
-import worldwide.clm.clmwebsite.exception.UserAlreadyExistsException;
-import worldwide.clm.clmwebsite.exception.UserNotFoundException;
+import worldwide.clm.clmwebsite.exception.*;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -20,11 +17,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
     @ExceptionHandler
-    public ResponseEntity<String> handleExceptions(BusinessLogicException e){
+    public ResponseEntity<String> handleExceptions(ClmException e){
         return ResponseEntity.badRequest().body(e.getMessage());
     }
     @ExceptionHandler
     public ResponseEntity<String> handleExceptions(UserNotFoundException e){
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+    @ExceptionHandler
+    public ResponseEntity<String> handleExceptions(AuthenticationException e){
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 

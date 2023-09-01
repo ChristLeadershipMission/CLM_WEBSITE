@@ -3,22 +3,37 @@ package worldwide.clm.clmwebsite.services.impl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import worldwide.clm.clmwebsite.dto.request.SignupRequest;
+import worldwide.clm.clmwebsite.dto.request.AdminSignupRequest;
+import worldwide.clm.clmwebsite.dto.response.ApiResponse;
+import worldwide.clm.clmwebsite.exception.ClmException;
 import worldwide.clm.clmwebsite.exception.UserAlreadyExistsException;
+import worldwide.clm.clmwebsite.exception.UserNotFoundException;
+import worldwide.clm.clmwebsite.services.adminServices.AdminService;
 import worldwide.clm.clmwebsite.services.authenticationServices.AuthenticationService;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static worldwide.clm.clmwebsite.common.Message.CREATED;
 
 @SpringBootTest
-class AuthenticationServiceImplTest {
+class AdminServicesTest {
 	
 	@Autowired
 	private AuthenticationService service;
-	
+
+	@Autowired
+	private AdminService adminService;
+
 	@Test
-	void signup() throws UserAlreadyExistsException {
-		SignupRequest request = new SignupRequest ();
+	void sendAdminInvitationTest() throws ClmException {
+		String email = "ogunsmoyin.m@gmail.com";
+		ApiResponse apiResponse = adminService.sendInvitationLink(email);
+		assertNotNull(apiResponse);
+	}
+
+	@Test
+	void adminSignup() throws UserAlreadyExistsException, UserNotFoundException {
+		AdminSignupRequest request = new AdminSignupRequest();
 		request.setEmail ("ogunsmoyin.m@gmail.com");
 		request.setPassword ("password");
 		request.setFirstName("firstname");

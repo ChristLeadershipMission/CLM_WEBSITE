@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import worldwide.clm.clmwebsite.enums.Role;
@@ -18,23 +19,23 @@ import java.util.List;
 @RequiredArgsConstructor
 @Builder
 @Entity
-public class Member {
+public class BioData {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Address address;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private BioData bioData;
+    private String firstName;
+    private String lastName;
+    private String phoneNumber;
+    @Column(unique = true)
+    @Email
+    private String emailAddress;
+    private String password;
+    private String profilePicture;
+    @Enumerated(EnumType.STRING)
+    private List<Role> roles;
+    @CreatedDate
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime dateOfBirth;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Department department;
-    private String levelOfEducation;
-    private String occupation;
-    private String academicHonour;
-    private String maritalStatus;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Campus campus;
+    private LocalDateTime createdAt;
+    private Boolean isEnabled;
 }
