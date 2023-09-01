@@ -1,5 +1,6 @@
 package worldwide.clm.clmwebsite.config.app;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,5 +15,10 @@ public class ApplicationConfiguration {
 	@Bean
 	public PasswordEncoder passwordEncoder(){
 		return new BCryptPasswordEncoder ();
+	}
+
+	@Bean
+	public ModelMapper map(){
+		return new ModelMapper();
 	}
 }

@@ -25,9 +25,8 @@ public class SecurityConfig{
 
     private final JwtAuthenticationFilter filter;
 
-
     private final String[] allowedEndpoints = {
-            "/api/v1/auth/**",
+            "/api/v1/auth/**", "/api/v1/eventCreation", "/api/v1/eventUpdate","api/v1/eventDeletionByName",
             "/swagger-ui/index.html", "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**"
     };
 
