@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class AppUtils {
     public static final String EMAIL_VALUE = "email";
+    public static final String ADMIN = "admin";
     public static final String FIRST_NAME = "firstName";
     public static final String LAST_NAME = "lastName";
     public static final String PHONE_NUMBER = "phoneNumber";
@@ -41,8 +42,8 @@ public class AppUtils {
             			
             Here's to a successful and collaborative experience ahead!
             """;
-    private static final String USER_VERIFICATION_BASE_URL = "http://localhost:8080";
-    public static final String ADMIN_REGISTRATION_PAGE_URL = "http://localhost:3000/admin/registration";
+    private static final String SERVER_BASE_URL = "http://localhost:8080/";
+    public static final String INVITATION_ACCEPTANCE_VERIFICATION_URL = SERVER_BASE_URL +"clmWebsite/api/v1/admin/acceptInvitation/";
     public static final String ADMIN_INVITATION_HTML_TEMPLATE_LOCATION = "C:\\Users\\oguns\\Others\\NewFolder\\OpenFactor\\CodeBase\\CLM_WEBSITE\\src\\main\\resources\\adminInvitationTemplate.txt";
     public static final String SUCCESSFUL_REGISTRATION_HTML_TEMPLATE_LOCATION = "C:\\Users\\oguns\\Others\\NewFolder\\OpenFactor\\CodeBase\\CLM_WEBSITE\\src\\main\\resources\\successfulRegistrationTemplate.txt";
     public static final String EMPTY_SPACE_VALUE = "";
@@ -57,7 +58,7 @@ public class AppUtils {
             """;
     public static final String CLM_WEBSITE_ADMIN_INVITATION = "CLM-WEBSITE ADMIN INVITATION";
     public static final String LOGIN_ENDPOINT = "/clmWebsite/api/v1/login";
-    public static final String TEST_ENDPOINT = "/clmWebsite/api/v1/admin/test";
+    public static final String TEST_ENDPOINT = "/clmWebsite/api/v1/admin/acceptInvitation";
     public static final String ADMIN_REGISTRATION_ENDPOINT = "/clmWebsite/api/v1/admin/registration";
 
     public static final String WELCOME_MAIL_TEMPLATE_LOCATION = "src/main/resources/templates/welcome.html";

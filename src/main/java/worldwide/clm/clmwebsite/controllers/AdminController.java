@@ -41,13 +41,8 @@ public class AdminController {
         return ResponseEntity.ok().body(adminService.sendInvitationLink(request));
     }
 
-	@GetMapping("acceptRegistration")
-	public String acceptRegistration() throws ClmException {
-		try (BufferedReader reader =
-					 new BufferedReader(new FileReader(SUCCESSFUL_REGISTRATION_HTML_TEMPLATE_LOCATION))) {
-			return reader.lines().collect(Collectors.joining());
-		} catch (IOException exception) {
-			throw new ClmException(FAILED_TO_GET_ACTIVATION_LINK);
-		}
-	}
+    @GetMapping("acceptInvitation/{encryptedLink}")
+    public ResponseEntity<String> acceptInvitation(@PathVariable String encryptedLink) throws ClmException {
+        return ResponseEntity.ok().body(adminService.acceptInvitation(encryptedLink));
+    }
 }

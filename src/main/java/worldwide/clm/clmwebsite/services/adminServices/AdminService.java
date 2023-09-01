@@ -1,6 +1,5 @@
 package worldwide.clm.clmwebsite.services.adminServices;
 
-import jakarta.validation.Valid;
 import worldwide.clm.clmwebsite.data.models.Admin;
 import worldwide.clm.clmwebsite.dto.request.AdminInvitationRequest;
 import worldwide.clm.clmwebsite.dto.response.AdminResponse;
@@ -14,4 +13,6 @@ public interface AdminService {
     AdminResponse register(Admin admin);
 
     ApiResponse sendInvitationLink(AdminInvitationRequest request) throws ClmException;
+
+    String acceptInvitation(String encryptedLink) throws ClmException;
 }
