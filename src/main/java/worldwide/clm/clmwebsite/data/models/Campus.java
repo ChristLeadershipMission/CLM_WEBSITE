@@ -1,5 +1,6 @@
 package worldwide.clm.clmwebsite.data.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,6 +10,7 @@ import lombok.*;
 @RequiredArgsConstructor
 @Builder
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Campus {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
