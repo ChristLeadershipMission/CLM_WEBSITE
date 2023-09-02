@@ -36,7 +36,7 @@ public class AdminController {
         return new ResponseEntity<>(authenticationService.signup(request), HttpStatus.CREATED);
     }
 
-    @PostMapping("/sendInvitationLink/{emailAddress}")
+    @PostMapping("/sendInvitationLink")
     public ResponseEntity<ApiResponse> sendInvitationLink(@Valid @RequestBody AdminInvitationRequest request) throws ClmException {
         return ResponseEntity.ok().body(adminService.sendInvitationLink(request));
     }

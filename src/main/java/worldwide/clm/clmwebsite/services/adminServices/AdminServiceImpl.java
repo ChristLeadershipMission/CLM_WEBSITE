@@ -4,6 +4,7 @@ import com.auth0.jwt.interfaces.Claim;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import worldwide.clm.clmwebsite.data.models.Admin;
 import worldwide.clm.clmwebsite.data.models.BioData;
@@ -43,6 +44,7 @@ public class AdminServiceImpl implements AdminService{
     private final ModelMapper modelMapper;
     private final JwtUtility jwtUtility;
     private final MailService mailService;
+    private final PasswordEncoder passwordEncoder;
     @Override
     public AdminResponse findByEmail(String emailAddress) throws UserNotFoundException {
         Admin foundAdmin = adminRepository.findByBioData_EmailAddress(emailAddress).orElseThrow(
@@ -83,10 +85,18 @@ public class AdminServiceImpl implements AdminService{
     @Override
     public String acceptInvitation(String encryptedLink) throws ClmException {
         Admin admin = getAdmin(encryptedLink);
+        if (adminRepository.findByBioData_EmailAddress(admin.getBioData().getEmailAddress()).isPresent()){
+            throw new UserAlreadyExistsException("You have already registered on this platform");
+        }
+        String randomPassword = jwtUtility.generateAdminDefaultPassword(admin.getBioData().getEmailAddress());
+        String encryptedPassword = passwordEncoder.encode(randomPassword);
+        admin.getBioData().setPassword(encryptedPassword);
         adminRepository.save(admin);
         try (BufferedReader reader =
                      new BufferedReader(new FileReader(SUCCESSFUL_REGISTRATION_HTML_TEMPLATE_LOCATION))) {
-            return reader.lines().collect(Collectors.joining());
+            String htmlTemplate = reader.lines().collect(Collectors.joining());
+            htmlTemplate = String.format(htmlTemplate, admin.getBioData().getEmailAddress(), randomPassword);
+            return htmlTemplate;
         } catch (IOException exception) {
             throw new ClmException(FAILED_TO_GET_ACTIVATION_LINK);
         }

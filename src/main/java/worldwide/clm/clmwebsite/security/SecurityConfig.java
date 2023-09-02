@@ -50,7 +50,7 @@ public class SecurityConfig {
                         .permitAll())
                 .authorizeHttpRequests(c->c.requestMatchers(POST, LOGIN_ENDPOINT)
                         .permitAll())
-                .authorizeHttpRequests(c->c.requestMatchers(GET, TEST_ENDPOINT)
+                .authorizeHttpRequests(c->c.requestMatchers(GET, INVITATION_ACCEPTANCE_VERIFICATION_ENDPOINT)
                         .permitAll())
                 .authorizeHttpRequests(c->c.anyRequest().authenticated())
                 .build();
