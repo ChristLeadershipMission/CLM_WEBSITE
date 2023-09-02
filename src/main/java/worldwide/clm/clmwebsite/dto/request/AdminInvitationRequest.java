@@ -10,4 +10,5 @@ public class AdminInvitationRequest {
     private String firstName;
     private String lastName;
     private String phoneNumber;
+    private String password;
 }
