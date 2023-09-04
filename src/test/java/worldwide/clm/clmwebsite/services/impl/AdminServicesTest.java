@@ -30,7 +30,7 @@ class AdminServicesTest {
 		String email = "ogunsmoyin.m@gmail.com";
 		ApiResponse apiResponse = adminService.sendInvitationLink(
 				AdminInvitationRequest.builder()
-						.emailAddress("ogunsmoyin.m@gmail.com")
+						.emailAddress(email)
 						.firstName("Moyinoluwa")
 						.lastName("Michael")
 						.phoneNumber("08089649909")
@@ -39,17 +39,4 @@ class AdminServicesTest {
 		assertNotNull(apiResponse);
 	}
 
-	@Test
-	void adminSignup() throws UserAlreadyExistsException, UserNotFoundException {
-		AdminSignupRequest request = new AdminSignupRequest();
-		request.setEmail ("ogunsmoyin.m@gmail.com");
-		request.setPassword ("password");
-		request.setFirstName("firstname");
-		request.setLastName("lastname");
-		var result = service.signup (request);
-		System.out.println(result);
-		assertThat(result).isNotNull ();
-		assertThat(result.getMessage ()).isEqualTo (CREATED);
-		assertThat (result.isSuccess ()).isTrue ();
-	}
 }

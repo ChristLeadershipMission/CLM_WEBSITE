@@ -18,7 +18,7 @@ public class Campus {
     private String name;
     @Column(nullable = false, unique = true)
     private String email;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Minister ministerInCharge;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Address address;

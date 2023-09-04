@@ -15,6 +15,7 @@ import worldwide.clm.clmwebsite.dto.request.Recipient;
 import worldwide.clm.clmwebsite.dto.response.AdminResponse;
 import worldwide.clm.clmwebsite.dto.response.ApiResponse;
 import worldwide.clm.clmwebsite.dto.response.BioDataResponse;
+import worldwide.clm.clmwebsite.enums.Role;
 import worldwide.clm.clmwebsite.exception.AuthenticationException;
 import worldwide.clm.clmwebsite.exception.ClmException;
 import worldwide.clm.clmwebsite.exception.UserAlreadyExistsException;
@@ -34,32 +35,28 @@ import java.util.stream.Collectors;
 
 import static worldwide.clm.clmwebsite.common.Message.*;
 import static worldwide.clm.clmwebsite.utils.AppUtils.*;
+import static worldwide.clm.clmwebsite.utils.htmlFileUtility.getFileTemplate;
 
 @Service
 @AllArgsConstructor
 @Slf4j
-public class AdminServiceImpl implements AdminService{
+public class AdminServiceImpl implements AdminService {
     private final AdminRepository adminRepository;
     private final BioDataService bioDataService;
     private final ModelMapper modelMapper;
     private final JwtUtility jwtUtility;
     private final MailService mailService;
     private final PasswordEncoder passwordEncoder;
+
     @Override
     public AdminResponse findByEmail(String emailAddress) throws UserNotFoundException {
         Admin foundAdmin = adminRepository.findByBioData_EmailAddress(emailAddress).orElseThrow(
-                ()-> new UserNotFoundException(String.format(USER_WITH_EMAIL_NOT_FOUND, emailAddress))
+                () -> new UserNotFoundException(String.format(USER_WITH_EMAIL_NOT_FOUND, emailAddress))
         );
         BioDataResponse bioDataResponse = modelMapper.map(foundAdmin.getBioData(), BioDataResponse.class);
         AdminResponse adminResponse = modelMapper.map(foundAdmin, AdminResponse.class);
         adminResponse.setBioData(bioDataResponse);
         return adminResponse;
-    }
-
-    @Override
-    public AdminResponse register(Admin admin) {
-        Admin registeredAdmin = adminRepository.save(admin);
-        return modelMapper.map(registeredAdmin, AdminResponse.class);
     }
 
     @Override
@@ -72,11 +69,11 @@ public class AdminServiceImpl implements AdminService{
         EmailNotificationRequest emailRequest = new EmailNotificationRequest();
         emailRequest.setTo(List.of(recipient));
         emailRequest.setSubject(CLM_WEBSITE_ADMIN_INVITATION);
-        String template = getEmailTemplate();
+        String template = getFileTemplate(ADMIN_INVITATION_HTML_TEMPLATE_LOCATION);
         emailRequest.setText(String.format(template, invitationLink));
         try {
-            mailService.sendMail(emailRequest);
-        }catch (Exception e){
+            mailService.sendHtmlMail(emailRequest);
+        } catch (Exception e) {
             log.info("Admin Invitation {}", e.getMessage());
         }
         return ResponseUtils.mailResponse();
@@ -85,25 +82,21 @@ public class AdminServiceImpl implements AdminService{
     @Override
     public String acceptInvitation(String encryptedLink) throws ClmException {
         Admin admin = getAdmin(encryptedLink);
-        if (adminRepository.findByBioData_EmailAddress(admin.getBioData().getEmailAddress()).isPresent()){
+        if (adminRepository.findByBioData_EmailAddress(admin.getBioData().getEmailAddress()).isPresent()) {
             throw new UserAlreadyExistsException("You have already registered on this platform");
         }
         String randomPassword = jwtUtility.generateAdminDefaultPassword(admin.getBioData().getEmailAddress());
         String encryptedPassword = passwordEncoder.encode(randomPassword);
         admin.getBioData().setPassword(encryptedPassword);
+        admin.getBioData().setRoles(List.of(Role.ORDINARY_ADMIN));
         adminRepository.save(admin);
-        try (BufferedReader reader =
-                     new BufferedReader(new FileReader(SUCCESSFUL_REGISTRATION_HTML_TEMPLATE_LOCATION))) {
-            String htmlTemplate = reader.lines().collect(Collectors.joining());
-            htmlTemplate = String.format(htmlTemplate, admin.getBioData().getEmailAddress(), randomPassword);
-            return htmlTemplate;
-        } catch (IOException exception) {
-            throw new ClmException(FAILED_TO_GET_ACTIVATION_LINK);
-        }
+        String htmlTemplate = getFileTemplate(SUCCESSFUL_REGISTRATION_HTML_TEMPLATE_LOCATION);
+        htmlTemplate = String.format(htmlTemplate, admin.getBioData().getEmailAddress(), randomPassword);
+        return htmlTemplate;
     }
 
     private Admin getAdmin(String encryptedLink) throws AuthenticationException {
-        Claim claim = jwtUtility.extractClaimFrom(encryptedLink);
+        Claim claim = jwtUtility.extractClaimFrom(encryptedLink, ADMIN);
         Map<String, Object> adminAsMap = claim.asMap();
         BioData bioData = BioData.builder()
                 .emailAddress((String) adminAsMap.get(EMAIL_VALUE))
@@ -124,14 +117,6 @@ public class AdminServiceImpl implements AdminService{
         return map;
     }
 
-    private String getEmailTemplate() throws ClmException {
-        try(BufferedReader reader =
-                    new BufferedReader(new FileReader(ADMIN_INVITATION_HTML_TEMPLATE_LOCATION))){
-            return  reader.lines().collect(Collectors.joining());
-        }catch (IOException exception){
-            throw new ClmException(FAILED_TO_GET_ACTIVATION_LINK);
-        }
-    }
     private void validateDuplicateUserExistence(String emailAddress) throws UserNotFoundException, UserAlreadyExistsException {
         bioDataService.validateDuplicateUserExistence(emailAddress);
     }

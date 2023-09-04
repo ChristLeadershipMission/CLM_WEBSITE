@@ -46,13 +46,13 @@ public class JwtUtility {
         if (decodedJwt.getClaim(ROLES_VALUE)==null) throw new AuthenticationException(INVALID_TOKEN);
         return decodedJwt.getClaims();
     }
-    public Claim extractClaimFrom(String token) throws AuthenticationException {
+    public Claim extractClaimFrom(String token, String key) throws AuthenticationException {
         DecodedJWT decodedJwt = validateToken(token);
-        if (decodedJwt.getClaim(ADMIN)==null) throw new AuthenticationException(INVALID_TOKEN);
-        return decodedJwt.getClaim(ADMIN);
+        if (decodedJwt.getClaim(key)==null) throw new AuthenticationException(INVALID_TOKEN);
+        return decodedJwt.getClaim(key);
     }
 
-    private DecodedJWT validateToken(String token) {
+    public DecodedJWT validateToken(String token) {
         return JWT.require(Algorithm.HMAC512(secret))
                 .build().verify(token);
     }

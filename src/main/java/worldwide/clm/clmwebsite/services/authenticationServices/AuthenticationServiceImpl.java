@@ -1,78 +1,86 @@
 package worldwide.clm.clmwebsite.services.authenticationServices;
 
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import worldwide.clm.clmwebsite.data.models.Admin;
-import worldwide.clm.clmwebsite.data.models.BioData;
-import worldwide.clm.clmwebsite.dto.request.AdminSignupRequest;
+import worldwide.clm.clmwebsite.dto.request.ChangePasswordRequest;
 import worldwide.clm.clmwebsite.dto.request.EmailNotificationRequest;
 import worldwide.clm.clmwebsite.dto.request.Recipient;
-import worldwide.clm.clmwebsite.dto.response.AdminResponse;
-import worldwide.clm.clmwebsite.services.adminServices.AdminService;
-import worldwide.clm.clmwebsite.services.mailServices.MailService;
+import worldwide.clm.clmwebsite.dto.request.ResetPasswordRequest;
 import worldwide.clm.clmwebsite.dto.response.ApiResponse;
-import worldwide.clm.clmwebsite.exception.UserAlreadyExistsException;
+import worldwide.clm.clmwebsite.dto.response.BioDataResponse;
+import worldwide.clm.clmwebsite.exception.AuthenticationException;
+import worldwide.clm.clmwebsite.exception.ClmException;
+import worldwide.clm.clmwebsite.exception.PasswordMismatchException;
+import worldwide.clm.clmwebsite.exception.UserNotFoundException;
+import worldwide.clm.clmwebsite.services.bioDataServices.BioDataService;
+import worldwide.clm.clmwebsite.services.mailServices.MailService;
+import worldwide.clm.clmwebsite.utils.JwtUtility;
 
 import java.util.List;
 
-import worldwide.clm.clmwebsite.exception.UserNotFoundException;
-import worldwide.clm.clmwebsite.services.memberServices.MemberService;
-
-import static worldwide.clm.clmwebsite.common.Message.*;
-import static worldwide.clm.clmwebsite.utils.AppUtils.ADMIN_ONBOARDING_MESSAGE;
-import static worldwide.clm.clmwebsite.utils.AppUtils.ONBOARDING_MAIL_SUBJECT;
-import static worldwide.clm.clmwebsite.utils.ResponseUtils.*;
+import static worldwide.clm.clmwebsite.common.Message.PASSWORDS_DO_NOT_MATCH;
+import static worldwide.clm.clmwebsite.utils.AppUtils.*;
+import static worldwide.clm.clmwebsite.utils.ResponseUtils.mailResponse;
+import static worldwide.clm.clmwebsite.utils.htmlFileUtility.getFileTemplate;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class AuthenticationServiceImpl implements AuthenticationService {
-    private final MemberService memberService;
-    private final AdminService adminService;
+    private final BioDataService bioDataService;
+    private final JwtUtility jwtUtility;
     private final MailService mailService;
-    private final PasswordEncoder encoder;
-    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Override
-    public ApiResponse signup(AdminSignupRequest request) throws UserAlreadyExistsException, UserNotFoundException {
-        AdminResponse foundAdmin = adminService.findByEmail(request.getEmail());
-        boolean userIsAlreadyRegistered = foundAdmin != null;
-        if (userIsAlreadyRegistered) throw new UserAlreadyExistsException(EMAIL_ALREADY_EXIST);
-        AdminResponse registeredAdmin = registerAdmin(request);
-        ApiResponse response = sendAdminOnboardingMail(registeredAdmin);
-        if (response == null) return getDuplicateCampusesMessage();
-        return getCreatedMessage();
+    public ApiResponse sendPasswordResetLink(String emailAddress) throws ClmException, MessagingException {
+        BioDataResponse foundBioData = bioDataService.findByEmail(emailAddress);
+        String passwordResetLink = generatePasswordResetLink(emailAddress);
+        sendPasswordResetLinkMail(emailAddress, passwordResetLink, foundBioData.getFirstName());
+        return mailResponse();
     }
 
-    private ApiResponse sendAdminOnboardingMail(AdminResponse admin) {
-		String firstName = admin.getBioData().getFirstName();
-		Recipient recipient = new Recipient(firstName, admin.getBioData().getEmailAddress());
-		String content = String.format(ADMIN_ONBOARDING_MESSAGE, firstName);
-		EmailNotificationRequest request = EmailNotificationRequest.builder()
-                .to(List.of(recipient))
-				.text(content)
-                .subject(ONBOARDING_MAIL_SUBJECT)
-                .build();
-        try {
-            return mailService.sendMail(request);
-        }catch (Exception e){
-            log.info("Admin Invitation {}", e.getMessage());
+    @Override
+    public ApiResponse resetPassword(ResetPasswordRequest resetPasswordRequest) throws AuthenticationException, UserNotFoundException {
+        String email = validateToken(resetPasswordRequest.getEncryptedEmail());
+        System.out.println(email);
+        return changePassword(email, resetPasswordRequest.getNewPassword());
+    }
+
+    private ApiResponse changePassword(String email, String newPassword) throws UserNotFoundException {
+        String encryptedPassword = passwordEncoder.encode(newPassword);
+        return bioDataService.resetPassword(email, encryptedPassword);
+    }
+
+    @Override
+    public ApiResponse changePassword(ChangePasswordRequest changePasswordRequest) throws UserNotFoundException, PasswordMismatchException {
+        if (!bioDataService.passwordMatch(changePasswordRequest.getEmailAddress(), changePasswordRequest.getOldPassword())){
+            throw new PasswordMismatchException(PASSWORDS_DO_NOT_MATCH);
         }
-        return null;
+        return changePassword(changePasswordRequest.getEmailAddress(), changePasswordRequest.getNewPassword());
     }
 
-    private AdminResponse registerAdmin(AdminSignupRequest request) {
-        BioData bioData = BioData.builder()
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .emailAddress(request.getEmail())
-                .password(encoder.encode(request.getPassword()))
+    private String validateToken(String encryptedEmail) throws AuthenticationException {
+        return jwtUtility.extractClaimFrom(encryptedEmail, EMAIL_VALUE).asString();
+    }
+
+    private void sendPasswordResetLinkMail(String emailAddress, String passwordResetLink, String firstName) throws MessagingException, ClmException {
+        String htmlTemplate = getFileTemplate(RESET_PASSWORD_HTML_TEMPLATE_LOCATION);
+        htmlTemplate = String.format(htmlTemplate, firstName, passwordResetLink);
+        EmailNotificationRequest notificationRequest = EmailNotificationRequest.builder()
+                .to(List.of(new Recipient(emailAddress)))
+                .subject(PASSWORD_RESET_LINK)
+                .text(htmlTemplate)
                 .build();
-        return adminService.register(Admin.builder().bioData(bioData).build());
+        mailService.sendHtmlMail(notificationRequest);
     }
 
+    private String generatePasswordResetLink(String emailAddress) {
+        String token = jwtUtility.generateEncryptedLink(emailAddress);
+        return CLIENT_BASE_URL+token;
+    }
 }
