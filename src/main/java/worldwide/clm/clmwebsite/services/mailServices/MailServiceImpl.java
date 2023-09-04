@@ -27,18 +27,26 @@ public class MailServiceImpl implements MailService {
 	public ApiResponse sendMail(EmailNotificationRequest emailNotificationRequest) throws MessagingException {
 		String email = emailNotificationRequest.getTo().get(0).getEmail();
 
+		SimpleMailMessage mailMessage = new SimpleMailMessage();
+		mailMessage.setTo(email);
+		mailMessage.setFrom(sender);
+		mailMessage.setSubject(emailNotificationRequest.getSubject());
+		mailMessage.setText(emailNotificationRequest.getText());
+
+		mailSender.send(mailMessage);
+		return mailResponse();
+	}
+
+	@Override
+	public ApiResponse sendHtmlMail(EmailNotificationRequest emailNotificationRequest) throws MessagingException {
+		String email = emailNotificationRequest.getTo().get(0).getEmail();
+
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true);
 		helper.setTo(email);
 		helper.setFrom(sender);
 		helper.setSubject(emailNotificationRequest.getSubject());
 		helper.setText(emailNotificationRequest.getText(), true);
-
-		SimpleMailMessage mailMessage = new SimpleMailMessage();
-		mailMessage.setTo(email);
-		mailMessage.setFrom(sender);
-		mailMessage.setSubject(emailNotificationRequest.getSubject());
-		mailMessage.setText(emailNotificationRequest.getText());
 
 		mailSender.send(message);
 		return mailResponse();

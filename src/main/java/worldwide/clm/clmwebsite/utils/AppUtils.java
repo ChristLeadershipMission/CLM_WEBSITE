@@ -25,6 +25,7 @@ public class AppUtils {
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String ACCESS_TOKEN_VALUE = "access_token";
     public static final String ONBOARDING_MAIL_SUBJECT = "Email Verification";
+    public static final String PASSWORD_RESET_LINK = "Password Reset Link";
     public static final String EMAIL_VERIFICATION_MAIL_TEMPLATE = """
             Dear %s,
                         
@@ -43,20 +44,25 @@ public class AppUtils {
             Here's to a successful and collaborative experience ahead!
             """;
     private static final String SERVER_BASE_URL = "http://localhost:8080/";
+    public static final String CLIENT_BASE_URL = "http://localhost:3000/";
     public static final String INVITATION_ACCEPTANCE_VERIFICATION_URL = SERVER_BASE_URL +"clmWebsite/api/v1/admin/acceptInvitation/";
     public static final String ADMIN_INVITATION_HTML_TEMPLATE_LOCATION = "C:\\Users\\oguns\\Others\\NewFolder\\OpenFactor\\CodeBase\\CLM_WEBSITE\\src\\main\\resources\\adminInvitationTemplate.txt";
     public static final String SUCCESSFUL_REGISTRATION_HTML_TEMPLATE_LOCATION = "C:\\Users\\oguns\\Others\\NewFolder\\OpenFactor\\CodeBase\\CLM_WEBSITE\\src\\main\\resources\\successfulRegistrationTemplate.txt";
+    public static final String RESET_PASSWORD_HTML_TEMPLATE_LOCATION = "C:\\Users\\oguns\\Others\\NewFolder\\OpenFactor\\CodeBase\\CLM_WEBSITE\\src\\main\\resources\\resetPasswordTemplate.txt";
     public static final String EMPTY_SPACE_VALUE = "";
     public static final String CLM_WEBSITE_ADMIN_INVITATION = "CLM-WEBSITE ADMIN INVITATION";
     public static final String LOGIN_ENDPOINT = "/clmWebsite/api/v1/login";
     public static final String INVITATION_ACCEPTANCE_VERIFICATION_ENDPOINT = "/clmWebsite/api/v1/admin/acceptInvitation/**";
+    public static final String SEND_PASSWORD_RESET_LINK_ENDPOINT = "/clmWebsite/api/v1/auth/sendPasswordResetLink/**";
+    public static final String RESET_PASSWORD_RESET_LINK_ENDPOINT = "/clmWebsite/api/v1/auth/resetPassword";
     public static final String ADMIN_REGISTRATION_ENDPOINT = "/clmWebsite/api/v1/admin/registration";
 
     public static final String WELCOME_MAIL_TEMPLATE_LOCATION = "src/main/resources/templates/welcome.html";
 
     public static List<String> getAuthWhiteList() {
         return List.of(
-                ADMIN_REGISTRATION_ENDPOINT, LOGIN_ENDPOINT
+                ADMIN_REGISTRATION_ENDPOINT, LOGIN_ENDPOINT, RESET_PASSWORD_RESET_LINK_ENDPOINT,
+                SEND_PASSWORD_RESET_LINK_ENDPOINT
         );
     }
 
