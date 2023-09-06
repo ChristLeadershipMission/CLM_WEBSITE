@@ -1,16 +1,18 @@
 package worldwide.clm.clmwebsite.data.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import java.time.ZonedDateTime;
 
 @Setter
 @Getter
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Entity
+@Builder
 public class Department {
 
     @Id
@@ -20,4 +22,11 @@ public class Department {
     @Column(length = 1000)
     private String description;
     private String groupPicture;
+    @OneToOne
+    private Address address;
+    private Long ministerInCharge;
+    @CreatedDate
+    private ZonedDateTime createdDate;
+    @LastModifiedDate
+    private ZonedDateTime updatedDate;
 }
