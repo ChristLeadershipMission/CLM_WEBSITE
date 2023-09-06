@@ -62,8 +62,8 @@ public class DepartmentServiceImpl implements DepartmentService{
     }
 
     @Override
-    public void deleteDepartment(Long id) {
-        departmentRepository.deleteById(id);
+    public void deleteDepartment(String name) {
+        departmentRepository.deleteByName(name);
     }
 
     @Override

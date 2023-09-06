@@ -53,4 +53,10 @@ public class DepartmentController {
         var response = service.getDepartmentByName(name);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    @DeleteMapping({"name"})
+    public ResponseEntity<String> deleteDepartmentByName(@PathVariable String name){
+        service.deleteDepartment(name);
+        return ResponseEntity.status(HttpStatus.OK).body("Department deleted successfully");
+    }
 }

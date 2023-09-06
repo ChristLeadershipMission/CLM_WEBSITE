@@ -12,7 +12,7 @@ public interface DepartmentService {
 
     ApiResponse createDepartment (DepartmentDto request);
     ApiResponse updateDepartment (Long id, DepartmentUpdateDto request) throws ClmException;
-    void deleteDepartment (Long id);
+    void deleteDepartment (String name);
     Department getDepartmentById (Long id);
     Department getDepartmentByName (String name);
     List<Department> getAllDepartments ();
