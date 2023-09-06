@@ -11,12 +11,12 @@ import worldwide.clm.clmwebsite.data.models.Address;
 @Service
 @AllArgsConstructor
 @NoArgsConstructor
-public class DepartmentDto {
+public class DepartmentCreationRequest {
     @NotNull(message = "name is required")
     private String name;
     @NotNull(message = "description is required")
     private String description;
     private String groupPicture;
     private Address address;
-    private Long ministerInCharge;
+    private Long ministerInChargeId;
 }

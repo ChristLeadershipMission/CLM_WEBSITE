@@ -47,4 +47,14 @@ public class GlobalExceptionHandler {
         ApiResponse apiResponse = ResponseUtils.noEventFound(NO_EVENT_FOUND);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(apiResponse);
     }
+    @ExceptionHandler
+    public ResponseEntity<ApiResponse> handleExceptions(DepartmentAlreadyExistsException e){
+        ApiResponse apiResponse = ResponseUtils.alreadyCreated(e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
+    }
+    @ExceptionHandler
+    public ResponseEntity<ApiResponse> handleExceptions(DepartmentNotFoundException e){
+        ApiResponse apiResponse = ResponseUtils.alreadyCreated(e.getMessage());
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(apiResponse);
+    }
 }
