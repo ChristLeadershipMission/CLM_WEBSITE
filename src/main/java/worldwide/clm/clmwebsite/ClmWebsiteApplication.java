@@ -14,7 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
                 description = "This app provides REST APIs for CLM Website",
                 contact = @Contact(
                         name = " CLM Support",
-                        email = ""
+                        email = "jystdh"
                 )
         )
 )
