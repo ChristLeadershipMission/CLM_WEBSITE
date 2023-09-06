@@ -68,9 +68,9 @@ public class ResponseUtils {
 				.build();
 	}
 
-	public static ApiResponse created(String message) {
+	public static ApiResponse created(Object message) {
 		return ApiResponse.builder()
-				.message(message)
+				.message((String) message)
 				.statusCode(HttpStatus.CREATED.value())
 				.success(true)
 				.build();
