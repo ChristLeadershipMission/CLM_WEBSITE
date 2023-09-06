@@ -1,6 +1,16 @@
 package worldwide.clm.clmwebsite.controllers;
 
 import com.github.fge.jsonpatch.JsonPatch;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.Contact;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.servers.Server;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +30,56 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/clmWebsite/api/v1/campus/")
 @RequiredArgsConstructor
+@Server(
+        url = "",
+        description = ""
+)
 public class CampusController {
+
     private final CampusService campusService;
 
+    @Operation(
+            summary = "Create Campus",
+            description = "An API handling campus creation"
+    )
+    @Parameter(
+            name = "CampusCreationRequest",
+            description = "Containing all the necessary fields required to make a campus exist",
+            required = true,
+            in = ParameterIn.PATH,
+            schema = @Schema(implementation = CampusCreationRequest.class)
+    )
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "201",
+            description = "Creation successful",
+            content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation = ApiResponse.class))
+    )
     @PostMapping("createCampus")
     public ResponseEntity<ApiResponse> createCampus(@RequestBody CampusCreationRequest campusCreationRequest) throws CampusAlreadyExistsException {
             campusService.createCampus(campusCreationRequest);
             ApiResponse apiResponse = ResponseUtils.getCreatedMessage();
             return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
+
+    @Operation(
+            summary = "Update Campus Details",
+            description = "An API for updating campus details using JSON Patch."
+    )
+
+    @Parameter(
+            name = "campusUpdateRequest",
+            description = "JSON Patch document containing updates for the campus.",
+            required = true,
+            in = ParameterIn.PATH,
+            content = @Content(mediaType = "application/json-patch+json",
+            schema = @Schema(implementation = JsonPatch.class))
+    )
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "200",
+            description = "Campus details updated successfully",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = CampusDetailsResponse.class))
+    )
 
     @PatchMapping(value = "updateCampus/{id}", consumes = "application/json-patch+json")
     public ResponseEntity<?> updateCampusDetails
@@ -37,12 +88,42 @@ public class CampusController {
         return ResponseEntity.status(HttpStatus.OK).body(updatedCampus);
     }
 
+    @Operation(
+            summary = "Get Campus by ID",
+            description = "Retrieve campus details by its unique identifier."
+    )
+    @Parameter(
+            name = "id",
+            description = "The unique identifier of the campus to be retrieved.",
+            required = true,
+            in = ParameterIn.PATH,
+            schema = @Schema(implementation = Long.class)
+    )
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "302",
+            description = "Campus found and returned",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Campus.class))
+    )
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Campus not found")
     @GetMapping("getCampusById/{id}")
     public ResponseEntity<?> getCampusById(@PathVariable Long id)  {
             Optional<Campus> campus = campusService.findCampusById(id);
             return new ResponseEntity<>(campus, HttpStatus.FOUND);
     }
 
+    @Parameter(
+            name = "name",
+            description = "The name of the campus to be retrieved",
+            required = true,
+            in = ParameterIn.PATH,
+            schema = @Schema(implementation = Long.class)
+    )
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "302",
+            description = "Campus found and returned",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Campus.class))
+    )
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Campus not found")
     @GetMapping("getCampusByName/{name}")
     public ResponseEntity<?> getCampusByName(@PathVariable String name)  {
             Optional<Campus> campus = campusService.findCampusByName(name);

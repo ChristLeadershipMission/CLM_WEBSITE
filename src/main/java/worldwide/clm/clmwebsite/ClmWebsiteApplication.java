@@ -9,12 +9,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @OpenAPIDefinition(
         info = @Info(
-                title = "Furniture API",
+                title = "ClmWebsite APIs",
                 version = "v1",
-                description = "This app provides REST APIs for Furniture",
+                description = "This app provides REST APIs for CLM Website",
                 contact = @Contact(
-                        name = "Furniture Support",
-                        email = "jojololamartins686@gmail.com"
+                        name = " CLM Support",
+                        email = ""
                 )
         )
 )

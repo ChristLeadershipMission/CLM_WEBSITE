@@ -18,6 +18,7 @@ import worldwide.clm.clmwebsite.services.bioDataServices.BioDataService;
 import worldwide.clm.clmwebsite.services.memberServices.MemberService;
 import worldwide.clm.clmwebsite.services.ministerServices.MinisterService;
 import worldwide.clm.clmwebsite.utils.JwtUtility;
+import worldwide.clm.clmwebsite.utils.WhiteList;
 
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
@@ -46,13 +47,13 @@ public class SecurityConfig {
                 .sessionManagement(c->c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(new ClmAuthorizationFilter(jwtUtil), ClmAuthenticationFilter.class)
                 .addFilterAt(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests(c->c.requestMatchers(POST, ADMIN_REGISTRATION_ENDPOINT)
-                        .permitAll())
-                .authorizeHttpRequests(c->c.requestMatchers(POST, LOGIN_ENDPOINT)
-                        .permitAll())
-                .authorizeHttpRequests(c->c.requestMatchers(GET, TEST_ENDPOINT)
-                        .permitAll())
-                .authorizeHttpRequests(c->c.anyRequest().authenticated())
+                .authorizeHttpRequests(c->c
+                        .requestMatchers(WhiteList.freeAccess())
+                        .permitAll()
+                        .requestMatchers(WhiteList.swagger())
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated())
                 .build();
     }
 }
