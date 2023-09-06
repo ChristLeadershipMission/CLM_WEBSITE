@@ -8,6 +8,5 @@ import lombok.*;
 @Setter
 @Builder
 public class Recipient {
-	private String firstName;
 	private String email;
 }

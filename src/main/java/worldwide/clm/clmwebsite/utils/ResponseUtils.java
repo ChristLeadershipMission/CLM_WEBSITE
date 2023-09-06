@@ -35,7 +35,7 @@ public class ResponseUtils {
 		return ApiResponse.builder()
 				.message (MAIL_HAS_BEEN_SENT_SUCCESSFULLY)
 				.success (true)
-				.statusCode (HttpStatus.CREATED.value ())
+				.statusCode (HttpStatus.OK.value ())
 				.build();
 	}
 	
@@ -53,6 +53,13 @@ public class ResponseUtils {
 				.message ("Verified")
 				.build();
 	}
+	public static ApiResponse passwordResetResponse(){
+		return ApiResponse.builder()
+				.statusCode(HttpStatus.OK.value())
+				.success (true)
+				.message ("Password has been reset successfully")
+				.build();
+	}
 	public static ApiResponse alreadyCreated(String message){
 		return ApiResponse.builder()
 				.message(message)
@@ -61,9 +68,9 @@ public class ResponseUtils {
 				.build();
 	}
 
-	public static ApiResponse created(String message) {
+	public static ApiResponse created(Object message) {
 		return ApiResponse.builder()
-				.message(message)
+				.message((String) message)
 				.statusCode(HttpStatus.CREATED.value())
 				.success(true)
 				.build();

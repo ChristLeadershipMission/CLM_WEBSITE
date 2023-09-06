@@ -31,8 +31,8 @@ import java.util.Optional;
 @RequestMapping("/clmWebsite/api/v1/campus/")
 @RequiredArgsConstructor
 @Server(
-        url = "",
-        description = ""
+        description = "Local Testing",
+        url = "http://localhost:8081"
 )
 public class CampusController {
 
@@ -102,7 +102,8 @@ public class CampusController {
     @io.swagger.v3.oas.annotations.responses.ApiResponse(
             responseCode = "302",
             description = "Campus found and returned",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Campus.class))
+            content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation = Campus.class))
     )
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Campus not found")
     @GetMapping("getCampusById/{id}")
@@ -110,13 +111,16 @@ public class CampusController {
             Optional<Campus> campus = campusService.findCampusById(id);
             return new ResponseEntity<>(campus, HttpStatus.FOUND);
     }
-
+    @Operation(
+            summary = "Get Campus by name",
+            description = "Retrieve campus details by its name"
+    )
     @Parameter(
             name = "name",
             description = "The name of the campus to be retrieved",
             required = true,
             in = ParameterIn.PATH,
-            schema = @Schema(implementation = Long.class)
+            schema = @Schema(implementation = String.class)
     )
     @io.swagger.v3.oas.annotations.responses.ApiResponse(
             responseCode = "302",
@@ -130,12 +134,45 @@ public class CampusController {
             return new ResponseEntity<>(campus, HttpStatus.FOUND);
     }
 
+    @Operation(
+            summary = "Get all campuses",
+            description = "Retrieve all campuses"
+    )
+    @Parameter(
+            name = "",
+            description = "",
+            required = true,
+            in = ParameterIn.PATH,
+            schema = @Schema(implementation = Object.class)
+    )
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "302",
+            description = "Campuses found and returned",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Campus.class))
+    )
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Campuses not found")
     @GetMapping("allCampuses")
     public ResponseEntity<?> getAllCampuses() {
             List<Campus> campuses = campusService.findAllCampuses();
             return new ResponseEntity<>(campuses, HttpStatus.FOUND);
     }
-
+    @Operation(
+            summary = "Delete Campus by id",
+            description = "Delete campus details by its unique identifier"
+    )
+    @Parameter(
+            name = "id",
+            description = "The unique identifier of the campus to be retrieved",
+            required = true,
+            in = ParameterIn.PATH,
+            schema = @Schema(implementation = Long.class)
+    )
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "200",
+            description = "Removal successful",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Campus.class))
+    )
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Campus not found")
     @DeleteMapping("delete/{id}")
     public ResponseEntity<?> removeCampus(@PathVariable Long id) throws CampusNotFoundException {
         campusService.removeCampus(id);

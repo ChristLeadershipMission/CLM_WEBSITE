@@ -11,6 +11,8 @@ import worldwide.clm.clmwebsite.dto.response.MemberResponse;
 import worldwide.clm.clmwebsite.dto.response.MinisterResponse;
 import worldwide.clm.clmwebsite.exception.UserNotFoundException;
 
+import java.util.Optional;
+
 import static worldwide.clm.clmwebsite.common.Message.USER_WITH_EMAIL_NOT_FOUND;
 
 @Service
@@ -22,6 +24,17 @@ public class MinisterServiceImpl implements MinisterService{
     public MinisterResponse findByEmail(String emailAddress) throws UserNotFoundException {
         Minister foundMinister = ministerRepository.findByBioData_EmailAddress(emailAddress).orElseThrow(
                 ()-> new UserNotFoundException(String.format(USER_WITH_EMAIL_NOT_FOUND, emailAddress))
+        );
+        BioDataResponse bioDataResponse = modelMapper.map(foundMinister.getBioData(), BioDataResponse.class);
+        MinisterResponse ministerResponse = modelMapper.map(foundMinister, MinisterResponse.class);
+        ministerResponse.setBioData(bioDataResponse);
+        return ministerResponse;
+    }
+
+    @Override
+    public MinisterResponse findById(Long id) throws UserNotFoundException {
+        Minister foundMinister = ministerRepository.findById(id).orElseThrow(
+                ()-> new UserNotFoundException(String.format(USER_WITH_EMAIL_NOT_FOUND, id))
         );
         BioDataResponse bioDataResponse = modelMapper.map(foundMinister.getBioData(), BioDataResponse.class);
         MinisterResponse ministerResponse = modelMapper.map(foundMinister, MinisterResponse.class);

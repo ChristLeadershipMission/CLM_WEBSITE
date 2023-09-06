@@ -34,12 +34,24 @@
         .button:hover {
             background-color: #007a6b;
         }
+        .account {
+            color: red;
+            font-size: 15px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Registration Successful</h1>
         <p>Congratulations! You are now registered.</p>
+        <p>
+            Below are your account details:<br>
+            <p class="account">
+                Username: %s<br>
+                Password: %s
+            </p>
+            You are advised to change your password when you log into your account.
+        </p>
         <p>Start exploring our website and enjoy the benefits.</p>
         <a href="#" class="button">Get Started</a>
     </div>

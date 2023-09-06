@@ -10,8 +10,6 @@ import worldwide.clm.clmwebsite.exception.UserNotFoundException;
 public interface AdminService {
     AdminResponse findByEmail(String emailAddress) throws UserNotFoundException;
 
-    AdminResponse register(Admin admin);
-
     ApiResponse sendInvitationLink(AdminInvitationRequest request) throws ClmException;
 
     String acceptInvitation(String encryptedLink) throws ClmException;

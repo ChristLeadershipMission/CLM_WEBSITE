@@ -8,9 +8,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import worldwide.clm.clmwebsite.exception.AuthenticationException;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.security.SecureRandom;
+import java.util.*;
 
 import static java.time.Instant.now;
 import static worldwide.clm.clmwebsite.common.Message.INVALID_TOKEN;
@@ -47,13 +46,13 @@ public class JwtUtility {
         if (decodedJwt.getClaim(ROLES_VALUE)==null) throw new AuthenticationException(INVALID_TOKEN);
         return decodedJwt.getClaims();
     }
-    public Claim extractClaimFrom(String token) throws AuthenticationException {
+    public Claim extractClaimFrom(String token, String key) throws AuthenticationException {
         DecodedJWT decodedJwt = validateToken(token);
-        if (decodedJwt.getClaim(ADMIN)==null) throw new AuthenticationException(INVALID_TOKEN);
-        return decodedJwt.getClaim(ADMIN);
+        if (decodedJwt.getClaim(key)==null) throw new AuthenticationException(INVALID_TOKEN);
+        return decodedJwt.getClaim(key);
     }
 
-    private DecodedJWT validateToken(String token) {
+    public DecodedJWT validateToken(String token) {
         return JWT.require(Algorithm.HMAC512(secret))
                 .build().verify(token);
     }
@@ -64,5 +63,23 @@ public class JwtUtility {
                 .withExpiresAt(now().plusSeconds(172800L))
                 .withClaim(ADMIN, requestAsMap)
                 .sign(Algorithm.HMAC512(secret.getBytes()));
+    }
+    public String generateAdminDefaultPassword(String email) {
+        String[] specialChars = new String[]{"!", "?", "@", "#", "$", "%", "^", "&", "*", "/", "{", "}", ";", ":","<", ">"};
+        SecureRandom random = new SecureRandom();
+        List<String> emailAsList = List.of(email.split("@")[0].split(""));
+        emailAsList = emailAsList.stream().filter(each -> !Objects.equals(each, ".")).toList();
+        String defaultPassword = "";
+        int emailLength = emailAsList.size();
+        for (int i = 0; i < 10; i++) {
+            if (i == 4) defaultPassword = defaultPassword.concat(specialChars[random.nextInt(0, specialChars.length)]);
+            else if (i == 7) defaultPassword = defaultPassword.concat(String.valueOf(random.nextInt(100, 999)));
+            else {
+                String letter = emailAsList.get(random.nextInt(0, emailLength));
+                letter = i % 2 == 0 ? letter.toUpperCase() : letter.toLowerCase();
+                defaultPassword = defaultPassword.concat(letter);
+            }
+        }
+        return defaultPassword;
     }
 }
