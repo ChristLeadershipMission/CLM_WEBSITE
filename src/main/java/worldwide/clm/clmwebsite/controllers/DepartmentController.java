@@ -54,7 +54,7 @@ public class DepartmentController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @DeleteMapping({"name"})
+    @DeleteMapping("{name}")
     public ResponseEntity<String> deleteDepartmentByName(@PathVariable String name){
         service.deleteDepartment(name);
         return ResponseEntity.status(HttpStatus.OK).body("Department deleted successfully");
