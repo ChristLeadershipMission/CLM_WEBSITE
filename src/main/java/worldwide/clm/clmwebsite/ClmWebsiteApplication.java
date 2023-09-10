@@ -17,7 +17,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         info = @Info(
                 contact = @Contact(
                         name = "CLM WEBSITE",
-                        email = "clm@gmail.com",
+                        email = "christleardershipmission@gmail.com",
                         url =""
                 ),
                 description = "Open Api documentation for clm website",
@@ -34,10 +34,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
                         description = "Local ENV",
                         url = "http://localhost:8081"
                 ),
-//                @Server(
-//                        description = "PROD ENV",
-//                        url = ""
-//                )
         },
         security = {
                 @SecurityRequirement(
