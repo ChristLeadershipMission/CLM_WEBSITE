@@ -1,5 +1,7 @@
 package worldwide.clm.clmwebsite.common;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 public class Message {
 	
 	public static final String CREATED = "Account has been created successfully";
@@ -27,4 +29,5 @@ public class Message {
 	public static final String NO_EVENT_FOUND = "Sorry, we couldn't find an event with such name";
 	public static final String EVENT_UPDATED_SUCCESSFULLY ="Event has been updated successfully" ;
 	public static final String EVENT_DELETED_SUCCESSFULLY = "Event deleted successfully";
+
 }
