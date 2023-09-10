@@ -43,7 +43,7 @@ public class AppUtils {
             			
             Here's to a successful and collaborative experience ahead!
             """;
-    private static final String SERVER_BASE_URL = "http://localhost:8080/";
+    public static final String SERVER_BASE_URL = "http://localhost:8080/";
     public static final String CLIENT_BASE_URL = "http://localhost:3000/";
     public static final String INVITATION_ACCEPTANCE_VERIFICATION_URL = SERVER_BASE_URL +"clmWebsite/api/v1/admin/acceptInvitation/";
     public static final String ADMIN_INVITATION_HTML_TEMPLATE_LOCATION = "C:\\Users\\oguns\\Others\\NewFolder\\OpenFactor\\CodeBase\\CLM_WEBSITE\\src\\main\\resources\\adminInvitationTemplate.txt";
@@ -59,20 +59,21 @@ public class AppUtils {
 
     public static final String WELCOME_MAIL_TEMPLATE_LOCATION = "src/main/resources/templates/welcome.html";
 
-    public static List<String> getAuthWhiteList() {
-        return List.of(
+    public static String[] getAuthWhiteList() {
+        return new String[]{
                 ADMIN_REGISTRATION_ENDPOINT, LOGIN_ENDPOINT, RESET_PASSWORD_RESET_LINK_ENDPOINT,
-                SEND_PASSWORD_RESET_LINK_ENDPOINT
-        );
-    }
-
-    public static String getMailTemplate() throws ClmException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(
-                WELCOME_MAIL_TEMPLATE_LOCATION))) {
-            return reader.lines().collect(Collectors.joining());
-        } catch (IOException exception) {
-            throw new ClmException(exception.getMessage());
-        }
+                SEND_PASSWORD_RESET_LINK_ENDPOINT,
+                "/v2/api-docs",
+                "/v3/api-docs",
+                "/v3/api-docs/**",
+                "/swagger-resources",
+                "/swagger-resources/**",
+                "/configuration/ui",
+                "/configuration/security",
+                "/swagger-ui/**",
+                "webjars/**",
+                "/swagger-ui.html"
+        };
     }
 
 }

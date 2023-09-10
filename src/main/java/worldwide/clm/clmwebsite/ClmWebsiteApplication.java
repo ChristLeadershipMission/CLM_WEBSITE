@@ -12,12 +12,14 @@ import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import static worldwide.clm.clmwebsite.utils.AppUtils.SERVER_BASE_URL;
+
 @SpringBootApplication
 @OpenAPIDefinition(
         info = @Info(
                 contact = @Contact(
                         name = "CLM WEBSITE",
-                        email = "clm@gmail.com",
+                        email = "christleardershipmission@gmail.com",
                         url =""
                 ),
                 description = "Open Api documentation for clm website",
@@ -32,12 +34,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         servers = {
                 @Server(
                         description = "Local ENV",
-                        url = "http://localhost:8081"
+                        url = SERVER_BASE_URL
                 ),
-//                @Server(
-//                        description = "PROD ENV",
-//                        url = ""
-//                )
         },
         security = {
                 @SecurityRequirement(
