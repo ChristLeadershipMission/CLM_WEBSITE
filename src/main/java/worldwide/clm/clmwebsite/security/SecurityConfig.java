@@ -2,6 +2,7 @@ package worldwide.clm.clmwebsite.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,6 +12,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import worldwide.clm.clmwebsite.security.filters.ClmAuthenticationFilter;
 import worldwide.clm.clmwebsite.security.filters.ClmAuthorizationFilter;
 import worldwide.clm.clmwebsite.services.adminServices.AdminService;
@@ -18,10 +21,9 @@ import worldwide.clm.clmwebsite.services.bioDataServices.BioDataService;
 import worldwide.clm.clmwebsite.services.memberServices.MemberService;
 import worldwide.clm.clmwebsite.services.ministerServices.MinisterService;
 import worldwide.clm.clmwebsite.utils.JwtUtility;
+import worldwide.clm.clmwebsite.utils.WhiteList;
 
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
-import static worldwide.clm.clmwebsite.utils.AppUtils.*;
+import static worldwide.clm.clmwebsite.utils.AppUtils.LOGIN_ENDPOINT;
 
 @Configuration
 @AllArgsConstructor
@@ -46,17 +48,25 @@ public class SecurityConfig {
                 .sessionManagement(c->c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(new ClmAuthorizationFilter(jwtUtil), ClmAuthenticationFilter.class)
                 .addFilterAt(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests(c->c.requestMatchers(POST, ADMIN_REGISTRATION_ENDPOINT)
-                        .permitAll())
-                .authorizeHttpRequests(c->c.requestMatchers(POST, LOGIN_ENDPOINT)
-                        .permitAll())
-                .authorizeHttpRequests(c->c.requestMatchers(GET, INVITATION_ACCEPTANCE_VERIFICATION_ENDPOINT)
-                        .permitAll())
-                .authorizeHttpRequests(c->c.requestMatchers(POST, SEND_PASSWORD_RESET_LINK_ENDPOINT)
-                        .permitAll())
-                .authorizeHttpRequests(c->c.requestMatchers(POST, RESET_PASSWORD_RESET_LINK_ENDPOINT)
-                        .permitAll())
-                .authorizeHttpRequests(c->c.anyRequest().authenticated())
+
+                .authorizeHttpRequests(c->c
+                        .requestMatchers(WhiteList.freeAccess())
+                        .permitAll()
+                        .requestMatchers(WhiteList.swagger())
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated())
                 .build();
+    }
+    @Bean
+    public WebMvcConfigurer configurer(){
+      return new WebMvcConfigurer() {
+        @Override
+        public void addCorsMappings(@NonNull CorsRegistry registry) {
+          registry.addMapping("/**")
+                  .allowedOrigins("*")
+                  .allowedMethods("POST", "GET", "PUT", "PATCH", "DELETE", "OPTIONS");
+        }
+      };
     }
 }
