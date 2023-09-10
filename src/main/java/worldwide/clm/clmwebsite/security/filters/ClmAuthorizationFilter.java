@@ -21,10 +21,7 @@ import worldwide.clm.clmwebsite.exception.AuthenticationException;
 import worldwide.clm.clmwebsite.utils.JwtUtility;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -42,7 +39,7 @@ public class ClmAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
-        boolean isPathInAuthWhitelist = getAuthWhiteList().contains(request.getServletPath()) &&
+        boolean isPathInAuthWhitelist = Arrays.stream(getAuthWhiteList()).toList().contains(request.getServletPath()) &&
                 request.getMethod().equals(HttpMethod.POST.name());
         if (isPathInAuthWhitelist) filterChain.doFilter(request, response);
         else authorizeRequest(request, response, filterChain);

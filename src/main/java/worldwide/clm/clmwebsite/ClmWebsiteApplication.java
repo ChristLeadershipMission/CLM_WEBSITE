@@ -12,6 +12,8 @@ import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import static worldwide.clm.clmwebsite.utils.AppUtils.SERVER_BASE_URL;
+
 @SpringBootApplication
 @OpenAPIDefinition(
         info = @Info(
@@ -32,7 +34,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         servers = {
                 @Server(
                         description = "Local ENV",
-                        url = "http://localhost:8081"
+                        url = SERVER_BASE_URL
                 ),
         },
         security = {

@@ -24,6 +24,7 @@ import worldwide.clm.clmwebsite.utils.JwtUtility;
 import worldwide.clm.clmwebsite.utils.WhiteList;
 
 import static worldwide.clm.clmwebsite.utils.AppUtils.LOGIN_ENDPOINT;
+import static worldwide.clm.clmwebsite.utils.AppUtils.getAuthWhiteList;
 
 @Configuration
 @AllArgsConstructor
@@ -48,11 +49,8 @@ public class SecurityConfig {
                 .sessionManagement(c->c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(new ClmAuthorizationFilter(jwtUtil), ClmAuthenticationFilter.class)
                 .addFilterAt(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
-
                 .authorizeHttpRequests(c->c
-                        .requestMatchers(WhiteList.freeAccess())
-                        .permitAll()
-                        .requestMatchers(WhiteList.swagger())
+                        .requestMatchers(getAuthWhiteList())
                         .permitAll()
                         .anyRequest()
                         .authenticated())
