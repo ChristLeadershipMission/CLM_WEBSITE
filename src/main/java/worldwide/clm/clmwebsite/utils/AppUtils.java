@@ -43,7 +43,8 @@ public class AppUtils {
             			
             Here's to a successful and collaborative experience ahead!
             """;
-    public static final String SERVER_BASE_URL = "http://localhost:8080/";
+    public static final String LOCAL_SERVER_BASE_URL = "http://localhost:8080/";
+    public static final String SERVER_BASE_URL = "https://clm-website.onrender.com/";
     public static final String CLIENT_BASE_URL = "http://localhost:3000/";
     public static final String INVITATION_ACCEPTANCE_VERIFICATION_URL = SERVER_BASE_URL +"clmWebsite/api/v1/admin/acceptInvitation/";
     public static final String ADMIN_INVITATION_HTML_TEMPLATE_LOCATION = "C:\\Users\\oguns\\Others\\NewFolder\\OpenFactor\\CodeBase\\CLM_WEBSITE\\src\\main\\resources\\adminInvitationTemplate.txt";
@@ -56,6 +57,7 @@ public class AppUtils {
     public static final String SEND_PASSWORD_RESET_LINK_ENDPOINT = "/clmWebsite/api/v1/auth/sendPasswordResetLink/**";
     public static final String RESET_PASSWORD_RESET_LINK_ENDPOINT = "/clmWebsite/api/v1/auth/resetPassword";
     public static final String ADMIN_REGISTRATION_ENDPOINT = "/clmWebsite/api/v1/admin/registration";
+    public static final String ADMIN_INVITATION_ACCEPTANCE_ENDPOINT = "/clmWebsite/api/v1/admin/acceptInvitation/**";
 
     public static final String WELCOME_MAIL_TEMPLATE_LOCATION = "src/main/resources/templates/welcome.html";
 
@@ -63,6 +65,7 @@ public class AppUtils {
         return new String[]{
                 ADMIN_REGISTRATION_ENDPOINT, LOGIN_ENDPOINT, RESET_PASSWORD_RESET_LINK_ENDPOINT,
                 SEND_PASSWORD_RESET_LINK_ENDPOINT,
+                ADMIN_INVITATION_ACCEPTANCE_ENDPOINT,
                 "/v2/api-docs",
                 "/v3/api-docs",
                 "/v3/api-docs/**",
