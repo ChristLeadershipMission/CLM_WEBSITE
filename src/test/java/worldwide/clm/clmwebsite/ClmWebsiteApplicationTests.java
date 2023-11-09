@@ -10,6 +10,9 @@ import worldwide.clm.clmwebsite.data.repositories.CampusRepository;
 import worldwide.clm.clmwebsite.data.repositories.MinisterRepository;
 import worldwide.clm.clmwebsite.utils.JwtUtility;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 @SpringBootTest
 class ClmWebsiteApplicationTests {
     @Autowired
@@ -23,16 +26,7 @@ class ClmWebsiteApplicationTests {
     @Test
     void
     contextLoads() {
-        ministerRepository.save(
-                Minister.builder()
-                        .bioData(
-                                BioData.builder()
-                                        .firstName("Mike")
-                                        .lastName("Adebowale")
-                                        .build()
-                        )
-                        .build()
-        );
+        System.out.println(LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMMM yyyy")));
     }
 
     @Test
