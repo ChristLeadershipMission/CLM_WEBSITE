@@ -23,8 +23,8 @@ import java.util.List;
 
 import static worldwide.clm.clmwebsite.common.Message.PASSWORDS_DO_NOT_MATCH;
 import static worldwide.clm.clmwebsite.utils.AppUtils.*;
+import static worldwide.clm.clmwebsite.utils.HtmlFileUtility.getFileTemplateFromClasspath;
 import static worldwide.clm.clmwebsite.utils.ResponseUtils.mailResponse;
-import static worldwide.clm.clmwebsite.utils.HtmlFileUtility.getFileTemplate;
 
 @Service
 @RequiredArgsConstructor
@@ -69,7 +69,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     private void sendPasswordResetLinkMail(String emailAddress, String passwordResetLink, String firstName) throws MessagingException, ClmException {
-        String htmlTemplate = getFileTemplate(RESET_PASSWORD_HTML_TEMPLATE_LOCATION);
+        String htmlTemplate = getFileTemplateFromClasspath(RESET_PASSWORD_HTML_TEMPLATE_LOCATION);
         htmlTemplate = String.format(htmlTemplate, firstName, passwordResetLink);
         EmailNotificationRequest notificationRequest = EmailNotificationRequest.builder()
                 .to(List.of(new Recipient(emailAddress)))
