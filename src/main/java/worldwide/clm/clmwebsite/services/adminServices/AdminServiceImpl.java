@@ -25,17 +25,14 @@ import worldwide.clm.clmwebsite.services.mailServices.MailService;
 import worldwide.clm.clmwebsite.utils.JwtUtility;
 import worldwide.clm.clmwebsite.utils.ResponseUtils;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static worldwide.clm.clmwebsite.common.Message.*;
 import static worldwide.clm.clmwebsite.utils.AppUtils.*;
-import static worldwide.clm.clmwebsite.utils.htmlFileUtility.getFileTemplate;
+import static worldwide.clm.clmwebsite.utils.HtmlFileUtility.getFileTemplate;
+import static worldwide.clm.clmwebsite.utils.HtmlFileUtility.getFileTemplateFromClasspath;
 
 @Service
 @AllArgsConstructor
@@ -69,7 +66,7 @@ public class AdminServiceImpl implements AdminService {
         EmailNotificationRequest emailRequest = new EmailNotificationRequest();
         emailRequest.setTo(List.of(recipient));
         emailRequest.setSubject(CLM_WEBSITE_ADMIN_INVITATION);
-        String template = getFileTemplate(ADMIN_INVITATION_HTML_TEMPLATE_LOCATION);
+        String template = getFileTemplateFromClasspath(ADMIN_INVITATION_HTML_TEMPLATE_LOCATION);
         System.out.println("Template retrieved");
         emailRequest.setText(String.format(template, invitationLink));
         try {
