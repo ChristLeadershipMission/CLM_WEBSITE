@@ -27,12 +27,12 @@ class AdminServicesTest {
 
 	@Test
 	void sendAdminInvitationTest() throws ClmException {
-		String email = "ogunsmoyin.m@gmail.com";
+		String email = "salaudeenoluwapelumi98@gmail.com";
 		ApiResponse apiResponse = adminService.sendInvitationLink(
 				AdminInvitationRequest.builder()
 						.emailAddress(email)
-						.firstName("Moyinoluwa")
-						.lastName("Michael")
+						.firstName("Olamilekan")
+						.lastName("Boy")
 						.phoneNumber("08089649909")
 						.build()
 		);

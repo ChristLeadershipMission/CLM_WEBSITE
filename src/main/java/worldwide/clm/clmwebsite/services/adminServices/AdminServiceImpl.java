@@ -70,6 +70,7 @@ public class AdminServiceImpl implements AdminService {
         emailRequest.setTo(List.of(recipient));
         emailRequest.setSubject(CLM_WEBSITE_ADMIN_INVITATION);
         String template = getFileTemplate(ADMIN_INVITATION_HTML_TEMPLATE_LOCATION);
+        System.out.println("Template retrieved");
         emailRequest.setText(String.format(template, invitationLink));
         try {
             mailService.sendHtmlMail(emailRequest);
