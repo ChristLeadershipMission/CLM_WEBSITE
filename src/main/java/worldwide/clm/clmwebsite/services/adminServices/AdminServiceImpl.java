@@ -31,7 +31,6 @@ import java.util.Map;
 
 import static worldwide.clm.clmwebsite.common.Message.*;
 import static worldwide.clm.clmwebsite.utils.AppUtils.*;
-import static worldwide.clm.clmwebsite.utils.HtmlFileUtility.getFileTemplate;
 import static worldwide.clm.clmwebsite.utils.HtmlFileUtility.getFileTemplateFromClasspath;
 
 @Service
@@ -88,7 +87,7 @@ public class AdminServiceImpl implements AdminService {
         admin.getBioData().setPassword(encryptedPassword);
         admin.getBioData().setRoles(List.of(Role.ORDINARY_ADMIN));
         adminRepository.save(admin);
-        String htmlTemplate = getFileTemplate(SUCCESSFUL_REGISTRATION_HTML_TEMPLATE_LOCATION);
+        String htmlTemplate = getFileTemplateFromClasspath(SUCCESSFUL_REGISTRATION_HTML_TEMPLATE_LOCATION);
         htmlTemplate = String.format(htmlTemplate, admin.getBioData().getEmailAddress(), randomPassword);
         return htmlTemplate;
     }
