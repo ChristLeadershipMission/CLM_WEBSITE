@@ -24,7 +24,7 @@ import java.util.List;
 import static worldwide.clm.clmwebsite.common.Message.PASSWORDS_DO_NOT_MATCH;
 import static worldwide.clm.clmwebsite.utils.AppUtils.*;
 import static worldwide.clm.clmwebsite.utils.ResponseUtils.mailResponse;
-import static worldwide.clm.clmwebsite.utils.htmlFileUtility.getFileTemplate;
+import static worldwide.clm.clmwebsite.utils.HtmlFileUtility.getFileTemplate;
 
 @Service
 @RequiredArgsConstructor

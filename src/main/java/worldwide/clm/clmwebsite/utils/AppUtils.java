@@ -47,7 +47,7 @@ public class AppUtils {
     public static final String SERVER_BASE_URL = "https://clm-website.onrender.com/";
     public static final String CLIENT_BASE_URL = "http://localhost:3000/";
     public static final String INVITATION_ACCEPTANCE_VERIFICATION_URL = SERVER_BASE_URL +"clmWebsite/api/v1/admin/acceptInvitation/";
-    public static final String ADMIN_INVITATION_HTML_TEMPLATE_LOCATION = "src\\main\\resources\\adminInvitationTemplate.txt";
+    public static final String ADMIN_INVITATION_HTML_TEMPLATE_LOCATION = "/adminInvitationTemplate.txt";
     public static final String SUCCESSFUL_REGISTRATION_HTML_TEMPLATE_LOCATION = "src\\main\\resources\\successfulRegistrationTemplate.txt";
     public static final String RESET_PASSWORD_HTML_TEMPLATE_LOCATION = "src\\main\\resources\\resetPasswordTemplate.txt";
     public static final String EMPTY_SPACE_VALUE = "";
