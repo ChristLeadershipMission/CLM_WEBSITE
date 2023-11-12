@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class EventResponse {
+    private Long id;
     private String eventName;
     private String theme;
     private LocalDate startDate;
