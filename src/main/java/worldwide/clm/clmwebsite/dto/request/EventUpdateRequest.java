@@ -15,10 +15,8 @@ import java.time.LocalDate;
 public class EventUpdateRequest {
     private Long id;
     private String eventName;
-    private String theme;
     private LocalDate startDate;
     private LocalDate endDate;
-    private String flier;
     private String eventImageUrl;
     private String eventVideoUrl;
 }

@@ -7,7 +7,6 @@ import worldwide.clm.clmwebsite.data.repositories.DepartmentRepository;
 import worldwide.clm.clmwebsite.dto.request.DepartmentCreationRequest;
 import worldwide.clm.clmwebsite.dto.request.DepartmentUpdateRequest;
 import worldwide.clm.clmwebsite.dto.response.ApiResponse;
-import worldwide.clm.clmwebsite.dto.response.MinisterResponse;
 import worldwide.clm.clmwebsite.exception.ClmException;
 import worldwide.clm.clmwebsite.exception.DepartmentAlreadyExistsException;
 import worldwide.clm.clmwebsite.exception.DepartmentNotFoundException;

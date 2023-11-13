@@ -1,6 +1,7 @@
 package worldwide.clm.clmwebsite.utils;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import worldwide.clm.clmwebsite.exception.ClmException;
 
 import java.io.BufferedReader;
@@ -77,4 +78,7 @@ public class AppUtils {
         };
     }
 
+    public static void main(String[] args) {
+
+    }
 }

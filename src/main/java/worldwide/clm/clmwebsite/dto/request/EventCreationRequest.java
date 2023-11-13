@@ -18,6 +18,7 @@ public class EventCreationRequest {
     private String content;
     private LocalDate startDate;
     private LocalDate endDate;
+    private Long campusId;
     private String eventImageUrl;
     private String eventVideoUrl;
 

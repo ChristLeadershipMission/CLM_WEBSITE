@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import worldwide.clm.clmwebsite.data.models.Campus;
 
 import java.time.LocalDate;
 
@@ -15,9 +16,9 @@ import java.time.LocalDate;
 public class EventResponse {
     private Long id;
     private String eventName;
-    private String theme;
     private LocalDate startDate;
     private LocalDate endDate;
+    private Campus campus;
     private String flier;
     private String eventImageUrl;
     private String eventVideoUrl;
