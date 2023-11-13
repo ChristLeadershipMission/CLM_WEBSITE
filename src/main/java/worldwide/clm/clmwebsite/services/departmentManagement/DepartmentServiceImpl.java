@@ -3,6 +3,7 @@ package worldwide.clm.clmwebsite.services.departmentManagement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import worldwide.clm.clmwebsite.data.models.Department;
+import worldwide.clm.clmwebsite.data.models.Minister;
 import worldwide.clm.clmwebsite.data.repositories.DepartmentRepository;
 import worldwide.clm.clmwebsite.dto.request.DepartmentCreationRequest;
 import worldwide.clm.clmwebsite.dto.request.DepartmentUpdateRequest;
@@ -29,7 +30,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 
     @Override
     public ApiResponse createDepartment(DepartmentCreationRequest request) throws UserNotFoundException, DepartmentAlreadyExistsException {
-        MinisterResponse foundMinister = ministerService.findById(request.getMinisterInChargeId());
+        Minister foundMinister = ministerService.findById(request.getMinisterInChargeId());
         validateDuplicateExistence(request);
         Department createDepartment = Department.builder()
                 .name(request.getName())
