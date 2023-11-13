@@ -14,4 +14,5 @@ public class CampusCreationRequest {
     private Long ministerId;
     private Address address;
     private String email;
+    private String logo;
 }

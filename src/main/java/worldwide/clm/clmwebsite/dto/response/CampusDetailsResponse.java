@@ -13,4 +13,5 @@ public class CampusDetailsResponse {
     private String name;
     private Minister ministerInCharge;
     private Address address;
+    private String logo;
 }

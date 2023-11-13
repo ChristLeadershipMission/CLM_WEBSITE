@@ -1,5 +1,4 @@
 package worldwide.clm.clmwebsite.config;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -27,4 +26,5 @@ public class BeanConfiguration {
 	public ModelMapper modelMapper(){
 		return new ModelMapper();
 	}
+
 }

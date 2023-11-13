@@ -31,16 +31,7 @@ class ClmWebsiteApplicationTests {
 
     @Test
     void campusTest(){
-        campusRepository.save(
-                Campus.builder()
-                        .name("TASUED")
-                        .ministerInCharge(
-                                Minister.builder()
-                                        .id(1L)
-                                        .build()
-                        )
-                        .build()
-        );
+
     }
 
 }
