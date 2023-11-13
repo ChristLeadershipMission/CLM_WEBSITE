@@ -16,10 +16,8 @@ public class Campus {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    @Column(nullable = false, unique = true)
     private String email;
-    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private Minister ministerInCharge;
+    private Long ministerId;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Address address;
 }

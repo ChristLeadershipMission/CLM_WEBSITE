@@ -6,6 +6,7 @@ import worldwide.clm.clmwebsite.dto.request.CampusCreationRequest;
 import worldwide.clm.clmwebsite.dto.response.CampusDetailsResponse;
 import worldwide.clm.clmwebsite.exception.CampusAlreadyExistsException;
 import worldwide.clm.clmwebsite.exception.CampusNotFoundException;
+import worldwide.clm.clmwebsite.exception.UserNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,6 @@ public interface CampusService {
     Optional<Campus> findCampusByName(String name) ;
     List<Campus> findAllCampuses() ;
     void removeCampus(Long id) throws CampusNotFoundException;
-    CampusDetailsResponse updateCampusDetails(Long id, JsonPatch updatePayLoad);
+    CampusDetailsResponse updateCampusDetails(Long id, JsonPatch updatePayLoad) throws UserNotFoundException;
 
 }

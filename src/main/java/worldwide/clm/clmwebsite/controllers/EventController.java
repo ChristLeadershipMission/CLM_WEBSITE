@@ -67,6 +67,27 @@ public class EventController {
     }
 
     @Operation(
+            summary = "Find Event by Campus ID",
+            description = "API for retrieving event details by Campus ID."
+    )
+    @Parameter(
+            name = "id",
+            description = "The unique identifier of the campus whose events are to be retrieved.",
+            required = true,
+            in = ParameterIn.PATH,
+            schema = @Schema(type = "integer", format = "int64")
+    )
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "200",
+            description = "Events found and returned",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = EventResponse.class))
+    )
+    @GetMapping("findById/{id}")
+    public ResponseEntity<List<EventResponse>> findByCampusId(@PathVariable Long campusId) throws EventNotFoundException {
+        return new ResponseEntity<>(eventService.findByCampusId(campusId), HttpStatus.OK);
+    }
+
+    @Operation(
             summary = "Find All Events",
             description = "API for retrieving a list of all events."
     )

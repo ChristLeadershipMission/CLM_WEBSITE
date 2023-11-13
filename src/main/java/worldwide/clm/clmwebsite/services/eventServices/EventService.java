@@ -18,4 +18,6 @@ public interface EventService {
     ApiResponse updateEventInfo(EventUpdateRequest eventUpdateRequest) throws EventNotFoundException;
 
     List<EventResponse> findAll();
+
+    List<EventResponse> findByCampusId(Long campusId);
 }

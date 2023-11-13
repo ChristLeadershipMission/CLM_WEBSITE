@@ -12,6 +12,8 @@ import worldwide.clm.clmwebsite.dto.request.CampusCreationRequest;
 import worldwide.clm.clmwebsite.dto.response.CampusDetailsResponse;
 import worldwide.clm.clmwebsite.exception.CampusAlreadyExistsException;
 import worldwide.clm.clmwebsite.exception.CampusNotFoundException;
+import worldwide.clm.clmwebsite.exception.UserNotFoundException;
+import worldwide.clm.clmwebsite.services.ministerServices.MinisterService;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +26,7 @@ import static worldwide.clm.clmwebsite.common.Message.CAMPUS_WITH_NAME_ALREADY_E
 public class CampusServiceImpl implements CampusService{
 
     private final CampusRepository campusRepository;
+    private final MinisterService ministerService;
     @Override
     public void createCampus(CampusCreationRequest campusCreationRequest) throws CampusAlreadyExistsException {
         if (campusRepository.findCampusByName(campusCreationRequest.getName()).isPresent()) throw new CampusAlreadyExistsException(
@@ -31,7 +34,7 @@ public class CampusServiceImpl implements CampusService{
         );
         Campus campus = Campus.builder()
                 .name(campusCreationRequest.getName())
-                .ministerInCharge(campusCreationRequest.getMinisterInCharge())
+                .ministerId(campusCreationRequest.getMinisterId())
                 .email(campusCreationRequest.getEmail())
                 .address(campusCreationRequest.getAddress())
                 .build();
@@ -39,7 +42,7 @@ public class CampusServiceImpl implements CampusService{
     }
 
     @Override
-    public CampusDetailsResponse updateCampusDetails(Long id, JsonPatch updatePayLoad) {
+    public CampusDetailsResponse updateCampusDetails(Long id, JsonPatch updatePayLoad) throws UserNotFoundException {
         ObjectMapper mapper = new ObjectMapper();
         Campus foundCampus = campusRepository.getReferenceById(id);
         JsonNode node = mapper.convertValue(foundCampus, JsonNode.class);
@@ -53,10 +56,10 @@ public class CampusServiceImpl implements CampusService{
         }
     }
 
-    private CampusDetailsResponse getCampusResponse(Campus updatedCampus) {
+    private CampusDetailsResponse getCampusResponse(Campus updatedCampus) throws UserNotFoundException {
         return CampusDetailsResponse.builder()
                 .name(updatedCampus.getName())
-                .ministerInCharge(updatedCampus.getMinisterInCharge())
+                .ministerInCharge(ministerService.findById(updatedCampus.getMinisterId()))
                 .address(updatedCampus.getAddress())
                 .build();
     }

@@ -21,6 +21,7 @@ import worldwide.clm.clmwebsite.dto.response.ApiResponse;
 import worldwide.clm.clmwebsite.dto.response.CampusDetailsResponse;
 import worldwide.clm.clmwebsite.exception.CampusAlreadyExistsException;
 import worldwide.clm.clmwebsite.exception.CampusNotFoundException;
+import worldwide.clm.clmwebsite.exception.UserNotFoundException;
 import worldwide.clm.clmwebsite.services.campusServices.CampusService;
 import worldwide.clm.clmwebsite.utils.ResponseUtils;
 
@@ -83,7 +84,7 @@ public class CampusController {
 
     @PatchMapping(value = "updateCampus/{id}", consumes = "application/json-patch+json")
     public ResponseEntity<?> updateCampusDetails
-            (@PathVariable Long id, @RequestBody JsonPatch campusUpdateRequest){
+            (@PathVariable Long id, @RequestBody JsonPatch campusUpdateRequest) throws UserNotFoundException {
         CampusDetailsResponse updatedCampus = campusService.updateCampusDetails(id, campusUpdateRequest);
         return ResponseEntity.status(HttpStatus.OK).body(updatedCampus);
     }
@@ -146,7 +147,7 @@ public class CampusController {
             schema = @Schema(implementation = Object.class)
     )
     @io.swagger.v3.oas.annotations.responses.ApiResponse(
-            responseCode = "302",
+            responseCode = "200",
             description = "Campuses found and returned",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Campus.class))
     )
@@ -154,7 +155,7 @@ public class CampusController {
     @GetMapping("allCampuses")
     public ResponseEntity<?> getAllCampuses() {
             List<Campus> campuses = campusService.findAllCampuses();
-            return new ResponseEntity<>(campuses, HttpStatus.FOUND);
+            return new ResponseEntity<>(campuses, HttpStatus.OK);
     }
     @Operation(
             summary = "Delete Campus by id",
