@@ -7,5 +7,5 @@ import worldwide.clm.clmwebsite.data.models.Minister;
 import java.util.Optional;
 
 public interface MinisterRepository extends JpaRepository<Minister, Long> {
-	Optional<Minister> findByBioData_EmailAddress(String email);
+	Optional<Minister> findByEmailAddress(String email);
 }

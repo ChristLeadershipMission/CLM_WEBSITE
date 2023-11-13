@@ -20,4 +20,5 @@ public class Campus {
     private Long ministerId;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Address address;
+    private String logo;
 }

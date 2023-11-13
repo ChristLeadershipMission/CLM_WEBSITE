@@ -31,10 +31,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/clmWebsite/api/v1/campus/")
 @RequiredArgsConstructor
-@Server(
-        description = "Local Testing",
-        url = "http://localhost:8081"
-)
 public class CampusController {
 
     private final CampusService campusService;
