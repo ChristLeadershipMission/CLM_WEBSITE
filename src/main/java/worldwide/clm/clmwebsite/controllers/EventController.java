@@ -82,7 +82,7 @@ public class EventController {
             description = "Events found and returned",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = EventResponse.class))
     )
-    @GetMapping("findById/{id}")
+    @GetMapping("findByCampusId/{campusId}")
     public ResponseEntity<List<EventResponse>> findByCampusId(@PathVariable Long campusId) throws EventNotFoundException {
         return new ResponseEntity<>(eventService.findByCampusId(campusId), HttpStatus.OK);
     }
