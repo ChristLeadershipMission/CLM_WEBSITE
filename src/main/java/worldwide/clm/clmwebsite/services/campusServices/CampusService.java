@@ -1,6 +1,5 @@
 package worldwide.clm.clmwebsite.services.campusServices;
 
-import com.github.fge.jsonpatch.JsonPatch;
 import worldwide.clm.clmwebsite.data.models.Campus;
 import worldwide.clm.clmwebsite.dto.request.CampusCreationRequest;
 import worldwide.clm.clmwebsite.dto.response.CampusDetailsResponse;
@@ -12,11 +11,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CampusService {
-    void createCampus(CampusCreationRequest campusCreationRequest) throws CampusAlreadyExistsException;
-    Optional<Campus> findCampusById(Long id) ;
-    Optional<Campus> findCampusByName(String name) ;
-    List<Campus> findAllCampuses() ;
+    CampusDetailsResponse createCampus(CampusCreationRequest campusCreationRequest) throws CampusAlreadyExistsException, UserNotFoundException;
+    CampusDetailsResponse findCampusById(Long id) throws CampusNotFoundException, UserNotFoundException;
+    CampusDetailsResponse findCampusByName(String name) throws CampusNotFoundException, UserNotFoundException;
+    List<CampusDetailsResponse> findAllCampuses() throws UserNotFoundException;
     void removeCampus(Long id) throws CampusNotFoundException;
-    CampusDetailsResponse updateCampusDetails(Long id, JsonPatch updatePayLoad) throws UserNotFoundException;
+    CampusDetailsResponse updateCampusDetails(Long id, CampusCreationRequest updatePayLoad) throws UserNotFoundException;
 
 }

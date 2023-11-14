@@ -11,7 +11,7 @@ import worldwide.clm.clmwebsite.data.models.Minister;
 @Builder
 public class CampusCreationRequest {
     private String name;
-    private Long ministerId;
+    private Long ministerInChargeId;
     private Address address;
     private String email;
     private String logo;

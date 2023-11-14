@@ -13,7 +13,9 @@ import worldwide.clm.clmwebsite.dto.request.EventCreationRequest;
 import worldwide.clm.clmwebsite.dto.request.EventUpdateRequest;
 import worldwide.clm.clmwebsite.dto.response.ApiResponse;
 import worldwide.clm.clmwebsite.dto.response.EventResponse;
+import worldwide.clm.clmwebsite.exception.CampusNotFoundException;
 import worldwide.clm.clmwebsite.exception.EventNotFoundException;
+import worldwide.clm.clmwebsite.exception.UserNotFoundException;
 import worldwide.clm.clmwebsite.services.eventServices.EventService;
 
 import java.util.List;
@@ -62,7 +64,7 @@ public class EventController {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = EventResponse.class))
     )
     @GetMapping("findById/{id}")
-    public ResponseEntity<EventResponse> findById(@PathVariable Long id) throws EventNotFoundException {
+    public ResponseEntity<EventResponse> findById(@PathVariable Long id) throws EventNotFoundException, UserNotFoundException, CampusNotFoundException {
         return new ResponseEntity<>(eventService.findById(id), HttpStatus.OK);
     }
 
@@ -139,7 +141,7 @@ public class EventController {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponse.class))
     )
     @PatchMapping("eventUpdate")
-    public ResponseEntity<ApiResponse> updateEvent(@RequestBody EventUpdateRequest eventUpdateRequest) throws EventNotFoundException {
+    public ResponseEntity<ApiResponse> updateEvent(@RequestBody EventUpdateRequest eventUpdateRequest) throws EventNotFoundException, UserNotFoundException, CampusNotFoundException {
         return new ResponseEntity<>(eventService.updateEventInfo(eventUpdateRequest), HttpStatus.OK);
     }
 }

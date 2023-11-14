@@ -10,14 +10,14 @@ import lombok.*;
 @RequiredArgsConstructor
 @Builder
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@ToString
 public class Campus {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private String email;
-    private Long ministerId;
+    private Long ministerInChargeId;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Address address;
     private String logo;

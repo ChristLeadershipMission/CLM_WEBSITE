@@ -16,7 +16,7 @@ import worldwide.clm.clmwebsite.exception.UserNotFoundException;
 
 import java.util.List;
 
-import static worldwide.clm.clmwebsite.common.Message.USER_WITH_EMAIL_NOT_FOUND;
+import static worldwide.clm.clmwebsite.common.Message.*;
 
 @Service
 @AllArgsConstructor
@@ -33,7 +33,7 @@ public class MinisterServiceImpl implements MinisterService{
     @Override
     public Minister findById(Long id) throws UserNotFoundException {
         return ministerRepository.findById(id).orElseThrow(
-                ()-> new UserNotFoundException(String.format(USER_WITH_EMAIL_NOT_FOUND, id))
+                ()-> new UserNotFoundException(String.format(MINISTER_WITH_ID_NOT_FOUND, id))
         );
     }
 
