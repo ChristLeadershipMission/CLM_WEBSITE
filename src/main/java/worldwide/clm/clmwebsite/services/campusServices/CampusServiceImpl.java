@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import worldwide.clm.clmwebsite.data.models.Campus;
 import worldwide.clm.clmwebsite.data.repositories.CampusRepository;
 import worldwide.clm.clmwebsite.dto.request.CampusCreationRequest;
+import worldwide.clm.clmwebsite.dto.request.CampusUpdateRequest;
 import worldwide.clm.clmwebsite.dto.response.CampusDetailsResponse;
 import worldwide.clm.clmwebsite.exception.CampusAlreadyExistsException;
 import worldwide.clm.clmwebsite.exception.CampusNotFoundException;
@@ -39,8 +40,10 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
-    public CampusDetailsResponse updateCampusDetails(Long id, CampusCreationRequest campusCreationRequest) throws UserNotFoundException {
-        Campus foundCampus = campusRepository.getReferenceById(id);
+    public CampusDetailsResponse updateCampusDetails(Long id, CampusUpdateRequest campusCreationRequest) throws UserNotFoundException, CampusNotFoundException {
+        Campus foundCampus = campusRepository.findById(id).orElseThrow(
+                () -> new CampusNotFoundException(String.format(CAMPUS_WITH_ID_NOT_FOUND, id))
+        );
         if (campusCreationRequest.getEmail() != null && campusCreationRequest.getEmail() != "") {
             foundCampus.setEmail(foundCampus.getEmail());
         }

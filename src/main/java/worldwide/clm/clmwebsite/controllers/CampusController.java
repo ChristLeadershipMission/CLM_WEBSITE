@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import worldwide.clm.clmwebsite.data.models.Campus;
 import worldwide.clm.clmwebsite.dto.request.CampusCreationRequest;
+import worldwide.clm.clmwebsite.dto.request.CampusUpdateRequest;
 import worldwide.clm.clmwebsite.dto.response.ApiResponse;
 import worldwide.clm.clmwebsite.dto.response.CampusDetailsResponse;
 import worldwide.clm.clmwebsite.exception.CampusAlreadyExistsException;
@@ -74,7 +75,7 @@ public class CampusController {
 
     @PatchMapping(value = "updateCampus/{id}")
     public ResponseEntity<?> updateCampusDetails
-            (@PathVariable Long id, @RequestBody CampusCreationRequest campusUpdateRequest) throws UserNotFoundException {
+            (@PathVariable Long id, @RequestBody CampusUpdateRequest campusUpdateRequest) throws UserNotFoundException, CampusNotFoundException {
         CampusDetailsResponse updatedCampus = campusService.updateCampusDetails(id, campusUpdateRequest);
         return ResponseEntity.status(HttpStatus.OK).body(updatedCampus);
     }

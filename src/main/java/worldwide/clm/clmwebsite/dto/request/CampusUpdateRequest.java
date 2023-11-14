@@ -8,7 +8,7 @@ import worldwide.clm.clmwebsite.data.models.Address;
 @Getter
 public class CampusUpdateRequest {
     private String name;
-    private Long ministerId;
+    private Long ministerInChargeId;
     private String email;
     private String logo;
 }
