@@ -1,6 +1,7 @@
 package worldwide.clm.clmwebsite.dto.request;
 
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,4 +20,6 @@ public class EventUpdateRequest {
     private LocalDate endDate;
     private String eventImageUrl;
     private String eventVideoUrl;
+    @NotNull(message = "campusId must not be null")
+    private Long campusId;
 }
