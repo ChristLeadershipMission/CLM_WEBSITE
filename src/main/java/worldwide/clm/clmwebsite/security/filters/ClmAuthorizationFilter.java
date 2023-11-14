@@ -52,7 +52,7 @@ public class ClmAuthorizationFilter extends OncePerRequestFilter {
             System.out.println("Authorized");
             filterChain.doFilter(request, response);
           } catch (Exception exception) {
-            log.info("Authorization Exception {}", exception.getMessage());
+            log.info("CLM Authorization Exception {}", exception.getMessage());
             Map<String, String> errors = new HashMap<>();
             errors.put(ERROR_VALUE, exception.getMessage());
             response.setContentType(APPLICATION_JSON_VALUE);

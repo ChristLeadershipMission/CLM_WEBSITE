@@ -19,9 +19,9 @@ public interface EventService {
     ApiResponse deleteEventByEventId(Long id);
     ApiResponse updateEventInfo(EventUpdateRequest eventUpdateRequest) throws EventNotFoundException, UserNotFoundException, CampusNotFoundException;
 
-    List<EventResponse> findAll();
+    List<EventResponse> findAll() throws UserNotFoundException, CampusNotFoundException;
 
-    List<EventResponse> findByCampusId(Long campusId);
+    List<EventResponse> findByCampusId(Long campusId) throws UserNotFoundException, CampusNotFoundException;
 
     Long getCount();
 }
