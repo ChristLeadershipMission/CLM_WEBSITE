@@ -17,6 +17,6 @@ public interface CampusService {
     CampusDetailsResponse findCampusByName(String name) throws CampusNotFoundException, UserNotFoundException;
     List<CampusDetailsResponse> findAllCampuses() throws UserNotFoundException;
     void removeCampus(Long id) throws CampusNotFoundException;
-    CampusDetailsResponse updateCampusDetails(Long id, CampusUpdateRequest updatePayLoad) throws UserNotFoundException;
+    CampusDetailsResponse updateCampusDetails(Long id, CampusUpdateRequest updatePayLoad) throws UserNotFoundException, CampusNotFoundException;
 
 }

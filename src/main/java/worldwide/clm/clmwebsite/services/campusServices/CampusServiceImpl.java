@@ -40,8 +40,10 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
-    public CampusDetailsResponse updateCampusDetails(Long id, CampusUpdateRequest campusCreationRequest) throws UserNotFoundException {
-        Campus foundCampus = campusRepository.getReferenceById(id);
+    public CampusDetailsResponse updateCampusDetails(Long id, CampusUpdateRequest campusCreationRequest) throws UserNotFoundException, CampusNotFoundException {
+        Campus foundCampus = campusRepository.findById(id).orElseThrow(
+                () -> new CampusNotFoundException(String.format(CAMPUS_WITH_ID_NOT_FOUND, id))
+        );
         if (campusCreationRequest.getEmail() != null && campusCreationRequest.getEmail() != "") {
             foundCampus.setEmail(foundCampus.getEmail());
         }

@@ -75,7 +75,7 @@ public class CampusController {
 
     @PatchMapping(value = "updateCampus/{id}")
     public ResponseEntity<?> updateCampusDetails
-            (@PathVariable Long id, @RequestBody CampusUpdateRequest campusUpdateRequest) throws UserNotFoundException {
+            (@PathVariable Long id, @RequestBody CampusUpdateRequest campusUpdateRequest) throws UserNotFoundException, CampusNotFoundException {
         CampusDetailsResponse updatedCampus = campusService.updateCampusDetails(id, campusUpdateRequest);
         return ResponseEntity.status(HttpStatus.OK).body(updatedCampus);
     }
