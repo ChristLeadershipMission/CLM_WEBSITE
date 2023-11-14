@@ -85,7 +85,7 @@ public class EventController {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = EventResponse.class))
     )
     @GetMapping("findByCampusId/{campusId}")
-    public ResponseEntity<List<EventResponse>> findByCampusId(@PathVariable Long campusId) throws EventNotFoundException {
+    public ResponseEntity<List<EventResponse>> findByCampusId(@PathVariable Long campusId) throws EventNotFoundException, UserNotFoundException, CampusNotFoundException {
         return new ResponseEntity<>(eventService.findByCampusId(campusId), HttpStatus.OK);
     }
 
@@ -99,7 +99,7 @@ public class EventController {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = EventResponse.class))
     )
     @GetMapping("findAll")
-    public ResponseEntity<List<EventResponse>> findAll() {
+    public ResponseEntity<List<EventResponse>> findAll() throws UserNotFoundException, CampusNotFoundException {
         return new ResponseEntity<>(eventService.findAll(), HttpStatus.OK);
     }
 

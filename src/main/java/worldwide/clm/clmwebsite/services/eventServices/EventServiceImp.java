@@ -54,21 +54,24 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
-    public List<EventResponse> findAll() {
+    public List<EventResponse> findAll() throws UserNotFoundException, CampusNotFoundException {
+        return getEventResponses(eventRepository.findAll());
+    }
+
+    private List<EventResponse> getEventResponses(List<Event> foundEvents) throws CampusNotFoundException, UserNotFoundException {
         List<EventResponse> events = new ArrayList<>();
-        for (Event each : eventRepository.findAll()) {
-            events.add(modelMapper.map(each, EventResponse.class));
+        for (Event each : foundEvents) {
+            EventResponse eventResponse = modelMapper.map(each, EventResponse.class);
+            eventResponse.setCampus(campusService.findCampusById(each.getCampusId()));
+            events.add(eventResponse);
         }
         events.sort(Comparator.comparing(EventResponse::getStartDate));
         return events;
     }
 
     @Override
-    public List<EventResponse> findByCampusId(Long campusId) {
-        List<EventResponse> events = new ArrayList<>();
-        eventRepository.findByCampusId(campusId).map(each -> events.add(modelMapper.map(each, EventResponse.class)));
-        events.sort(Comparator.comparing(EventResponse::getStartDate));
-        return events;
+    public List<EventResponse> findByCampusId(Long campusId) throws UserNotFoundException, CampusNotFoundException {
+        return getEventResponses(eventRepository.findAllByCampusId(campusId).get());
     }
 
     @Override
