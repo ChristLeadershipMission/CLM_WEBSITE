@@ -11,7 +11,7 @@ import worldwide.clm.clmwebsite.dto.request.Recipient;
 import worldwide.clm.clmwebsite.dto.request.ResetPasswordRequest;
 import worldwide.clm.clmwebsite.dto.response.ApiResponse;
 import worldwide.clm.clmwebsite.dto.response.BioDataResponse;
-import worldwide.clm.clmwebsite.exception.AuthenticationException;
+import worldwide.clm.clmwebsite.exception.ClmAuthenticationException;
 import worldwide.clm.clmwebsite.exception.ClmException;
 import worldwide.clm.clmwebsite.exception.PasswordMismatchException;
 import worldwide.clm.clmwebsite.exception.UserNotFoundException;
@@ -45,7 +45,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public ApiResponse resetPassword(ResetPasswordRequest resetPasswordRequest) throws AuthenticationException, UserNotFoundException {
+    public ApiResponse resetPassword(ResetPasswordRequest resetPasswordRequest) throws ClmAuthenticationException, UserNotFoundException {
         String email = validateToken(resetPasswordRequest.getEncryptedEmail());
         System.out.println(email);
         return changePassword(email, resetPasswordRequest.getNewPassword());
@@ -64,7 +64,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return changePassword(changePasswordRequest.getEmailAddress(), changePasswordRequest.getNewPassword());
     }
 
-    private String validateToken(String encryptedEmail) throws AuthenticationException {
+    private String validateToken(String encryptedEmail) throws ClmAuthenticationException {
         return jwtUtility.extractClaimFrom(encryptedEmail, EMAIL_VALUE).asString();
     }
 

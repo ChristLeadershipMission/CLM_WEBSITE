@@ -3,15 +3,20 @@ package worldwide.clm.clmwebsite;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import worldwide.clm.clmwebsite.data.models.Admin;
 import worldwide.clm.clmwebsite.data.models.BioData;
 import worldwide.clm.clmwebsite.data.models.Campus;
 import worldwide.clm.clmwebsite.data.models.Minister;
+import worldwide.clm.clmwebsite.data.repositories.AdminRepository;
 import worldwide.clm.clmwebsite.data.repositories.CampusRepository;
 import worldwide.clm.clmwebsite.data.repositories.MinisterRepository;
+import worldwide.clm.clmwebsite.enums.Role;
 import worldwide.clm.clmwebsite.utils.JwtUtility;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @SpringBootTest
 class ClmWebsiteApplicationTests {
@@ -22,6 +27,10 @@ class ClmWebsiteApplicationTests {
     private MinisterRepository ministerRepository;
     @Autowired
     private CampusRepository campusRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private AdminRepository adminRepository;
 
     @Test
     void
@@ -31,7 +40,18 @@ class ClmWebsiteApplicationTests {
 
     @Test
     void campusTest(){
-
+        Admin admin = new Admin();
+        BioData bioData = new BioData();
+        bioData.setPassword(passwordEncoder.encode(
+                "moyin"
+        ));
+        bioData.setRoles(List.of(Role.SUPER_ADMIN));
+        bioData.setFirstName("Moyinoluwa");
+        bioData.setLastName("Michael");
+        bioData.setEmailAddress("ogunsmoyin.m@gmail.com");
+        bioData.setPhoneNumber("08089649909");
+        admin.setBioData(bioData);
+        adminRepository.save(admin);
     }
 
 }

@@ -6,17 +6,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.stereotype.Component;
 import worldwide.clm.clmwebsite.dto.request.LoginRequest;
 import worldwide.clm.clmwebsite.dto.response.BioDataResponse;
 import worldwide.clm.clmwebsite.enums.Role;
+import worldwide.clm.clmwebsite.exception.ClmAuthenticationException;
 import worldwide.clm.clmwebsite.exception.UserNotFoundException;
 import worldwide.clm.clmwebsite.services.adminServices.AdminService;
 import worldwide.clm.clmwebsite.services.bioDataServices.BioDataService;
@@ -29,7 +29,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static worldwide.clm.clmwebsite.common.Message.AUTHENTICATION_FAILED_FOR_USER_WITH_EMAIL;
 import static worldwide.clm.clmwebsite.utils.AppUtils.*;
 
 
@@ -55,10 +54,20 @@ public class ClmAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             Authentication authentication = new UsernamePasswordAuthenticationToken(email, password);
             System.out.println(email);
             Authentication authResult = authenticationManager.authenticate(authentication);
+            System.out.println("Authenticated");
             SecurityContextHolder.getContext().setAuthentication(authResult);
             return authResult;
         }catch (IOException exception){
-            throw new BadCredentialsException(String.format(AUTHENTICATION_FAILED_FOR_USER_WITH_EMAIL, email));
+            Map<String, String> errors = new HashMap<>();
+            errors.put(ERROR_VALUE, exception.getMessage());
+            response.setContentType(APPLICATION_JSON_VALUE);
+            response.setStatus(HttpStatus.FORBIDDEN.value());
+            try {
+                mapper.writeValue(response.getOutputStream(), errors);
+            } catch (IOException e) {
+                throw new RuntimeException(e.getMessage());
+            }
+            return null;
         }
     }
 

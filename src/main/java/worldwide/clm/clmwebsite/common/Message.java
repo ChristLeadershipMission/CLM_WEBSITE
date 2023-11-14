@@ -24,6 +24,7 @@ public class Message {
 	public static final String CAMPUS_WITH_ID_NOT_FOUND = "Campus with ID %s not found";
 	public static final String CAMPUS_WITH_NAME_NOT_FOUND = "Campus with name %s not found";
 	public static final String AUTHENTICATION_FAILED_FOR_USER_WITH_EMAIL = "Authentication failed for User with email %s";
+	public static final String INVALID_EMAIL_OR_PASSWORD = "Invalid email or password";
 	public static final String EVENT_ALREADY_CREATED = "An Event Already Exist With This Name";
 	public static final String EVENT_CREATED_SUCCESSFULLY = "You have successfully created an event";
 	public static final String NO_EVENT_FOUND = "Sorry, we couldn't find an event with such name";

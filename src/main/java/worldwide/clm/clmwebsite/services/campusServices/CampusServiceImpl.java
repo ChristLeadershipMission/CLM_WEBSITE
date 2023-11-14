@@ -60,6 +60,11 @@ public class CampusServiceImpl implements CampusService {
         return getCampusResponse(campusRepository.save(foundCampus));
     }
 
+    @Override
+    public Long getCount() {
+        return campusRepository.count();
+    }
+
     private CampusDetailsResponse getCampusResponse(Campus updatedCampus) throws UserNotFoundException {
         return CampusDetailsResponse.builder()
                 .id(updatedCampus.getId())

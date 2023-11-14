@@ -17,4 +17,6 @@ public interface MinisterService {
     Minister updateMinisterDetails(Long id, MinisterRegistrationRequest ministerUpdateRequest);
 
     void deleteMinister(Long id);
+
+    Long getCount();
 }

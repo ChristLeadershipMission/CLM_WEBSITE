@@ -85,4 +85,9 @@ public class DepartmentServiceImpl implements DepartmentService{
     public List<Department> getAllDepartments() {
         return departmentRepository.findAll();
     }
+
+    @Override
+    public Long getCount() {
+        return departmentRepository.count();
+    }
 }

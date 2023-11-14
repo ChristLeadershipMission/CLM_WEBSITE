@@ -17,6 +17,7 @@ import worldwide.clm.clmwebsite.services.campusServices.CampusService;
 import worldwide.clm.clmwebsite.utils.ResponseUtils;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static worldwide.clm.clmwebsite.common.Message.*;
@@ -30,7 +31,8 @@ public class EventServiceImp implements EventService {
     private final CampusService campusService;
 
     @Override
-    public ApiResponse createEvent(EventCreationRequest eventCreationRequest) {
+    public ApiResponse createEvent(EventCreationRequest eventCreationRequest) throws UserNotFoundException, CampusNotFoundException {
+        campusService.findCampusById(eventCreationRequest.getCampusId());
         Event event = modelMapper.map(eventCreationRequest, Event.class);
         eventRepository.save(event);
         return ResponseUtils.created(EVENT_CREATED_SUCCESSFULLY);
@@ -57,6 +59,7 @@ public class EventServiceImp implements EventService {
         for (Event each : eventRepository.findAll()) {
             events.add(modelMapper.map(each, EventResponse.class));
         }
+        events.sort(Comparator.comparing(EventResponse::getStartDate));
         return events;
     }
 
@@ -64,7 +67,13 @@ public class EventServiceImp implements EventService {
     public List<EventResponse> findByCampusId(Long campusId) {
         List<EventResponse> events = new ArrayList<>();
         eventRepository.findByCampusId(campusId).map(each -> events.add(modelMapper.map(each, EventResponse.class)));
+        events.sort(Comparator.comparing(EventResponse::getStartDate));
         return events;
+    }
+
+    @Override
+    public Long getCount() {
+        return eventRepository.count();
     }
 
     private Event updateEvent(EventUpdateRequest eventUpdateRequest) {

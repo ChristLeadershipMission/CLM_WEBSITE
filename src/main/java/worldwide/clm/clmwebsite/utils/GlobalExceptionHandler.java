@@ -2,6 +2,8 @@ package worldwide.clm.clmwebsite.utils;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import worldwide.clm.clmwebsite.dto.response.ApiResponse;
@@ -29,7 +31,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
     @ExceptionHandler
-    public ResponseEntity<String> handleExceptions(AuthenticationException e){
+    public ResponseEntity<String> handleExceptions(ClmAuthenticationException e){
         return ResponseEntity.badRequest().body(e.getMessage());
     }
     @ExceptionHandler
@@ -41,6 +43,16 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse> handleExceptions(CampusNotFoundException e){
         ApiResponse apiResponse = ResponseUtils.getCampusNotFoundMessage();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
+    }
+    @ExceptionHandler
+    public ResponseEntity<Object> handleExceptions(BadCredentialsException e){
+        System.out.println(e.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+    }
+    @ExceptionHandler
+    public ResponseEntity<Object> handleExceptions(UsernameNotFoundException e){
+        System.out.println(e.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
     }
     @ExceptionHandler
     public ResponseEntity<ApiResponse> handleExceptions(EventNotFoundException e){

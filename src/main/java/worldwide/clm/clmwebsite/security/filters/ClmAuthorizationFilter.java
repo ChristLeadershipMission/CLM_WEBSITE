@@ -17,7 +17,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import worldwide.clm.clmwebsite.exception.AuthenticationException;
+import worldwide.clm.clmwebsite.exception.ClmAuthenticationException;
 import worldwide.clm.clmwebsite.utils.JwtUtility;
 
 import java.io.IOException;
@@ -61,7 +61,7 @@ public class ClmAuthorizationFilter extends OncePerRequestFilter {
         }
     }
 
-    private void authorize(HttpServletRequest request) throws AuthenticationException {
+    private void authorize(HttpServletRequest request) throws ClmAuthenticationException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
         System.out.println(authorizationHeader);
         boolean isValidAuthorizationHeader = authorizationHeader != null && authorizationHeader.startsWith(TOKEN_PREFIX);
@@ -75,7 +75,7 @@ public class ClmAuthorizationFilter extends OncePerRequestFilter {
         return authorizationHeader.substring(TOKEN_PREFIX.length());
     }
 
-    private void authorize(String token) throws AuthenticationException {
+    private void authorize(String token) throws ClmAuthenticationException {
         Map<String, Claim> map = jwtUtil.extractClaimsFrom(token);
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         Claim claim = map.get(ROLES_VALUE);

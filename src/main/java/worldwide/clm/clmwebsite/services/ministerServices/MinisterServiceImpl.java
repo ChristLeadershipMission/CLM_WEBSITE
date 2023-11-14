@@ -71,4 +71,9 @@ public class MinisterServiceImpl implements MinisterService{
     public void deleteMinister(Long id) {
         ministerRepository.deleteById(id);
     }
+
+    @Override
+    public Long getCount() {
+        return ministerRepository.count();
+    }
 }

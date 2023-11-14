@@ -16,7 +16,7 @@ import worldwide.clm.clmwebsite.dto.response.AdminResponse;
 import worldwide.clm.clmwebsite.dto.response.ApiResponse;
 import worldwide.clm.clmwebsite.dto.response.BioDataResponse;
 import worldwide.clm.clmwebsite.enums.Role;
-import worldwide.clm.clmwebsite.exception.AuthenticationException;
+import worldwide.clm.clmwebsite.exception.ClmAuthenticationException;
 import worldwide.clm.clmwebsite.exception.ClmException;
 import worldwide.clm.clmwebsite.exception.UserAlreadyExistsException;
 import worldwide.clm.clmwebsite.exception.UserNotFoundException;
@@ -92,7 +92,7 @@ public class AdminServiceImpl implements AdminService {
         return htmlTemplate;
     }
 
-    private Admin getAdmin(String encryptedLink) throws AuthenticationException {
+    private Admin getAdmin(String encryptedLink) throws ClmAuthenticationException {
         Claim claim = jwtUtility.extractClaimFrom(encryptedLink, ADMIN);
         Map<String, Object> adminAsMap = claim.asMap();
         BioData bioData = BioData.builder()

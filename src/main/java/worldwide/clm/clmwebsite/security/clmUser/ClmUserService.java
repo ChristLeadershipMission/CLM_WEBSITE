@@ -7,8 +7,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 import worldwide.clm.clmwebsite.data.models.BioData;
 import worldwide.clm.clmwebsite.data.repositories.BioDataRepository;
+import worldwide.clm.clmwebsite.exception.ClmAuthenticationException;
 import worldwide.clm.clmwebsite.exception.UserNotFoundException;
 
+import static worldwide.clm.clmwebsite.common.Message.INVALID_EMAIL_OR_PASSWORD;
 import static worldwide.clm.clmwebsite.common.Message.USER_WITH_EMAIL_NOT_FOUND;
 
 @AllArgsConstructor
@@ -19,9 +21,11 @@ public class ClmUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        BioData user = bioDataRepository.findByEmailAddress(username).orElseThrow(()->new UsernameNotFoundException(
-                String.format(USER_WITH_EMAIL_NOT_FOUND, username)
-        ));
+        BioData user = bioDataRepository.findByEmailAddress(username).orElseThrow(
+                () ->
+                        new UsernameNotFoundException(
+                                INVALID_EMAIL_OR_PASSWORD
+                        ));
         return new ClmUser(user);
     }
 }
