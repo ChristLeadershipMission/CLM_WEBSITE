@@ -11,14 +11,14 @@ public class ResponseUtils {
 	public static ApiResponse getDuplicateCampusesMessage() {
 		return ApiResponse.builder()
 				.message(CAMPUS_ALREADY_EXISTS)
-				.statusCode (HttpStatus.NO_CONTENT.value())
+				.statusCode (HttpStatus.BAD_REQUEST.value())
 				.success (true)
 				.build();
 	}
 	public static ApiResponse getCampusNotFoundMessage() {
 		return ApiResponse.builder()
 				.message(CAMPUS_NOT_FOUND)
-				.statusCode (HttpStatus.NO_CONTENT.value())
+				.statusCode (HttpStatus.BAD_REQUEST.value())
 				.success (true)
 				.build();
 	}
@@ -79,7 +79,7 @@ public class ResponseUtils {
 	public static ApiResponse noEventFound(String message) {
 		return ApiResponse.builder()
 				.message(message)
-				.statusCode(HttpStatus.NO_CONTENT.value())
+				.statusCode(HttpStatus.BAD_REQUEST.value())
 				.success(false)
 				.build();
 	}

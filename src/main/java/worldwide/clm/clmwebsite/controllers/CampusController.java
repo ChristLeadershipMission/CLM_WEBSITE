@@ -92,7 +92,7 @@ public class CampusController {
             schema = @Schema(implementation = Long.class)
     )
     @io.swagger.v3.oas.annotations.responses.ApiResponse(
-            responseCode = "302",
+            responseCode = "200",
             description = "Campus found and returned",
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Campus.class))
@@ -101,7 +101,7 @@ public class CampusController {
     @GetMapping("getCampusById/{id}")
     public ResponseEntity<?> getCampusById(@PathVariable Long id) throws UserNotFoundException, CampusNotFoundException {
         CampusDetailsResponse campus = campusService.findCampusById(id);
-        return new ResponseEntity<>(campus, HttpStatus.FOUND);
+        return new ResponseEntity<>(campus, HttpStatus.OK);
     }
 
     @Operation(
