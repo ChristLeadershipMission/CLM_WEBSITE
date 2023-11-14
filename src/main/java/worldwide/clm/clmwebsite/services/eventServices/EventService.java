@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface EventService {
 
-    ApiResponse createEvent(EventCreationRequest eventCreationRequest);
+    ApiResponse createEvent(EventCreationRequest eventCreationRequest) throws UserNotFoundException, CampusNotFoundException;
 
     EventResponse findById(Long id) throws EventNotFoundException, UserNotFoundException, CampusNotFoundException;
 
@@ -22,4 +22,6 @@ public interface EventService {
     List<EventResponse> findAll();
 
     List<EventResponse> findByCampusId(Long campusId);
+
+    Long getCount();
 }

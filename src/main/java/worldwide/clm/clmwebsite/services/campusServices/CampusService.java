@@ -19,4 +19,6 @@ public interface CampusService {
     void removeCampus(Long id) throws CampusNotFoundException;
     CampusDetailsResponse updateCampusDetails(Long id, CampusUpdateRequest updatePayLoad) throws UserNotFoundException, CampusNotFoundException;
 
+    Long getCount();
+
 }

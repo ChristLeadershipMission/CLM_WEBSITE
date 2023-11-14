@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 
 import static worldwide.clm.clmwebsite.common.Message.AUTHENTICATION_FAILED_FOR_USER_WITH_EMAIL;
+import static worldwide.clm.clmwebsite.common.Message.INVALID_EMAIL_OR_PASSWORD;
 
 @Component
 @AllArgsConstructor
@@ -35,7 +36,7 @@ public class ClmAuthenticationProvider implements AuthenticationProvider {
             authResult = new UsernamePasswordAuthenticationToken(userEmail, userPassword, authorities);
             return  authResult;
         }
-        throw new BadCredentialsException(String.format(AUTHENTICATION_FAILED_FOR_USER_WITH_EMAIL, email));
+        throw new BadCredentialsException(INVALID_EMAIL_OR_PASSWORD);
     }
 
 

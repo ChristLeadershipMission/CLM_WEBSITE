@@ -19,4 +19,7 @@ public interface DepartmentService {
     Department getDepartmentById (Long id) throws DepartmentNotFoundException;
     Department getDepartmentByName (String name);
     List<Department> getAllDepartments ();
+
+    Long getCount();
+
 }

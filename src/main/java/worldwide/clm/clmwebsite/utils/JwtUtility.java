@@ -6,7 +6,7 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-import worldwide.clm.clmwebsite.exception.AuthenticationException;
+import worldwide.clm.clmwebsite.exception.ClmAuthenticationException;
 
 import java.security.SecureRandom;
 import java.util.*;
@@ -41,14 +41,14 @@ public class JwtUtility {
                 .sign(Algorithm.HMAC512(secret.getBytes()));
     }
 
-    public Map<String, Claim> extractClaimsFrom(String token) throws AuthenticationException {
+    public Map<String, Claim> extractClaimsFrom(String token) throws ClmAuthenticationException {
         DecodedJWT decodedJwt = validateToken(token);
-        if (decodedJwt.getClaim(ROLES_VALUE)==null) throw new AuthenticationException(INVALID_TOKEN);
+        if (decodedJwt.getClaim(ROLES_VALUE)==null) throw new ClmAuthenticationException(INVALID_TOKEN);
         return decodedJwt.getClaims();
     }
-    public Claim extractClaimFrom(String token, String key) throws AuthenticationException {
+    public Claim extractClaimFrom(String token, String key) throws ClmAuthenticationException {
         DecodedJWT decodedJwt = validateToken(token);
-        if (decodedJwt.getClaim(key)==null) throw new AuthenticationException(INVALID_TOKEN);
+        if (decodedJwt.getClaim(key)==null) throw new ClmAuthenticationException(INVALID_TOKEN);
         return decodedJwt.getClaim(key);
     }
 

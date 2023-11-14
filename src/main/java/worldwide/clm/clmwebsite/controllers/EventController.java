@@ -43,7 +43,7 @@ public class EventController {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponse.class))
     )
     @PostMapping("eventCreation")
-    public ResponseEntity<ApiResponse> createEvent(@RequestBody EventCreationRequest eventCreationRequest){
+    public ResponseEntity<ApiResponse> createEvent(@RequestBody EventCreationRequest eventCreationRequest) throws UserNotFoundException, CampusNotFoundException {
         return new ResponseEntity<>(eventService.createEvent(eventCreationRequest), HttpStatus.OK);
     }
 
