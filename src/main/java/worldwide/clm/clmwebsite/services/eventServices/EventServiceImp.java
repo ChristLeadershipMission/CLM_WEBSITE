@@ -10,7 +10,9 @@ import worldwide.clm.clmwebsite.dto.request.EventCreationRequest;
 import worldwide.clm.clmwebsite.dto.request.EventUpdateRequest;
 import worldwide.clm.clmwebsite.dto.response.ApiResponse;
 import worldwide.clm.clmwebsite.dto.response.EventResponse;
+import worldwide.clm.clmwebsite.exception.CampusNotFoundException;
 import worldwide.clm.clmwebsite.exception.EventNotFoundException;
+import worldwide.clm.clmwebsite.exception.UserNotFoundException;
 import worldwide.clm.clmwebsite.services.campusServices.CampusService;
 import worldwide.clm.clmwebsite.utils.ResponseUtils;
 
@@ -43,7 +45,7 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
-    public ApiResponse updateEventInfo(EventUpdateRequest eventUpdateRequest) throws EventNotFoundException {
+    public ApiResponse updateEventInfo(EventUpdateRequest eventUpdateRequest) throws EventNotFoundException, UserNotFoundException, CampusNotFoundException {
         findById(eventUpdateRequest.getId());
         Event event = updateEvent(eventUpdateRequest);
         return ResponseUtils.updated(EVENT_UPDATED_SUCCESSFULLY);
@@ -85,12 +87,12 @@ public class EventServiceImp implements EventService {
         return eventRepository.save(event);
     }
 
-    public EventResponse findById(Long id) throws EventNotFoundException {
+    public EventResponse findById(Long id) throws EventNotFoundException, UserNotFoundException, CampusNotFoundException {
         Event foundEvent = eventRepository.findById(id).orElseThrow(
                 () -> new EventNotFoundException(NO_EVENT_FOUND)
         );
         EventResponse eventResponse = modelMapper.map(foundEvent, EventResponse.class);
-        eventResponse.setCampus(campusService.findCampusById(foundEvent.getCampusId()).get());
+        eventResponse.setCampus(campusService.findCampusById(foundEvent.getCampusId()));
         return eventResponse;
     }
 }

@@ -12,18 +12,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import worldwide.clm.clmwebsite.data.models.Campus;
 import worldwide.clm.clmwebsite.data.models.Minister;
-import worldwide.clm.clmwebsite.dto.request.CampusCreationRequest;
 import worldwide.clm.clmwebsite.dto.request.MinisterRegistrationRequest;
 import worldwide.clm.clmwebsite.dto.response.ApiResponse;
-import worldwide.clm.clmwebsite.dto.response.CampusDetailsResponse;
 import worldwide.clm.clmwebsite.exception.CampusAlreadyExistsException;
-import worldwide.clm.clmwebsite.exception.CampusNotFoundException;
 import worldwide.clm.clmwebsite.exception.UserNotFoundException;
 import worldwide.clm.clmwebsite.services.ministerServices.MinisterService;
 import worldwide.clm.clmwebsite.utils.ResponseUtils;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/clmWebsite/api/v1/minister/")

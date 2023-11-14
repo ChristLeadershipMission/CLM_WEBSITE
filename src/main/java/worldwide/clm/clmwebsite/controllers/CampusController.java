@@ -1,16 +1,11 @@
 package worldwide.clm.clmwebsite.controllers;
 
 import com.github.fge.jsonpatch.JsonPatch;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.Contact;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.servers.Server;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,13 +45,12 @@ public class CampusController {
             responseCode = "201",
             description = "Creation successful",
             content = @Content(mediaType = "application/json",
-            schema = @Schema(implementation = ApiResponse.class))
+                    schema = @Schema(implementation = ApiResponse.class))
     )
     @PostMapping("createCampus")
-    public ResponseEntity<ApiResponse> createCampus(@RequestBody CampusCreationRequest campusCreationRequest) throws CampusAlreadyExistsException {
-            campusService.createCampus(campusCreationRequest);
-            ApiResponse apiResponse = ResponseUtils.getCreatedMessage();
-            return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
+    public ResponseEntity<CampusDetailsResponse> createCampus(@RequestBody CampusCreationRequest campusCreationRequest) throws CampusAlreadyExistsException, UserNotFoundException {
+        CampusDetailsResponse campusDetailsResponse = campusService.createCampus(campusCreationRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(campusDetailsResponse);
     }
 
     @Operation(
@@ -70,17 +64,17 @@ public class CampusController {
             required = true,
             in = ParameterIn.PATH,
             content = @Content(mediaType = "application/json-patch+json",
-            schema = @Schema(implementation = JsonPatch.class))
+                    schema = @Schema(implementation = JsonPatch.class))
     )
     @io.swagger.v3.oas.annotations.responses.ApiResponse(
             responseCode = "200",
             description = "Campus details updated successfully",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = CampusDetailsResponse.class))
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Campus.class))
     )
 
-    @PatchMapping(value = "updateCampus/{id}", consumes = "application/json-patch+json")
+    @PatchMapping(value = "updateCampus/{id}")
     public ResponseEntity<?> updateCampusDetails
-            (@PathVariable Long id, @RequestBody JsonPatch campusUpdateRequest) throws UserNotFoundException {
+            (@PathVariable Long id, @RequestBody CampusCreationRequest campusUpdateRequest) throws UserNotFoundException {
         CampusDetailsResponse updatedCampus = campusService.updateCampusDetails(id, campusUpdateRequest);
         return ResponseEntity.status(HttpStatus.OK).body(updatedCampus);
     }
@@ -100,14 +94,15 @@ public class CampusController {
             responseCode = "302",
             description = "Campus found and returned",
             content = @Content(mediaType = "application/json",
-            schema = @Schema(implementation = Campus.class))
+                    schema = @Schema(implementation = Campus.class))
     )
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Campus not found")
     @GetMapping("getCampusById/{id}")
-    public ResponseEntity<?> getCampusById(@PathVariable Long id)  {
-            Optional<Campus> campus = campusService.findCampusById(id);
-            return new ResponseEntity<>(campus, HttpStatus.FOUND);
+    public ResponseEntity<?> getCampusById(@PathVariable Long id) throws UserNotFoundException, CampusNotFoundException {
+        CampusDetailsResponse campus = campusService.findCampusById(id);
+        return new ResponseEntity<>(campus, HttpStatus.FOUND);
     }
+
     @Operation(
             summary = "Get Campus by name",
             description = "Retrieve campus details by its name"
@@ -126,9 +121,9 @@ public class CampusController {
     )
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Campus not found")
     @GetMapping("getCampusByName/{name}")
-    public ResponseEntity<?> getCampusByName(@PathVariable String name)  {
-            Optional<Campus> campus = campusService.findCampusByName(name);
-            return new ResponseEntity<>(campus, HttpStatus.FOUND);
+    public ResponseEntity<?> getCampusByName(@PathVariable String name) throws UserNotFoundException, CampusNotFoundException {
+        CampusDetailsResponse campus = campusService.findCampusByName(name);
+        return new ResponseEntity<>(campus, HttpStatus.FOUND);
     }
 
     @Operation(
@@ -148,11 +143,12 @@ public class CampusController {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Campus.class))
     )
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Campuses not found")
-    @GetMapping("allCampuses")
-    public ResponseEntity<?> getAllCampuses() {
-            List<Campus> campuses = campusService.findAllCampuses();
-            return new ResponseEntity<>(campuses, HttpStatus.OK);
+    @GetMapping("findAllCampuses")
+    public ResponseEntity<?> getAllCampuses() throws UserNotFoundException {
+        List<CampusDetailsResponse> campuses = campusService.findAllCampuses();
+        return new ResponseEntity<>(campuses, HttpStatus.OK);
     }
+
     @Operation(
             summary = "Delete Campus by id",
             description = "Delete campus details by its unique identifier"

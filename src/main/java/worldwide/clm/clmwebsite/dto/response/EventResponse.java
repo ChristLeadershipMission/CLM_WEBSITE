@@ -18,7 +18,7 @@ public class EventResponse {
     private String eventName;
     private LocalDate startDate;
     private LocalDate endDate;
-    private Campus campus;
+    private CampusDetailsResponse campus;
     private String flier;
     private String eventImageUrl;
     private String eventVideoUrl;
