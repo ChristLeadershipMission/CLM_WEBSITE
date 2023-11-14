@@ -35,17 +35,17 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<ApiResponse> handleExceptions(CampusAlreadyExistsException e){
         ApiResponse apiResponse = ResponseUtils.getDuplicateCampusesMessage();
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(apiResponse);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
     }
     @ExceptionHandler
     public ResponseEntity<ApiResponse> handleExceptions(CampusNotFoundException e){
         ApiResponse apiResponse = ResponseUtils.getCampusNotFoundMessage();
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(apiResponse);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
     }
     @ExceptionHandler
     public ResponseEntity<ApiResponse> handleExceptions(EventNotFoundException e){
         ApiResponse apiResponse = ResponseUtils.noEventFound(NO_EVENT_FOUND);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(apiResponse);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
     }
     @ExceptionHandler
     public ResponseEntity<ApiResponse> handleExceptions(DepartmentAlreadyExistsException e){
@@ -55,6 +55,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<ApiResponse> handleExceptions(DepartmentNotFoundException e){
         ApiResponse apiResponse = ResponseUtils.alreadyCreated(e.getMessage());
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(apiResponse);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
     }
 }
