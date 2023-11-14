@@ -45,7 +45,7 @@ public class CampusServiceImpl implements CampusService {
                 () -> new CampusNotFoundException(String.format(CAMPUS_WITH_ID_NOT_FOUND, id))
         );
         if (campusCreationRequest.getEmail() != null && campusCreationRequest.getEmail() != "") {
-            foundCampus.setEmail(foundCampus.getEmail());
+            foundCampus.setEmail(campusCreationRequest.getEmail());
         }
         if (campusCreationRequest.getName() != null && campusCreationRequest.getName() != "") {
             foundCampus.setName(campusCreationRequest.getName());
