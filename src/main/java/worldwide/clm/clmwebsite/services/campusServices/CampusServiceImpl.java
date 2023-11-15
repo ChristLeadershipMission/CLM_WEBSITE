@@ -15,7 +15,6 @@ import worldwide.clm.clmwebsite.services.ministerServices.MinisterService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static worldwide.clm.clmwebsite.common.Message.*;
 
@@ -65,6 +64,11 @@ public class CampusServiceImpl implements CampusService {
         return campusRepository.count();
     }
 
+    @Override
+    public List<CampusDetailsResponse> searchByName(String name) throws UserNotFoundException {
+        return getCampusDetailsResponses(campusRepository.searchAllByNameContainingIgnoreCase(name));
+    }
+
     private CampusDetailsResponse getCampusResponse(Campus updatedCampus) throws UserNotFoundException {
         return CampusDetailsResponse.builder()
                 .id(updatedCampus.getId())
@@ -95,8 +99,12 @@ public class CampusServiceImpl implements CampusService {
 
     @Override
     public List<CampusDetailsResponse> findAllCampuses() throws UserNotFoundException {
+        return getCampusDetailsResponses(campusRepository.findAll());
+    }
+
+    private List<CampusDetailsResponse> getCampusDetailsResponses(List<Campus> campuses) throws UserNotFoundException {
         List<CampusDetailsResponse> campusDetailsResponses = new ArrayList<>();
-        for (var each : campusRepository.findAll()) {
+        for (var each : campuses) {
             campusDetailsResponses.add(getCampusResponse(each));
         }
         return campusDetailsResponses;

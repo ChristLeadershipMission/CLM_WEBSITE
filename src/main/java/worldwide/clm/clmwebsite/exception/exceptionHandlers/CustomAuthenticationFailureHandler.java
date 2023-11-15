@@ -29,7 +29,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
             HttpServletResponse response,
             AuthenticationException exception) throws IOException, ServletException {
         Map<String, String> errorResponse = new HashMap<>();
-        errorResponse.put("error", INVALID_EMAIL_OR_PASSWORD);
+        errorResponse.put("error", exception.getMessage());
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
     }

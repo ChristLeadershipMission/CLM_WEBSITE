@@ -72,7 +72,6 @@ public class CampusController {
             description = "Campus details updated successfully",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Campus.class))
     )
-
     @PatchMapping(value = "updateCampus/{id}")
     public ResponseEntity<?> updateCampusDetails
             (@PathVariable Long id, @RequestBody CampusUpdateRequest campusUpdateRequest) throws UserNotFoundException, CampusNotFoundException {
@@ -102,6 +101,30 @@ public class CampusController {
     public ResponseEntity<?> getCampusById(@PathVariable Long id) throws UserNotFoundException, CampusNotFoundException {
         CampusDetailsResponse campus = campusService.findCampusById(id);
         return new ResponseEntity<>(campus, HttpStatus.OK);
+    }
+
+    @Operation(
+            summary = "Search Campus by name",
+            description = "API for retrieving campus details by its name."
+    )
+    @Parameter(
+            name = "name",
+            description = "The letter(s) containing in the name of the campus to be retrieved.",
+            required = true,
+            in = ParameterIn.PATH,
+            schema = @Schema(implementation = String.class)
+    )
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "200",
+            description = "Campus found and returned",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Campus.class))
+    )
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Campus not found")
+    @GetMapping("searchByName/{name}")
+    public ResponseEntity<?> searchByName(@PathVariable String name) throws UserNotFoundException, CampusNotFoundException {
+        List<CampusDetailsResponse> campuses = campusService.searchByName(name);
+        return new ResponseEntity<>(campuses, HttpStatus.OK);
     }
 
     @Operation(

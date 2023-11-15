@@ -4,8 +4,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import worldwide.clm.clmwebsite.data.models.Member;
 import worldwide.clm.clmwebsite.data.models.Minister;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface MinisterRepository extends JpaRepository<Minister, Long> {
 	Optional<Minister> findByEmailAddress(String email);
+	List<Minister> searchAllByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String firstLetter, String secondLetter);
 }

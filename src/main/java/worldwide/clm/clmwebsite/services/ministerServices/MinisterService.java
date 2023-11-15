@@ -19,4 +19,6 @@ public interface MinisterService {
     void deleteMinister(Long id);
 
     Long getCount();
+
+    List<Minister> searchMinistersByName(String name);
 }
