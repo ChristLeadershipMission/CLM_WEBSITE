@@ -57,8 +57,6 @@ public class MinisterServiceImpl implements MinisterService{
             foundMinister.setFirstName(ministerUpdateRequest.getFirstName());
         }if (ministerUpdateRequest.getLastName() != null && ministerUpdateRequest.getLastName() != ""){
             foundMinister.setLastName(ministerUpdateRequest.getLastName());
-        }if (ministerUpdateRequest.getPhoneNumber() != null && ministerUpdateRequest.getPhoneNumber() != ""){
-            foundMinister.setPhoneNumber(ministerUpdateRequest.getPhoneNumber());
         }if (ministerUpdateRequest.getProfilePicture() != null && ministerUpdateRequest.getProfilePicture() != ""){
             foundMinister.setProfilePicture(ministerUpdateRequest.getProfilePicture());
         }if (ministerUpdateRequest.getPortfolio() != null && ministerUpdateRequest.getPortfolio() != ""){

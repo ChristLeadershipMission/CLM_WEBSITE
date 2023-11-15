@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 public class MinisterRegistrationRequest {
     private String firstName;
     private String lastName;
-    private String phoneNumber;
     private String emailAddress;
     private String profilePicture;
     private LocalDateTime createdAt;
