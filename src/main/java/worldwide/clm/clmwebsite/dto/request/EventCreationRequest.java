@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import worldwide.clm.clmwebsite.enums.EventMode;
 
 import java.time.LocalDate;
 
@@ -25,5 +26,6 @@ public class EventCreationRequest {
     private Long campusId;
     private String eventImageUrl;
     private String eventVideoUrl;
+    private EventMode mode;
 
 }

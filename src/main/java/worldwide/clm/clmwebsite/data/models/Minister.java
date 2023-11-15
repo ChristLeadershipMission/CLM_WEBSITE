@@ -22,7 +22,6 @@ public class Minister {
     private Long id;
     private String firstName;
     private String lastName;
-    @Column(unique = true)
     private String phoneNumber;
     @Column(unique = true)
     @Email
