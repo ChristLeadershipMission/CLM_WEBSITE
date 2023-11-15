@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
+import worldwide.clm.clmwebsite.enums.EventMode;
 
 import java.time.LocalDate;
 
@@ -35,4 +36,5 @@ public class Event {
     private Long campusId;
     private String eventImageUrl;
     private String eventVideoUrl;
+    private EventMode mode;
 }

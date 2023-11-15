@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import worldwide.clm.clmwebsite.data.models.Campus;
+import worldwide.clm.clmwebsite.enums.EventMode;
 
 import java.time.LocalDate;
 
@@ -22,4 +23,5 @@ public class EventResponse {
     private String flier;
     private String eventImageUrl;
     private String eventVideoUrl;
+    private EventMode mode;
 }

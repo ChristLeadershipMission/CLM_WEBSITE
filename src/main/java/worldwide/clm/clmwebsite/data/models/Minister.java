@@ -23,8 +23,6 @@ public class Minister {
     private String firstName;
     private String lastName;
     @Column(unique = true)
-    private String phoneNumber;
-    @Column(unique = true)
     @Email
     private String emailAddress;
     private String password;
