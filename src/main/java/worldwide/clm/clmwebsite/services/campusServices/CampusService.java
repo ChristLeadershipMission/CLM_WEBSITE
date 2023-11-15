@@ -21,4 +21,5 @@ public interface CampusService {
 
     Long getCount();
 
+    List<CampusDetailsResponse> searchByName(String name) throws UserNotFoundException;
 }

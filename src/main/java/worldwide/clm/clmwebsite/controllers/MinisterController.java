@@ -74,6 +74,29 @@ public class MinisterController {
     }
 
     @Operation(
+            summary = "Get Ministers by name",
+            description = "Retrieve minister details by its id"
+    )
+    @Parameter(
+            name = "id",
+            description = "The name of the ministers to be retrieved",
+            required = true,
+            in = ParameterIn.PATH,
+            schema = @Schema(implementation = String.class)
+    )
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "200",
+            description = "Ministers found and returned",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Campus.class))
+    )
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Ministers not found")
+    @GetMapping("searchMinistersByName/{name}")
+    public ResponseEntity<?> getCampusByName(@PathVariable String name) throws UserNotFoundException {
+        List<Minister> ministers = ministerService.searchMinistersByName(name);
+        return new ResponseEntity<>(ministers, HttpStatus.OK);
+    }
+
+    @Operation(
             summary = "Get All existing Ministers",
             description = "Retrieve all ministers"
     )

@@ -49,7 +49,7 @@ public class EventServiceImp implements EventService {
     @Override
     public ApiResponse updateEventInfo(EventUpdateRequest eventUpdateRequest) throws EventNotFoundException, UserNotFoundException, CampusNotFoundException {
         findById(eventUpdateRequest.getId());
-        Event event = updateEvent(eventUpdateRequest);
+        updateEvent(eventUpdateRequest);
         return ResponseUtils.updated(EVENT_UPDATED_SUCCESSFULLY);
     }
 
@@ -77,6 +77,11 @@ public class EventServiceImp implements EventService {
     @Override
     public Long getCount() {
         return eventRepository.count();
+    }
+
+    @Override
+    public List<EventResponse> searchByName(String name) throws UserNotFoundException, CampusNotFoundException {
+        return getEventResponses(eventRepository.searchAllByEventNameContainingIgnoreCase(name));
     }
 
     private Event updateEvent(EventUpdateRequest eventUpdateRequest) {

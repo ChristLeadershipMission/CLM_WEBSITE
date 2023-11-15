@@ -11,5 +11,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     Optional<Event> findByEventName(String eventName);
     Optional<List<Event>> findAllByCampusId(Long campusId);
+    List<Event> searchAllByEventNameContainingIgnoreCase(String name);
 
 }

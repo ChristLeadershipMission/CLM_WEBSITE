@@ -24,4 +24,6 @@ public interface EventService {
     List<EventResponse> findByCampusId(Long campusId) throws UserNotFoundException, CampusNotFoundException;
 
     Long getCount();
+
+    List<EventResponse> searchByName(String name) throws UserNotFoundException, CampusNotFoundException;
 }

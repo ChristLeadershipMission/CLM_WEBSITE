@@ -69,6 +69,27 @@ public class EventController {
     }
 
     @Operation(
+            summary = "Search Event by name",
+            description = "API for retrieving event details by its name."
+    )
+    @Parameter(
+            name = "name",
+            description = "The letter(s) containing in the name of the event to be retrieved.",
+            required = true,
+            in = ParameterIn.PATH,
+            schema = @Schema(type = "integer", format = "int64")
+    )
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "200",
+            description = "Events found and returned",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = EventResponse.class))
+    )
+    @GetMapping("searchByName/{name}")
+    public ResponseEntity<List<EventResponse>> searchByName(@PathVariable String name) throws UserNotFoundException, CampusNotFoundException {
+        return new ResponseEntity<>(eventService.searchByName(name), HttpStatus.OK);
+    }
+
+    @Operation(
             summary = "Find Event by Campus ID",
             description = "API for retrieving event details by Campus ID."
     )

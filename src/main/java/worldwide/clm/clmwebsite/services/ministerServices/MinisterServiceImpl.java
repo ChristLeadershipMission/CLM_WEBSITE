@@ -76,4 +76,9 @@ public class MinisterServiceImpl implements MinisterService{
     public Long getCount() {
         return ministerRepository.count();
     }
+
+    @Override
+    public List<Minister> searchMinistersByName(String name) {
+        return ministerRepository.searchAllByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(name, name);
+    }
 }
