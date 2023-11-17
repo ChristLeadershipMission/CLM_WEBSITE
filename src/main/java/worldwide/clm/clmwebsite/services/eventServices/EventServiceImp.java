@@ -34,6 +34,7 @@ public class EventServiceImp implements EventService {
     public ApiResponse createEvent(EventCreationRequest eventCreationRequest) throws UserNotFoundException, CampusNotFoundException {
         campusService.findCampusById(eventCreationRequest.getCampusId());
         Event event = modelMapper.map(eventCreationRequest, Event.class);
+        event.setId(null);
         eventRepository.save(event);
         return ResponseUtils.created(EVENT_CREATED_SUCCESSFULLY);
     }
