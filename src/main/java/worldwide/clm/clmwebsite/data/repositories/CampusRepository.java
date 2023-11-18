@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface CampusRepository extends JpaRepository<Campus, Long> {
     Optional<Campus> findCampusByName(String name);
-    Campus findCampusById(Long id);
+    List<Campus> findAllByMinisterInChargeId(Long id);
     List<Campus> searchAllByNameContainingIgnoreCase(String name);
 }

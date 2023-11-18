@@ -19,6 +19,8 @@ import worldwide.clm.clmwebsite.exception.CampusAlreadyExistsException;
 import worldwide.clm.clmwebsite.exception.CampusNotFoundException;
 import worldwide.clm.clmwebsite.exception.UserNotFoundException;
 import worldwide.clm.clmwebsite.services.campusServices.CampusService;
+import worldwide.clm.clmwebsite.services.eventServices.EventService;
+import worldwide.clm.clmwebsite.services.ministerServices.MinisterService;
 import worldwide.clm.clmwebsite.utils.ResponseUtils;
 
 import java.util.List;
@@ -30,6 +32,8 @@ import java.util.Optional;
 public class CampusController {
 
     private final CampusService campusService;
+    private final MinisterService ministerService;
+    private final EventService eventService;
 
     @Operation(
             summary = "Create Campus",
@@ -50,7 +54,7 @@ public class CampusController {
     )
     @PostMapping("createCampus")
     public ResponseEntity<CampusDetailsResponse> createCampus(@RequestBody CampusCreationRequest campusCreationRequest) throws CampusAlreadyExistsException, UserNotFoundException {
-        CampusDetailsResponse campusDetailsResponse = campusService.createCampus(campusCreationRequest);
+        CampusDetailsResponse campusDetailsResponse = campusService.createCampus(campusCreationRequest, ministerService);
         return ResponseEntity.status(HttpStatus.CREATED).body(campusDetailsResponse);
     }
 
@@ -75,7 +79,7 @@ public class CampusController {
     @PatchMapping(value = "updateCampus/{id}")
     public ResponseEntity<?> updateCampusDetails
             (@PathVariable Long id, @RequestBody CampusUpdateRequest campusUpdateRequest) throws UserNotFoundException, CampusNotFoundException {
-        CampusDetailsResponse updatedCampus = campusService.updateCampusDetails(id, campusUpdateRequest);
+        CampusDetailsResponse updatedCampus = campusService.updateCampusDetails(id, campusUpdateRequest, ministerService);
         return ResponseEntity.status(HttpStatus.OK).body(updatedCampus);
     }
 
@@ -99,7 +103,7 @@ public class CampusController {
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Campus not found")
     @GetMapping("getCampusById/{id}")
     public ResponseEntity<?> getCampusById(@PathVariable Long id) throws UserNotFoundException, CampusNotFoundException {
-        CampusDetailsResponse campus = campusService.findCampusById(id);
+        CampusDetailsResponse campus = campusService.findCampusById(id, ministerService);
         return new ResponseEntity<>(campus, HttpStatus.OK);
     }
 
@@ -123,7 +127,7 @@ public class CampusController {
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Campus not found")
     @GetMapping("searchByName/{name}")
     public ResponseEntity<?> searchByName(@PathVariable String name) throws UserNotFoundException, CampusNotFoundException {
-        List<CampusDetailsResponse> campuses = campusService.searchByName(name);
+        List<CampusDetailsResponse> campuses = campusService.searchByName(name, ministerService);
         return new ResponseEntity<>(campuses, HttpStatus.OK);
     }
 
@@ -146,7 +150,7 @@ public class CampusController {
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Campus not found")
     @GetMapping("getCampusByName/{name}")
     public ResponseEntity<?> getCampusByName(@PathVariable String name) throws UserNotFoundException, CampusNotFoundException {
-        CampusDetailsResponse campus = campusService.findCampusByName(name);
+        CampusDetailsResponse campus = campusService.findCampusByName(name, ministerService);
         return new ResponseEntity<>(campus, HttpStatus.FOUND);
     }
 
@@ -169,7 +173,7 @@ public class CampusController {
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Campuses not found")
     @GetMapping("findAllCampuses")
     public ResponseEntity<?> getAllCampuses() throws UserNotFoundException {
-        List<CampusDetailsResponse> campuses = campusService.findAllCampuses();
+        List<CampusDetailsResponse> campuses = campusService.findAllCampuses(ministerService);
         return new ResponseEntity<>(campuses, HttpStatus.OK);
     }
 
@@ -192,7 +196,7 @@ public class CampusController {
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Campus not found")
     @DeleteMapping("delete/{id}")
     public ResponseEntity<?> removeCampus(@PathVariable Long id) throws CampusNotFoundException {
-        campusService.removeCampus(id);
+        campusService.removeCampus(id, eventService);
         return ResponseEntity.status(HttpStatus.OK).body("Campus removed");
     }
 }

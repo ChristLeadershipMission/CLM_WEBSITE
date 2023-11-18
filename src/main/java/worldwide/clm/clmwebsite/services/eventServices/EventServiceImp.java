@@ -14,6 +14,7 @@ import worldwide.clm.clmwebsite.exception.CampusNotFoundException;
 import worldwide.clm.clmwebsite.exception.EventNotFoundException;
 import worldwide.clm.clmwebsite.exception.UserNotFoundException;
 import worldwide.clm.clmwebsite.services.campusServices.CampusService;
+import worldwide.clm.clmwebsite.services.ministerServices.MinisterService;
 import worldwide.clm.clmwebsite.utils.ResponseUtils;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import static worldwide.clm.clmwebsite.common.Message.*;
+import static worldwide.clm.clmwebsite.utils.AppUtils.DEFAULT_CENTER_CAMPUS_ID;
 
 @Service
 @AllArgsConstructor
@@ -31,9 +33,10 @@ public class EventServiceImp implements EventService {
     private final CampusService campusService;
 
     @Override
-    public ApiResponse createEvent(EventCreationRequest eventCreationRequest) throws UserNotFoundException, CampusNotFoundException {
-        campusService.findCampusById(eventCreationRequest.getCampusId());
+    public ApiResponse createEvent(EventCreationRequest eventCreationRequest, MinisterService ministerService) throws UserNotFoundException, CampusNotFoundException {
+        campusService.findCampusById(eventCreationRequest.getCampusId(), ministerService);
         Event event = modelMapper.map(eventCreationRequest, Event.class);
+        event.setId(null);
         eventRepository.save(event);
         return ResponseUtils.created(EVENT_CREATED_SUCCESSFULLY);
     }
@@ -47,22 +50,23 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
-    public ApiResponse updateEventInfo(EventUpdateRequest eventUpdateRequest) throws EventNotFoundException, UserNotFoundException, CampusNotFoundException {
-        findById(eventUpdateRequest.getId());
+    public ApiResponse updateEventInfo(EventUpdateRequest eventUpdateRequest, MinisterService ministerService) throws EventNotFoundException, UserNotFoundException, CampusNotFoundException {
+        findById(eventUpdateRequest.getId(), ministerService);
         updateEvent(eventUpdateRequest);
         return ResponseUtils.updated(EVENT_UPDATED_SUCCESSFULLY);
     }
 
     @Override
-    public List<EventResponse> findAll() throws UserNotFoundException, CampusNotFoundException {
-        return getEventResponses(eventRepository.findAll());
+    public List<EventResponse> findAll(MinisterService ministerService) throws UserNotFoundException, CampusNotFoundException {
+        return getEventResponses(eventRepository.findAll(), ministerService);
     }
 
-    private List<EventResponse> getEventResponses(List<Event> foundEvents) throws CampusNotFoundException, UserNotFoundException {
+    private List<EventResponse> getEventResponses(List<Event> foundEvents, MinisterService ministerService) throws CampusNotFoundException, UserNotFoundException {
+        System.out.println(foundEvents);
         List<EventResponse> events = new ArrayList<>();
         for (Event each : foundEvents) {
             EventResponse eventResponse = modelMapper.map(each, EventResponse.class);
-            eventResponse.setCampus(campusService.findCampusById(each.getCampusId()));
+            eventResponse.setCampus(campusService.findCampusById(each.getCampusId(), ministerService));
             events.add(eventResponse);
         }
         events.sort(Comparator.comparing(EventResponse::getStartDate));
@@ -70,8 +74,8 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
-    public List<EventResponse> findByCampusId(Long campusId) throws UserNotFoundException, CampusNotFoundException {
-        return getEventResponses(eventRepository.findAllByCampusId(campusId).get());
+    public List<EventResponse> findByCampusId(Long campusId, MinisterService ministerService) throws UserNotFoundException, CampusNotFoundException {
+        return getEventResponses(eventRepository.findAllByCampusId(campusId), ministerService);
     }
 
     @Override
@@ -80,8 +84,8 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
-    public List<EventResponse> searchByName(String name) throws UserNotFoundException, CampusNotFoundException {
-        return getEventResponses(eventRepository.searchAllByEventNameContainingIgnoreCase(name));
+    public List<EventResponse> searchByName(String name, MinisterService ministerService) throws UserNotFoundException, CampusNotFoundException {
+        return getEventResponses(eventRepository.searchAllByEventNameContainingIgnoreCase(name), ministerService);
     }
 
     private Event updateEvent(EventUpdateRequest eventUpdateRequest) {
@@ -104,12 +108,20 @@ public class EventServiceImp implements EventService {
         return eventRepository.save(event);
     }
 
-    public EventResponse findById(Long id) throws EventNotFoundException, UserNotFoundException, CampusNotFoundException {
+    public EventResponse findById(Long id, MinisterService ministerService) throws EventNotFoundException, UserNotFoundException, CampusNotFoundException {
         Event foundEvent = eventRepository.findById(id).orElseThrow(
                 () -> new EventNotFoundException(NO_EVENT_FOUND)
         );
         EventResponse eventResponse = modelMapper.map(foundEvent, EventResponse.class);
-        eventResponse.setCampus(campusService.findCampusById(foundEvent.getCampusId()));
+        eventResponse.setCampus(campusService.findCampusById(foundEvent.getCampusId(), ministerService));
         return eventResponse;
+    }
+
+    @Override
+    public void resetToDefaultCampusEventsWithId(Long campusId) {
+        for (Event event :eventRepository.findAllByCampusId(campusId)) {
+            event.setCampusId(Long.valueOf(DEFAULT_CENTER_CAMPUS_ID));
+            eventRepository.save(event);
+        }
     }
 }
