@@ -1,6 +1,7 @@
 package worldwide.clm.clmwebsite.utils;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import worldwide.clm.clmwebsite.exception.ClmException;
 
@@ -12,8 +13,6 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public class AppUtils {
-    public static final String DEFAULT_COORDINATING_MINISTER_ID = "clmwebsite.minister.defaultCoordinatingMinisterId";
-    public static final String DEFAULT_CENTER_CAMPUS_ID = "clmwebsite.minister.defaultCenterCampusId";
     public static final String EMAIL_VALUE = "email";
     public static final String ADMIN = "admin";
     public static final String FIRST_NAME = "firstName";

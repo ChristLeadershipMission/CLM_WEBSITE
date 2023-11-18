@@ -2,7 +2,9 @@ package worldwide.clm.clmwebsite.services.eventServices;
 
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import worldwide.clm.clmwebsite.data.models.Event;
 import worldwide.clm.clmwebsite.data.repositories.EventRepository;
@@ -22,12 +24,13 @@ import java.util.Comparator;
 import java.util.List;
 
 import static worldwide.clm.clmwebsite.common.Message.*;
-import static worldwide.clm.clmwebsite.utils.AppUtils.DEFAULT_CENTER_CAMPUS_ID;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class EventServiceImp implements EventService {
 
+    @Value("${clmwebsite.minister.defaultCenterCampusId}")
+    public String DEFAULT_CENTER_CAMPUS_ID;
     private final ModelMapper modelMapper;
     private final EventRepository eventRepository;
     private final CampusService campusService;

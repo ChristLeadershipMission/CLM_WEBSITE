@@ -2,6 +2,7 @@ package worldwide.clm.clmwebsite.services.campusServices;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import worldwide.clm.clmwebsite.data.models.Campus;
 import worldwide.clm.clmwebsite.data.repositories.CampusRepository;
@@ -13,17 +14,19 @@ import worldwide.clm.clmwebsite.exception.CampusNotFoundException;
 import worldwide.clm.clmwebsite.exception.UserNotFoundException;
 import worldwide.clm.clmwebsite.services.eventServices.EventService;
 import worldwide.clm.clmwebsite.services.ministerServices.MinisterService;
+import worldwide.clm.clmwebsite.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static worldwide.clm.clmwebsite.common.Message.*;
-import static worldwide.clm.clmwebsite.utils.AppUtils.DEFAULT_COORDINATING_MINISTER_ID;
 
 @Service
 @RequiredArgsConstructor
 public class CampusServiceImpl implements CampusService {
 
+    @Value("${clmwebsite.minister.defaultCoordinatingMinisterId}")
+    public String DEFAULT_COORDINATING_MINISTER_ID;
     private final CampusRepository campusRepository;
     private final ModelMapper modelMapper;
 
@@ -123,6 +126,7 @@ public class CampusServiceImpl implements CampusService {
 
     @Override
     public void resetToDefaultMinisterCampusesWithId(Long ministerId) {
+        System.out.println(DEFAULT_COORDINATING_MINISTER_ID);
         for (Campus campus : campusRepository.findAllByMinisterInChargeId(ministerId)) {
             campus.setMinisterInChargeId(Long.valueOf(DEFAULT_COORDINATING_MINISTER_ID));
             campusRepository.save(campus);
