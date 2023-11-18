@@ -13,6 +13,7 @@ import worldwide.clm.clmwebsite.data.models.Minister;
 import worldwide.clm.clmwebsite.data.repositories.MinisterRepository;
 import worldwide.clm.clmwebsite.dto.request.MinisterRegistrationRequest;
 import worldwide.clm.clmwebsite.exception.UserNotFoundException;
+import worldwide.clm.clmwebsite.services.campusServices.CampusService;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ import static worldwide.clm.clmwebsite.common.Message.*;
 @AllArgsConstructor
 public class MinisterServiceImpl implements MinisterService{
     private final MinisterRepository ministerRepository;
+    private final CampusService campusService;
     private final ModelMapper modelMapper;
     @Override
     public Minister findByEmail(String emailAddress) throws UserNotFoundException {
@@ -67,6 +69,7 @@ public class MinisterServiceImpl implements MinisterService{
 
     @Override
     public void deleteMinister(Long id) {
+        campusService.resetToDefaultMinisterCampusesWithId(id);
         ministerRepository.deleteById(id);
     }
 

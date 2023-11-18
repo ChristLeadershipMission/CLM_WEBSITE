@@ -39,11 +39,11 @@ class ClmWebsiteApplicationTests {
     }
 
     @Test
-    void campusTest(){
+    void admin(){
         Admin admin = new Admin();
         BioData bioData = new BioData();
         bioData.setPassword(passwordEncoder.encode(
-                "moyin"
+                "moyinoluwa"
         ));
         bioData.setRoles(List.of(Role.SUPER_ADMIN));
         bioData.setFirstName("Moyinoluwa");
@@ -52,6 +52,26 @@ class ClmWebsiteApplicationTests {
         bioData.setPhoneNumber("08089649909");
         admin.setBioData(bioData);
         adminRepository.save(admin);
+    }
+    @Test
+    void minister(){
+        Minister minister = new Minister();
+        minister.setEmailAddress("lekan@gmail.com");
+        minister.setFirstName("lekan");
+        minister.setLastName("Olami");
+        minister.setPortfolio("ICT DIRECTOR");
+        minister.setId(1L);
+        ministerRepository.save(minister);
+    }
+    @Test
+    void campus(){
+        Campus campus = new Campus();
+        for (var eachCampus:campusRepository.findAll()){
+            if (eachCampus.getMinisterInChargeId() == 1L){
+                eachCampus.setMinisterInChargeId(202L);
+                campusRepository.save(eachCampus);
+            }
+        }
     }
 
 }

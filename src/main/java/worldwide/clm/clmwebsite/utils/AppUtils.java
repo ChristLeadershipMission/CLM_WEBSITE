@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public class AppUtils {
+    public static final String DEFAULT_COORDINATING_MINISTER_ID = "clmwebsite.minister.defaultCoordinatingMinisterId";
+    public static final String DEFAULT_CENTER_CAMPUS_ID = "clmwebsite.minister.defaultCenterCampusId";
     public static final String EMAIL_VALUE = "email";
     public static final String ADMIN = "admin";
     public static final String FIRST_NAME = "firstName";
@@ -45,7 +47,7 @@ public class AppUtils {
             Here's to a successful and collaborative experience ahead!
             """;
     public static final String LOCAL_SERVER_BASE_URL = "http://localhost:8080/";
-    public static final String SERVER_BASE_URL = "https://clm-website.onrender.com/";
+    public static final String SERVER_BASE_URL = "https://clmwebsite.onrender.com/";
     public static final String CLIENT_BASE_URL = "http://localhost:3000/";
     public static final String INVITATION_ACCEPTANCE_VERIFICATION_URL = SERVER_BASE_URL +"clmWebsite/api/v1/admin/acceptInvitation/";
     public static final String ADMIN_INVITATION_HTML_TEMPLATE_LOCATION = "/adminInvitationTemplate.txt";

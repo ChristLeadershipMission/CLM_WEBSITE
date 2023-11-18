@@ -17,6 +17,7 @@ import worldwide.clm.clmwebsite.exception.CampusNotFoundException;
 import worldwide.clm.clmwebsite.exception.EventNotFoundException;
 import worldwide.clm.clmwebsite.exception.UserNotFoundException;
 import worldwide.clm.clmwebsite.services.eventServices.EventService;
+import worldwide.clm.clmwebsite.services.ministerServices.MinisterService;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ import java.util.List;
 public class EventController {
 
     private final EventService eventService;
+    private final MinisterService ministerService;
     @Operation(
             summary = "Create Event",
             description = "API for creating a new event."
@@ -44,7 +46,7 @@ public class EventController {
     )
     @PostMapping("eventCreation")
     public ResponseEntity<ApiResponse> createEvent(@RequestBody EventCreationRequest eventCreationRequest) throws UserNotFoundException, CampusNotFoundException {
-        return new ResponseEntity<>(eventService.createEvent(eventCreationRequest), HttpStatus.OK);
+        return new ResponseEntity<>(eventService.createEvent(eventCreationRequest, ministerService), HttpStatus.OK);
     }
 
     @Operation(
@@ -65,7 +67,7 @@ public class EventController {
     )
     @GetMapping("findById/{id}")
     public ResponseEntity<EventResponse> findById(@PathVariable Long id) throws EventNotFoundException, UserNotFoundException, CampusNotFoundException {
-        return new ResponseEntity<>(eventService.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(eventService.findById(id, ministerService), HttpStatus.OK);
     }
 
     @Operation(
@@ -86,7 +88,7 @@ public class EventController {
     )
     @GetMapping("searchByName/{name}")
     public ResponseEntity<List<EventResponse>> searchByName(@PathVariable String name) throws UserNotFoundException, CampusNotFoundException {
-        return new ResponseEntity<>(eventService.searchByName(name), HttpStatus.OK);
+        return new ResponseEntity<>(eventService.searchByName(name, ministerService), HttpStatus.OK);
     }
 
     @Operation(
@@ -107,7 +109,7 @@ public class EventController {
     )
     @GetMapping("findByCampusId/{campusId}")
     public ResponseEntity<List<EventResponse>> findByCampusId(@PathVariable Long campusId) throws EventNotFoundException, UserNotFoundException, CampusNotFoundException {
-        return new ResponseEntity<>(eventService.findByCampusId(campusId), HttpStatus.OK);
+        return new ResponseEntity<>(eventService.findByCampusId(campusId, ministerService), HttpStatus.OK);
     }
 
     @Operation(
@@ -121,7 +123,7 @@ public class EventController {
     )
     @GetMapping("findAll")
     public ResponseEntity<List<EventResponse>> findAll() throws UserNotFoundException, CampusNotFoundException {
-        return new ResponseEntity<>(eventService.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(eventService.findAll(ministerService), HttpStatus.OK);
     }
 
     @Operation(
@@ -163,6 +165,6 @@ public class EventController {
     )
     @PatchMapping("eventUpdate")
     public ResponseEntity<ApiResponse> updateEvent(@RequestBody EventUpdateRequest eventUpdateRequest) throws EventNotFoundException, UserNotFoundException, CampusNotFoundException {
-        return new ResponseEntity<>(eventService.updateEventInfo(eventUpdateRequest), HttpStatus.OK);
+        return new ResponseEntity<>(eventService.updateEventInfo(eventUpdateRequest, ministerService), HttpStatus.OK);
     }
 }
