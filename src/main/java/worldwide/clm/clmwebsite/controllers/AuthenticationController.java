@@ -18,7 +18,7 @@ import worldwide.clm.clmwebsite.services.authenticationServices.AuthenticationSe
 @RestController
 @RequestMapping("/clmWebsite/api/v1/auth/")
 @RequiredArgsConstructor
-public class AuthenticationController {
+class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @Operation(
