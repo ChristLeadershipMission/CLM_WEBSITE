@@ -59,6 +59,9 @@ public class AppUtils {
     public static final String SEND_PASSWORD_RESET_LINK_ENDPOINT = "/clmWebsite/api/v1/auth/sendPasswordResetLink/**";
     public static final String RESET_PASSWORD_RESET_LINK_ENDPOINT = "/clmWebsite/api/v1/auth/resetPassword";
     public static final String ADMIN_REGISTRATION_ENDPOINT = "/clmWebsite/api/v1/admin/registration";
+    public static final String EVENTS_RETRIEVAL_ENDPOINT = "/clmWebsite/api/v1/event/findAll";
+    public static final String CAMPUSES_RETRIEVAL_ENDPOINT = "/clmWebsite/api/v1/campus/findAllCampuses";
+    public static final String MINISTERS_RETRIEVAL_ENDPOINT = "/clmWebsite/api/v1/minister/findAll";
     public static final String ADMIN_INVITATION_ACCEPTANCE_ENDPOINT = "/clmWebsite/api/v1/admin/acceptInvitation/**";
 
     public static String[] getAuthWhiteList() {
@@ -66,6 +69,9 @@ public class AppUtils {
                 ADMIN_REGISTRATION_ENDPOINT, LOGIN_ENDPOINT, RESET_PASSWORD_RESET_LINK_ENDPOINT,
                 SEND_PASSWORD_RESET_LINK_ENDPOINT,
                 ADMIN_INVITATION_ACCEPTANCE_ENDPOINT,
+                EVENTS_RETRIEVAL_ENDPOINT,
+                CAMPUSES_RETRIEVAL_ENDPOINT,
+                MINISTERS_RETRIEVAL_ENDPOINT,
                 "/v2/api-docs",
                 "/v3/api-docs",
                 "/v3/api-docs/**",
