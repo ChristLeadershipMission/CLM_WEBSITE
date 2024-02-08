@@ -20,6 +20,7 @@ public class ClmAuthenticationManager implements AuthenticationManager {
         Authentication authResult;
         String email = (String) authentication.getPrincipal();
         if (authenticationProvider.supports(authentication.getClass())) {
+            System.out.println("AuthenticationProvider Supported");
             authResult = authenticationProvider.authenticate(authentication);
             return authResult;
         } else throw new BadCredentialsException(String.format(AUTHENTICATION_FAILED_FOR_USER_WITH_EMAIL, email));

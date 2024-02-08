@@ -1,4 +1,4 @@
-package worldwide.clm.clmwebsite.services.mailServices;
+package worldwide.clm.clmwebsite.services.notificationServices.mailServices;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

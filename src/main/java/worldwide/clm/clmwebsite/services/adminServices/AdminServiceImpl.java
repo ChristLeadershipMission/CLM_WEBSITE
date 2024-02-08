@@ -21,7 +21,7 @@ import worldwide.clm.clmwebsite.exception.ClmException;
 import worldwide.clm.clmwebsite.exception.UserAlreadyExistsException;
 import worldwide.clm.clmwebsite.exception.UserNotFoundException;
 import worldwide.clm.clmwebsite.services.bioDataServices.BioDataService;
-import worldwide.clm.clmwebsite.services.mailServices.MailService;
+import worldwide.clm.clmwebsite.services.notificationServices.mailServices.MailService;
 import worldwide.clm.clmwebsite.utils.JwtUtility;
 import worldwide.clm.clmwebsite.utils.ResponseUtils;
 

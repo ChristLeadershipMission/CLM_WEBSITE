@@ -4,10 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import worldwide.clm.clmwebsite.data.models.Admin;
-import worldwide.clm.clmwebsite.data.models.BioData;
-import worldwide.clm.clmwebsite.data.models.Campus;
-import worldwide.clm.clmwebsite.data.models.Minister;
+import worldwide.clm.clmwebsite.data.models.*;
 import worldwide.clm.clmwebsite.data.repositories.AdminRepository;
 import worldwide.clm.clmwebsite.data.repositories.CampusRepository;
 import worldwide.clm.clmwebsite.data.repositories.MinisterRepository;
@@ -35,11 +32,12 @@ class ClmWebsiteApplicationTests {
     @Test
     void
     contextLoads() {
-        System.out.println(LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMMM yyyy")));
+        System.out.println(jwtUtility.generateEncryptedLink("Rova Bank"));
+//        System.out.println(LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMMM yyyy")));
     }
 
     @Test
-    void admin(){
+    void admin() {
         Admin admin = new Admin();
         BioData bioData = new BioData();
         bioData.setPassword(passwordEncoder.encode(
@@ -53,25 +51,52 @@ class ClmWebsiteApplicationTests {
         admin.setBioData(bioData);
         adminRepository.save(admin);
     }
+
     @Test
-    void minister(){
+    void minister() {
+        for (var each : ministerRepository.findAll()) {
+            System.out.println(each);
+        }
+    }
+
+    @Test
+    void saveDefaultMinister() {
         Minister minister = new Minister();
-        minister.setEmailAddress("lekan@gmail.com");
-        minister.setFirstName("lekan");
-        minister.setLastName("Olami");
-        minister.setPortfolio("ICT DIRECTOR");
-        minister.setId(1L);
+        minister.setEmailAddress("taiwoadewal@gmail.com");
+        minister.setFirstName("Taiwo");
+        minister.setLastName("Adewale");
+        minister.setPortfolio("President, CLM Worldwide");
+        minister.setId(100L);
+        String password = passwordEncoder.encode("ClmWorldwide");
+        minister.setPassword(password);
         ministerRepository.save(minister);
     }
+
     @Test
-    void campus(){
+    void campus() {
         Campus campus = new Campus();
-        for (var eachCampus:campusRepository.findAll()){
-            if (eachCampus.getMinisterInChargeId() == 1L){
+        for (var eachCampus : campusRepository.findAll()) {
+            if (eachCampus.getMinisterInChargeId() == 1L) {
                 eachCampus.setMinisterInChargeId(202L);
                 campusRepository.save(eachCampus);
             }
         }
+    }
+
+    @Test
+    void saveDeffaultCampus() {
+        Address address = new Address();
+        address.setCity("Wasinmi");
+        address.setState("Ogun");
+        address.setCountry("Nigeria");
+        address.setStreetName("Tabernacle of Mercy, Ogbere Road");
+        Campus campus = new Campus();
+        campus.setId(10L);
+        campus.setName("OWUTECH");
+        campus.setEmail("taiwoadewal@gmail.com");
+        campus.setMinisterInChargeId(100L);
+        campus.setAddress(address);
+        campusRepository.save(campus);
     }
 
 }

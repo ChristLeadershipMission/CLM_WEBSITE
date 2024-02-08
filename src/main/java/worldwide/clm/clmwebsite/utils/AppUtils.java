@@ -72,6 +72,7 @@ public class AppUtils {
                 EVENTS_RETRIEVAL_ENDPOINT,
                 CAMPUSES_RETRIEVAL_ENDPOINT,
                 MINISTERS_RETRIEVAL_ENDPOINT,
+                "/clmWebsite/api/v1/admin/log",
                 "/v2/api-docs",
                 "/v3/api-docs",
                 "/v3/api-docs/**",

@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import worldwide.clm.clmwebsite.dto.request.AdminInvitationRequest;
@@ -17,9 +18,16 @@ import worldwide.clm.clmwebsite.services.adminServices.AdminService;
 @RestController
 @RequestMapping("/clmWebsite/api/v1/admin/")
 @RequiredArgsConstructor
+@Slf4j
 public class AdminController {
 
     private final AdminService adminService;
+
+    @GetMapping("log")
+    public ResponseEntity<String> log() {
+        log.info("Logging");
+        return ResponseEntity.ok().body("Details logged in file");
+    }
     @Operation(
             summary = "Send Invitation Link",
             description = "API for sending an invitation link to an admin."
