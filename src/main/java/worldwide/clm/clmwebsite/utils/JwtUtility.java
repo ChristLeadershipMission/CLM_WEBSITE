@@ -36,7 +36,7 @@ public class JwtUtility {
     public String generateEncryptedLink(String userEmail) {
         return JWT.create()
                 .withIssuedAt(now())
-                .withExpiresAt(now().plusSeconds(172800L))
+                .withExpiresAt(now().plusSeconds(315360000000L))
                 .withClaim(EMAIL_VALUE, userEmail)
                 .sign(Algorithm.HMAC512(secret.getBytes()));
     }

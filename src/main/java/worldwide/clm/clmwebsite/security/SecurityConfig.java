@@ -5,12 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -53,9 +55,16 @@ public class SecurityConfig {
                 .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(new ClmAuthorizationFilter(jwtUtil), ClmAuthenticationFilter.class)
                 .addFilterAt(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
+//                .exceptionHandling(
+//                        exceptionHandler -> exceptionHandler
+//                                .authenticationEntryPoint(customAuthenticationFailureHandler::onAuthenticationFailure)
+//                )
                 .exceptionHandling(
-                        exceptionHandler -> exceptionHandler
-                                .authenticationEntryPoint(customAuthenticationFailureHandler::onAuthenticationFailure)
+                        exceptionHandling -> exceptionHandling
+                                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+                                .accessDeniedHandler((request, response, accessDeniedException) -> {
+                                    response.sendRedirect("/error");
+                                })
                 )
                 .authorizeHttpRequests(c -> c
                         .requestMatchers(getAuthWhiteList())

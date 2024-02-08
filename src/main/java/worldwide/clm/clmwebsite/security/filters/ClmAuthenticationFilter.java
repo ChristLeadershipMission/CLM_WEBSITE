@@ -91,7 +91,7 @@ public class ClmAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             Object foundUser = getActualUser(foundBioData);
             responseData.put(USER, foundUser);
         } catch (UserNotFoundException e) {
-            System.out.println(e.getMessage());;
+            System.out.println(e.getMessage());
         }
         response.setContentType(APPLICATION_JSON_VALUE);
         response.getOutputStream().write(mapper.writeValueAsBytes(

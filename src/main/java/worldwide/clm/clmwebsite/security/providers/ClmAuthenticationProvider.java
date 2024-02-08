@@ -32,6 +32,7 @@ public class ClmAuthenticationProvider implements AuthenticationProvider {
         String userPassword = userDetails.getPassword();
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
 
+        System.out.println("Password matches::>> "+passwordEncoder.matches(password, userPassword));
         if (passwordEncoder.matches(password, userPassword)){
             authResult = new UsernamePasswordAuthenticationToken(userEmail, userPassword, authorities);
             return  authResult;
