@@ -16,7 +16,7 @@ public class CronJobsService {
     private final HttpUtils httpUtils;
 
 
-    @Scheduled(cron = "0 */10 * * * *")
+    @Scheduled(cron = "0 */2 * * * *")
     public void keepServiceAwake(){
         log.info("Waking Support Server...");
         log.info(LocalDateTime.now()+"::>> "+httpUtils.wakeServerSupportUp());
