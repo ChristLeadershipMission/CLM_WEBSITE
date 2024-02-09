@@ -11,10 +11,12 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import static worldwide.clm.clmwebsite.utils.AppUtils.SERVER_BASE_URL;
 
 @SpringBootApplication
+@EnableScheduling
 @OpenAPIDefinition(
         info = @Info(
                 contact = @Contact(

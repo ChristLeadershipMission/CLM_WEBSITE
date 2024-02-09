@@ -25,8 +25,8 @@ public class AdminController {
 
     @GetMapping("log")
     public ResponseEntity<String> log() {
-        log.info("Logging");
-        return ResponseEntity.ok().body("Details logged in file");
+        log.info("Called to remain active...");
+        return ResponseEntity.ok().body("Thanks Supporter, I'm active");
     }
     @Operation(
             summary = "Send Invitation Link",
