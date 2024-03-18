@@ -81,6 +81,7 @@ public class CampusServiceImpl implements CampusService {
                 .name(updatedCampus.getName())
                 .ministerInCharge(ministerService.findById(updatedCampus.getMinisterInChargeId()))
                 .address(updatedCampus.getAddress())
+                .buttonColour(updatedCampus.getButtonColour())
                 .build();
     }
 
