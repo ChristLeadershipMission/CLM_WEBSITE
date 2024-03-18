@@ -15,4 +15,5 @@ public class CampusCreationRequest {
     private Address address;
     private String email;
     private String logo;
+    private String buttonColour;
 }
