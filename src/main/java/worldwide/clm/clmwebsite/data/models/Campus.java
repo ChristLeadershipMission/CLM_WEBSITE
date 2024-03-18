@@ -18,7 +18,8 @@ public class Campus {
     private String name;
     private String email;
     private Long ministerInChargeId;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Address address;
     private String logo;
+    private String buttonColour;
 }

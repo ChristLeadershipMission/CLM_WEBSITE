@@ -17,4 +17,5 @@ public class CampusDetailsResponse {
     private Minister ministerInCharge;
     private Address address;
     private String logo;
+    private String buttonColour;
 }
