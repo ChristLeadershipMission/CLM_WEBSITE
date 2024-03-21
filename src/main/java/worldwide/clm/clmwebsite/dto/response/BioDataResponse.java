@@ -16,6 +16,7 @@ public class BioDataResponse {
     private String lastName;
     private String phoneNumber;
     private String emailAddress;
+    private String profilePicture;
     private List<Role> roles;
     private Boolean isEnabled;
 }
