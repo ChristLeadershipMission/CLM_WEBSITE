@@ -11,6 +11,7 @@ import worldwide.clm.clmwebsite.enums.MediaCategory;
 import worldwide.clm.clmwebsite.enums.Role;
 import worldwide.clm.clmwebsite.utils.JwtUtility;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @SpringBootTest
@@ -58,10 +59,11 @@ class ClmWebsiteApplicationTests {
     void MediaMgt(){
         videoRepository.save(
           Video.builder()
-                  .title("Who is a Disciple?")
-                  .category(MediaCategory.DISCIPLESHIP)
-                  .videoUrl("https://www.youtube.com/watch?v=HssNyBWTTmc")
+                  .title("This is the only weapon that guarantees your survival as a Christian")
+                  .category(MediaCategory.WORD_FOR_THE_WEEK)
+                  .videoUrl("https://www.youtube.com/embed/fsaPF2UBOgc?si=N8Fl-wZjotJDxTeX")
                   .channel(Channel.YOUTUBE)
+                  .timeCreated(LocalDateTime.of(2022, 12, 19, 0, 0, 0))
                   .build()
         );
     }
