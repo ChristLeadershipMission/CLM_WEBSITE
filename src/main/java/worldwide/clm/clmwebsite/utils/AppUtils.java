@@ -62,6 +62,7 @@ public class AppUtils {
     public static final String EVENTS_RETRIEVAL_ENDPOINT = "/clmWebsite/api/v1/event/findAll";
     public static final String CAMPUSES_RETRIEVAL_ENDPOINT = "/clmWebsite/api/v1/campus/findAllCampuses";
     public static final String MINISTERS_RETRIEVAL_ENDPOINT = "/clmWebsite/api/v1/minister/findAll";
+    public static final String MEDIA_RETRIEVAL_ENDPOINT = "/clmWebsite/api/v1/media/retrieve-media-data";
     public static final String ADMIN_INVITATION_ACCEPTANCE_ENDPOINT = "/clmWebsite/api/v1/admin/acceptInvitation/**";
 
     public static String[] getAuthWhiteList() {
@@ -72,6 +73,7 @@ public class AppUtils {
                 EVENTS_RETRIEVAL_ENDPOINT,
                 CAMPUSES_RETRIEVAL_ENDPOINT,
                 MINISTERS_RETRIEVAL_ENDPOINT,
+                MEDIA_RETRIEVAL_ENDPOINT,
                 "/clmWebsite/api/v1/admin/log",
                 "/v2/api-docs",
                 "/v3/api-docs",
