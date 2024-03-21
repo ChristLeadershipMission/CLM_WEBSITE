@@ -5,14 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import worldwide.clm.clmwebsite.data.models.*;
-import worldwide.clm.clmwebsite.data.repositories.AdminRepository;
-import worldwide.clm.clmwebsite.data.repositories.CampusRepository;
-import worldwide.clm.clmwebsite.data.repositories.MinisterRepository;
+import worldwide.clm.clmwebsite.data.repositories.*;
+import worldwide.clm.clmwebsite.enums.Channel;
+import worldwide.clm.clmwebsite.enums.MediaCategory;
 import worldwide.clm.clmwebsite.enums.Role;
 import worldwide.clm.clmwebsite.utils.JwtUtility;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @SpringBootTest
@@ -22,6 +20,10 @@ class ClmWebsiteApplicationTests {
 
     @Autowired
     private MinisterRepository ministerRepository;
+    @Autowired
+    private AudioRepository audioRepository;
+    @Autowired
+    private VideoRepository videoRepository;
     @Autowired
     private CampusRepository campusRepository;
     @Autowired
@@ -52,6 +54,17 @@ class ClmWebsiteApplicationTests {
         adminRepository.save(admin);
     }
 
+    @Test
+    void MediaMgt(){
+        videoRepository.save(
+          Video.builder()
+                  .title("TIME NOT SPENT PRAYING IS TIME WASTED")
+                  .category(MediaCategory.PRAYER)
+                  .videoUrl("https://www.youtube.com/watch?v=_owh9oTCiG8")
+                  .channel(Channel.YOUTUBE)
+                  .build()
+        );
+    }
     @Test
     void minister() {
         for (var each : ministerRepository.findAll()) {
