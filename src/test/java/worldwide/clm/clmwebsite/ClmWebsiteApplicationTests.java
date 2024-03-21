@@ -58,9 +58,9 @@ class ClmWebsiteApplicationTests {
     void MediaMgt(){
         videoRepository.save(
           Video.builder()
-                  .title("TIME NOT SPENT PRAYING IS TIME WASTED")
-                  .category(MediaCategory.PRAYER)
-                  .videoUrl("https://www.youtube.com/watch?v=_owh9oTCiG8")
+                  .title("Who is a Disciple?")
+                  .category(MediaCategory.DISCIPLESHIP)
+                  .videoUrl("https://www.youtube.com/watch?v=HssNyBWTTmc")
                   .channel(Channel.YOUTUBE)
                   .build()
         );
