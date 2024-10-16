@@ -10,6 +10,7 @@ import worldwide.clm.clmwebsite.exception.UserNotFoundException;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,7 +38,7 @@ public class MembersDataServiceImpl implements MembersDataService {
                 MembersData membersData = member.get();
                 membersData.setFirstname(memberUpdateRequest.getFirstname());
                 membersData.setLastname(memberUpdateRequest.getLastname());
-                membersData.setEmailAddress(memberUpdateRequest.getEmailAddress());
+                membersData.setEmailAddress(memberUpdateRequest.getEmailAddress().toLowerCase(Locale.ROOT));
                 membersData.setPhoneNumber(memberUpdateRequest.getPhoneNumber());
                 membersData.setMaritalStatus(memberUpdateRequest.getMaritalStatus());
                 membersData.setDob(memberUpdateRequest.getDob());
