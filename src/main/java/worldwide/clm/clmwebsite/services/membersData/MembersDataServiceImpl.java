@@ -26,6 +26,10 @@ public class MembersDataServiceImpl implements MembersDataService {
     public void updateMemberData(MemberUpdateRequest memberUpdateRequest) throws UserNotFoundException {
         System.out.println("Member update request: " + memberUpdateRequest);
 		if (memberUpdateRequest.getId() == null) {
+            if (membersDataRepository.findByPhoneNumber(memberUpdateRequest.getPhoneNumber()).isPresent() ||
+            membersDataRepository.findByEmailAddress(memberUpdateRequest.getEmailAddress().toLowerCase(Locale.ROOT)).isPresent()) {
+                throw new UserNotFoundException("Email or phone number already exists");
+            }
 			ModelMapper mapper = new ModelMapper();
 			MembersData membersData = mapper.map(memberUpdateRequest, MembersData.class);
             System.err.println("Member update request: " + membersData);

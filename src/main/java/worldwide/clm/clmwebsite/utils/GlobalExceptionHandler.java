@@ -10,6 +10,7 @@ import worldwide.clm.clmwebsite.dto.response.ApiResponse;
 import worldwide.clm.clmwebsite.exception.*;
 
 import static worldwide.clm.clmwebsite.common.Message.NO_EVENT_FOUND;
+import static worldwide.clm.clmwebsite.utils.ResponseUtils.alreadyCreated;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -27,8 +28,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
     @ExceptionHandler
-    public ResponseEntity<String> handleExceptions(UserNotFoundException e){
-        return ResponseEntity.badRequest().body(e.getMessage());
+    public ResponseEntity<ApiResponse> handleExceptions(UserNotFoundException e){
+        System.err.println("Handle exception");
+        return ResponseEntity.badRequest().body(alreadyCreated(e.getMessage()));
     }
     @ExceptionHandler
     public ResponseEntity<String> handleExceptions(ClmAuthenticationException e){
@@ -61,12 +63,12 @@ public class GlobalExceptionHandler {
     }
     @ExceptionHandler
     public ResponseEntity<ApiResponse> handleExceptions(DepartmentAlreadyExistsException e){
-        ApiResponse apiResponse = ResponseUtils.alreadyCreated(e.getMessage());
+        ApiResponse apiResponse = alreadyCreated(e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
     }
     @ExceptionHandler
     public ResponseEntity<ApiResponse> handleExceptions(DepartmentNotFoundException e){
-        ApiResponse apiResponse = ResponseUtils.alreadyCreated(e.getMessage());
+        ApiResponse apiResponse = alreadyCreated(e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
     }
 }
