@@ -15,9 +15,10 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 @Builder
 @Entity(name = "members")
+@ToString
 public class MembersData {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private Long id;
     private String firstname;
     private String lastname;

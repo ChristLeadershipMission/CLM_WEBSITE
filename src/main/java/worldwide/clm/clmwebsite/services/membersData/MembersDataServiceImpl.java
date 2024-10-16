@@ -28,6 +28,7 @@ public class MembersDataServiceImpl implements MembersDataService {
 		if (memberUpdateRequest.getId() == null) {
 			ModelMapper mapper = new ModelMapper();
 			MembersData membersData = mapper.map(memberUpdateRequest, MembersData.class);
+            System.err.println("Member update request: " + membersData);
 			membersDataRepository.save(membersData);
 		}
 		else {
