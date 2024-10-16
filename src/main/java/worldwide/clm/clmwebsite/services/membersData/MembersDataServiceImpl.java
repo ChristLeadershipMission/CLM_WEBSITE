@@ -25,37 +25,54 @@ public class MembersDataServiceImpl implements MembersDataService {
     @Override
     public void updateMemberData(MemberUpdateRequest memberUpdateRequest) throws UserNotFoundException {
         System.out.println("Member update request: " + memberUpdateRequest);
-		if (memberUpdateRequest.getId() == null) {
+        if (memberUpdateRequest.getId() == null) {
             if (membersDataRepository.findByPhoneNumber(memberUpdateRequest.getPhoneNumber()).isPresent()) {
                 throw new UserNotFoundException("Phone number already exists");
             } else if (membersDataRepository.findByEmailAddress(memberUpdateRequest.getEmailAddress().toLowerCase(Locale.ROOT)).isPresent()) {
                 throw new UserNotFoundException("Email already exists");
             }
             ModelMapper mapper = new ModelMapper();
-			MembersData membersData = mapper.map(memberUpdateRequest, MembersData.class);
+            MembersData membersData = mapper.map(memberUpdateRequest, MembersData.class);
             membersData.setEmailAddress(memberUpdateRequest.getEmailAddress().toLowerCase(Locale.ROOT));
             System.err.println("Member update request: " + membersData);
-			membersDataRepository.save(membersData);
-		}
-		else {
-			Optional<MembersData> member = membersDataRepository.findById(memberUpdateRequest.getId());
+            membersDataRepository.save(membersData);
+        } else {
+            Optional<MembersData> member = membersDataRepository.findById(memberUpdateRequest.getId());
             if (member.isPresent()) {
                 MembersData membersData = member.get();
-                membersData.setFirstname(memberUpdateRequest.getFirstname());
-                membersData.setLastname(memberUpdateRequest.getLastname());
-                membersData.setEmailAddress(memberUpdateRequest.getEmailAddress().toLowerCase(Locale.ROOT));
-                membersData.setPhoneNumber(memberUpdateRequest.getPhoneNumber());
-                membersData.setMaritalStatus(memberUpdateRequest.getMaritalStatus());
-                membersData.setDob(memberUpdateRequest.getDob());
-                membersData.setPicture(memberUpdateRequest.getPicture());
-                membersData.setLocation(memberUpdateRequest.getLocation());
-                membersData.setGender(memberUpdateRequest.getGender());
+                if (memberUpdateRequest.getFirstname() != null && !memberUpdateRequest.getFirstname().isBlank()) {
+                    membersData.setFirstname(memberUpdateRequest.getFirstname());
+                }
+                if (memberUpdateRequest.getLastname() != null && !memberUpdateRequest.getLastname().isBlank()) {
+                    membersData.setLastname(memberUpdateRequest.getLastname());
+                }
+                if (memberUpdateRequest.getEmailAddress() != null && !memberUpdateRequest.getEmailAddress().isBlank()) {
+                    membersData.setEmailAddress(memberUpdateRequest.getEmailAddress().toLowerCase(Locale.ROOT));
+                }
+                if (memberUpdateRequest.getPhoneNumber() != null && !memberUpdateRequest.getPhoneNumber().isBlank()) {
+                    membersData.setPhoneNumber(memberUpdateRequest.getPhoneNumber());
+                }
+                if (memberUpdateRequest.getMaritalStatus() != null && !memberUpdateRequest.getMaritalStatus().isBlank()) {
+                    membersData.setMaritalStatus(memberUpdateRequest.getMaritalStatus());
+                }
+                if (memberUpdateRequest.getDob() != null){
+                    membersData.setDob(memberUpdateRequest.getDob());
+                }
+                if (memberUpdateRequest.getPicture() != null && !memberUpdateRequest.getPicture().isBlank()) {
+                    membersData.setPicture(memberUpdateRequest.getPicture());
+                }
+                if (memberUpdateRequest.getLocation() != null && !memberUpdateRequest.getLocation().isBlank()) {
+                    membersData.setLocation(memberUpdateRequest.getLocation());
+                }
+                if (memberUpdateRequest.getGender() != null && !memberUpdateRequest.getGender().isBlank()) {
+                    membersData.setGender(memberUpdateRequest.getGender());
+                }
                 System.out.println("Member to be updated: " + memberUpdateRequest);
                 membersDataRepository.save(membersData);
             } else {
                 throw new UserNotFoundException("User not found with id: " + memberUpdateRequest.getId());
-			}
-		}
+            }
+        }
     }
 
     @Override
@@ -76,19 +93,18 @@ public class MembersDataServiceImpl implements MembersDataService {
             System.out.println("Phone number starts with +234");
             String[] splitNumber = searchParam.split("\\+234");
             System.out.println("Splitted number: " + Arrays.toString(splitNumber));
-            phoneNumber = splitNumber[1].startsWith("0") ? splitNumber[1] : "0"+splitNumber[1];
-        }
-        else if (searchParam.startsWith("234")) {
+            phoneNumber = splitNumber[1].startsWith("0") ? splitNumber[1] : "0" + splitNumber[1];
+        } else if (searchParam.startsWith("234")) {
             System.out.println("Phone number starts with 234");
             String[] splitNumber = searchParam.split("234");
             System.out.println("Splitted number: " + Arrays.toString(splitNumber));
-            phoneNumber = splitNumber[1].startsWith("0") ? splitNumber[1] : "0"+splitNumber[1];
+            phoneNumber = splitNumber[1].startsWith("0") ? splitNumber[1] : "0" + splitNumber[1];
         } else if (searchParam.startsWith("0")) {
             System.out.println("Phone number starts with 0");
-			phoneNumber = searchParam;
-		}else phoneNumber = searchParam.startsWith("0") ? searchParam : "0"+searchParam;
+            phoneNumber = searchParam;
+        } else phoneNumber = searchParam.startsWith("0") ? searchParam : "0" + searchParam;
         System.err.println("Phone number: " + phoneNumber);
-		Optional<MembersData> member = membersDataRepository.findByPhoneNumber(phoneNumber);
+        Optional<MembersData> member = membersDataRepository.findByPhoneNumber(phoneNumber);
         return finalResponse(member);
     }
 
