@@ -18,8 +18,8 @@ import java.time.LocalDate;
 @ToString
 public class MembersData {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
     private String firstname;
     private String lastname;
     private String phoneNumber;
