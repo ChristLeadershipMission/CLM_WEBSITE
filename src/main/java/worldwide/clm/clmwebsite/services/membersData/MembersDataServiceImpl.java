@@ -15,8 +15,6 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static worldwide.clm.clmwebsite.common.Message.USER_WITH_EMAIL_NOT_FOUND;
-
 @Service
 @RequiredArgsConstructor
 public class MembersDataServiceImpl implements MembersDataService {
@@ -64,35 +62,31 @@ public class MembersDataServiceImpl implements MembersDataService {
         searchParam = searchParam.trim();
         if (isValidEmail(searchParam)) {
             Optional<MembersData> member = membersDataRepository.findByEmailAddress(searchParam);
-            return finalResponse(member, searchParam);
+            return finalResponse(member);
         }
         String phoneNumber = "";
         if (searchParam.startsWith("+2340") || searchParam.startsWith("+234")) {
             System.out.println("Phone number starts with +234");
             String[] splitNumber = searchParam.split("\\+234");
             System.out.println("Splitted number: " + Arrays.toString(splitNumber));
-            phoneNumber = splitNumber[1];
+            phoneNumber = splitNumber[1].startsWith("0") ? splitNumber[1] : "0"+splitNumber[1];
         }
         else if (searchParam.startsWith("234")) {
             System.out.println("Phone number starts with 234");
             String[] splitNumber = searchParam.split("234");
             System.out.println("Splitted number: " + Arrays.toString(splitNumber));
-            phoneNumber = splitNumber[1];
+            phoneNumber = splitNumber[1].startsWith("0") ? splitNumber[1] : "0"+splitNumber[1];
         } else if (searchParam.startsWith("0")) {
             System.out.println("Phone number starts with 0");
 			phoneNumber = searchParam;
-		}
+		}else phoneNumber = searchParam.startsWith("0") ? searchParam : "0"+searchParam;
         System.err.println("Phone number: " + phoneNumber);
 		Optional<MembersData> member = membersDataRepository.findByPhoneNumber(phoneNumber);
-        return finalResponse(member, searchParam);
+        return finalResponse(member);
     }
 
-    private MembersData finalResponse(Optional<MembersData> member, String searchParam) throws UserNotFoundException {
-        if (member.isPresent()) {
-            return member.get();
-        } else {
-            throw new UserNotFoundException(String.format("USER_WITH_EMAIL/NUMBER_NOT_FOUND", searchParam));
-        }
+    private MembersData finalResponse(Optional<MembersData> member) {
+        return member.orElseGet(MembersData::new);
     }
 
     public static boolean isValidEmail(String input) {
