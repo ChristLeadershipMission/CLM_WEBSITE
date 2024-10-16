@@ -3,6 +3,8 @@ package worldwide.clm.clmwebsite.common;
 public class Message {
 	
 	public static final String CREATED = "Account has been created successfully";
+	public static final String UPDATED = "Data has been updated successfully";
+	public static final String RETRIEVED = "Data retrieved successfully";
 	public static final String MAIL_HAS_BEEN_SENT_SUCCESSFULLY = "Mail has been sent successfully";
 	public static final String SENT = "Mail has been sent successfully";
 	public static final String FAILED_TO_GET_ACTIVATION_LINK="Failed to get activation link";

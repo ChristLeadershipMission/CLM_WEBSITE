@@ -31,6 +31,24 @@ public class ResponseUtils {
 				.build();
 	}
 
+	public static ApiResponse getUpdatedMessage(){
+		return ApiResponse.builder()
+				.message (UPDATED)
+				.success (true)
+				.statusCode (HttpStatus.OK.value ())
+				.build();
+	}
+
+
+	public static ApiResponse getRetrievalMessage(Object data){
+		return ApiResponse.builder()
+				.message (RETRIEVED)
+				.success (true)
+				.statusCode (HttpStatus.OK.value ())
+				.data(data)
+				.build();
+	}
+
 	public static ApiResponse mailResponse(){
 		return ApiResponse.builder()
 				.message (MAIL_HAS_BEEN_SENT_SUCCESSFULLY)
