@@ -19,7 +19,7 @@ import java.time.LocalDate;
 public class MembersData {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private Long id;
+    private String id;
     private String firstname;
     private String lastname;
     private String phoneNumber;
