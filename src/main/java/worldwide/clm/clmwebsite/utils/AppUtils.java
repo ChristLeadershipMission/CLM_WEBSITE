@@ -54,6 +54,7 @@ public class AppUtils {
     public static final String RESET_PASSWORD_HTML_TEMPLATE_LOCATION = "/resetPasswordTemplate.txt";
     public static final String EMPTY_SPACE_VALUE = "";
     public static final String CLM_WEBSITE_ADMIN_INVITATION = "CLM-WEBSITE ADMIN INVITATION";
+    public static final String BIRTHDAY_NOTIFICATION = "BIRTHDAY NOTIFICATION";
     public static final String LOGIN_ENDPOINT = "/clmWebsite/api/v1/login";
     public static final String INVITATION_ACCEPTANCE_VERIFICATION_ENDPOINT = "/clmWebsite/api/v1/admin/acceptInvitation/**";
     public static final String SEND_PASSWORD_RESET_LINK_ENDPOINT = "/clmWebsite/api/v1/auth/sendPasswordResetLink/**";

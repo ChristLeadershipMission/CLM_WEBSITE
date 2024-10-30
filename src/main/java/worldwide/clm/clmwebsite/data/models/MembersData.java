@@ -31,4 +31,6 @@ public class MembersData {
     private LocalDate dob;
     private String picture;
     private String maritalStatus;
+
+    private boolean isNotificationSent;
 }

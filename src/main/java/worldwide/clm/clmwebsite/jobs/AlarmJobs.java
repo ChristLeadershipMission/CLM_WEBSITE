@@ -1,4 +1,4 @@
-package worldwide.clm.clmwebsite.services.cronJobs;
+package worldwide.clm.clmwebsite.jobs;
 
 
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class CronJobsService {
+public class AlarmJobs {
     private final HttpUtils httpUtils;
 
 
