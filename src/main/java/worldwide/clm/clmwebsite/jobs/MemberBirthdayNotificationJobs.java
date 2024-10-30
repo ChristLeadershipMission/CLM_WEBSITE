@@ -66,18 +66,20 @@ public class MemberBirthdayNotificationJobs {
     }
 
     private void sendMail(List<MembersData> members) {
-        EmailNotificationRequest emailRequest = new EmailNotificationRequest();
-        emailRequest.setTo(getRecipients(recipientEmailAddresses));
-        emailRequest.setSubject(BIRTHDAY_NOTIFICATION);
-        emailRequest.setText(buildUserEmailContent(members));
-        try {
-            mailService.sendHtmlMail(emailRequest);
-        } catch (MessagingException e) {
-            log.info("Error sending mails: {}", e.getMessage());
-        }
-        log.info("Mail Notification: {}", "Sent Successfully!");
+        if (!members.isEmpty()) {
+            EmailNotificationRequest emailRequest = new EmailNotificationRequest();
+            emailRequest.setTo(getRecipients(recipientEmailAddresses));
+            emailRequest.setSubject(BIRTHDAY_NOTIFICATION);
+            emailRequest.setText(buildUserEmailContent(members));
+            try {
+                mailService.sendHtmlMail(emailRequest);
+            } catch (MessagingException e) {
+                log.info("Error sending mails: {}", e.getMessage());
+            }
+            log.info("Mail Notification: {}", "Sent Successfully!");
 
-        markAsCompleted(members);
+            markAsCompleted(members);
+        }
     }
 
 
