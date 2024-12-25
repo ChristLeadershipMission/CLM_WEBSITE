@@ -33,4 +33,8 @@ public class MembersData {
     private String maritalStatus;
 
     private boolean isNotificationSent;
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber.replaceAll("\\s", "");
+    }
 }

@@ -8,10 +8,7 @@ import worldwide.clm.clmwebsite.data.repositories.MembersDataRepository;
 import worldwide.clm.clmwebsite.dto.request.MemberUpdateRequest;
 import worldwide.clm.clmwebsite.exception.UserNotFoundException;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -106,6 +103,36 @@ public class MembersDataServiceImpl implements MembersDataService {
         System.err.println("Phone number: " + phoneNumber);
         Optional<MembersData> member = membersDataRepository.findByPhoneNumber(phoneNumber);
         return finalResponse(member);
+    }
+
+    @Override
+    public void updateMembersDataList(List<MemberUpdateRequest> memberUpdateRequests) {
+        for (MemberUpdateRequest memberUpdateRequest : memberUpdateRequests) {
+            try {
+                updateMemberData(memberUpdateRequest);
+            } catch (UserNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public Object retrieveAllMembersPhoneNumber(String searchParam, String format) {
+        var members = membersDataRepository.findAll();
+        List<String> details = new ArrayList<>();
+        StringBuilder detailsInString = new StringBuilder();
+        for (MembersData member : members) {
+            if ("phoneNumber".equalsIgnoreCase(searchParam)) {
+                if (format.equalsIgnoreCase("json")) {
+                    details.add(member.getPhoneNumber());
+                } else if (format.equalsIgnoreCase("bulkSms")) {
+                    detailsInString.append(member.getPhoneNumber()).append(",");
+                }
+            }else if ("emailAddress".equalsIgnoreCase(searchParam)) {
+                details.add(member.getEmailAddress());
+            }
+        }
+        return format.equalsIgnoreCase("json") ? details : detailsInString;
     }
 
     private MembersData finalResponse(Optional<MembersData> member) {
